@@ -29,5 +29,8 @@ public class Main {
 //        Journal{name=Test3, countPages=34, number=1, year=2024}
 //        Book{name=Test4, countPages=35, author=Yanov Oleksander}
 //        Book{name=Test5, countPages=36, author=Author}
+        storage.findPublications("Test5");
+        //Found publications:
+        //Book{name=Test5, countPages=36, author=Author}
     }
 }

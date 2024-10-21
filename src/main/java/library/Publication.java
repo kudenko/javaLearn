@@ -15,6 +15,10 @@ public class Publication {
         return String.format("name=%s, countPages=%d", name, countPages);
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

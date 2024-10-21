@@ -35,8 +35,7 @@ public class Storage {
             System.out.println("Publications are empty");
             return;
         }
-        int deletedPublications = 0;
-        for (int i = 0; i < publications.length - deletedPublications; i++) {
+        for (int i = 0; i < publications.length; i++) {
             if (publications[i] != null && publications[i].equals(publication)) {
                 Publication[] copiedPublications = new Publication[publications.length - 1];
                 System.arraycopy(publications, 0, copiedPublications, 0, i);
@@ -44,5 +43,32 @@ public class Storage {
                 publications = copiedPublications;
             }
         }
+    }
+
+    public Storage findPublications(String publicationName) {
+        Storage foundPublications = new Storage();
+        for (int i = 0; i < publications.length; i++) {
+            if(publications[i] != null && publications[i].getName().equals(publicationName)) {
+                foundPublications.addPublication(publications[i]);
+            }
+        }
+        if(foundPublications.isEmpty()) {
+            System.out.println("There is no publication with the name: " + publicationName);
+        } else {
+            System.out.println("Found publications: ");
+           foundPublications.print();
+        }
+        return foundPublications;
+    }
+
+    private boolean isEmpty() {
+        if(publications[0] == null) {
+            return true;
+        }
+        return false;
+    }
+
+    public void print() {
+        new Library().printPublications(publications);
     }
 }
