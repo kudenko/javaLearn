@@ -32,5 +32,16 @@ public class Main {
         storage.findPublications("Test5");
         //Found publications:
         //Book{name=Test5, countPages=36, author=Author}
+        System.out.println("Found: ");
+        System.out.println(storage.findByIndex(0).print());
+        //Journal{name=Test3, countPages=34, number=1, year=2024}
+        System.out.println("Deleted: ");
+        storage.removeByIndex(0);
+        storage.print();
+        //Book{name=Test4, countPages=35, author=Yanov Oleksander}
+        //Book{name=Test5, countPages=36, author=Author}
+
     }
+
+
 }
