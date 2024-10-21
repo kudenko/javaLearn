@@ -29,4 +29,20 @@ public class Storage {
     public Publication[] getPublications() {
         return publications;
     }
+
+    public void removePublication(Publication publication) {
+        if (publications == null || publications.length == 0){
+            System.out.println("Publications are empty");
+            return;
+        }
+        int deletedPublications = 0;
+        for (int i = 0; i < publications.length - deletedPublications; i++) {
+            if (publications[i] != null && publications[i].equals(publication)) {
+                Publication[] copiedPublications = new Publication[publications.length - 1];
+                System.arraycopy(publications, 0, copiedPublications, 0, i);
+                System.arraycopy(publications, i + 1, copiedPublications, i, publications.length - i - 1);
+                publications = copiedPublications;
+            }
+        }
+    }
 }
