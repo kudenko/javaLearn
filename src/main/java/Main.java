@@ -1,4 +1,5 @@
 import library.*;
+import library.console.Console;
 
 public class Main {
     public static void main(String[] args) {
@@ -40,6 +41,8 @@ public class Main {
         storage.print();
         //Book{name=Test4, countPages=35, author=Yanov Oleksander}
         //Book{name=Test5, countPages=36, author=Author}
+
+        new Console(storage).getConsole();
 
     }
 

@@ -18,7 +18,7 @@ public class Storage {
     }
 
     public void addPublication(Publication publication) {
-        if (index == size) {
+        if (index <= size) {
             this.size = size * magnificationFactor;
             publications = Arrays.copyOf(publications, size);
         }
@@ -41,6 +41,7 @@ public class Storage {
                 System.arraycopy(publications, 0, copiedPublications, 0, i);
                 System.arraycopy(publications, i + 1, copiedPublications, i, publications.length - i - 1);
                 publications = copiedPublications;
+                size = publications.length;
             }
         }
     }
