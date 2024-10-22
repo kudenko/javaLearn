@@ -2,6 +2,7 @@ package library.console;
 
 import library.Book;
 import library.Journal;
+import library.Publication;
 import library.Storage;
 
 import java.util.Scanner;
@@ -67,6 +68,25 @@ public class Console {
                     System.out.printf("Book with name '%s' pages count '%d', " +
                             "author '%s' was successfully added%n", bookName, countOfPages, author);
                     System.out.println("You can enter new command.");
+                }
+                break;
+                case "removeBook": {
+                    System.out.println("Enter publication name for deletion.");
+                    String deleteName = scanner.nextLine();
+
+                    System.out.println("Enter author.");
+                    String author  = scanner.nextLine();
+
+                    storage.removePublication(new Book(deleteName, 0, author));
+
+                    System.out.printf("Book with name %s and author count %s was successfully deleted", deleteName,  author);
+                    System.out.println();
+                    System.out.println("You can enter new command.");
+                }
+                break;
+                case "print": {
+                    System.out.println("Available publications: ");
+                    storage.print();
                 }
                 break;
                 case "exit": {

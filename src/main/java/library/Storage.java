@@ -41,7 +41,6 @@ public class Storage {
                 System.arraycopy(publications, 0, copiedPublications, 0, i);
                 System.arraycopy(publications, i + 1, copiedPublications, i, publications.length - i - 1);
                 publications = copiedPublications;
-                size = publications.length;
             }
         }
     }
