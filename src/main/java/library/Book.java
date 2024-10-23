@@ -2,17 +2,17 @@ package library;
 
 import java.util.Objects;
 
-public class Book extends Publication{
-    private String author;
+public class Book extends Publication {
+    private long authorId;
 
-    public Book(String name, int countPages, String author) {
+    public Book(String name, int countPages, long authorId) {
         super(name, countPages);
-        this.author = author;
+        this.authorId = authorId;
     }
 
     @Override
     public String print() {
-        return String.format("Book{%s, author=%s}", super.print(), author);
+        return String.format("Book{%s, authorId=%d}", super.print(), authorId);
     }
 
     @Override
@@ -20,11 +20,11 @@ public class Book extends Publication{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book that = (Book) o;
-        return author.equals(that.author) && Objects.equals(getName(), that.getName());
+        return authorId == that.authorId && Objects.equals(getName(), that.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), author);
+        return Objects.hash(getName(), authorId);
     }
 }
