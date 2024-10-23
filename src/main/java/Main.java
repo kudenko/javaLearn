@@ -1,5 +1,6 @@
 import library.*;
 import library.author.Author;
+import library.author.InMemoryAuthorStorage;
 import library.console.Console;
 import library.storage.ListStorage;
 import library.storage.Storage;
@@ -12,8 +13,8 @@ public class Main {
         storage.addPublication(new Journal("Test3", 34, 1, 2024));
         storage.addPublication(new Publication("Test1", 32));
 
-        storage.addPublication(new Book("Test4", 35, "Yanov Oleksander"));
-        storage.addPublication(new Book("Test5", 36, "Author"));
+        storage.addPublication(new Book("Test4", 35, 1));
+        storage.addPublication(new Book("Test5", 36, 2));
 
         Library.printPublications(storage.getPublications());
         storage.removePublication(publication);
@@ -44,13 +45,15 @@ public class Main {
         //Book{name=Test4, countPages=35, author=Yanov Oleksander}
         //Book{name=Test5, countPages=36, author=Author}
 
-       // new Console(storage).getConsole();
+        // new Console(storage, authors).getConsole();
 
-        //new Console(new ListStorage()).getConsole();
+        InMemoryAuthorStorage authors = new InMemoryAuthorStorage();
+        for (int i = 1; i < 31; i++) {
+            authors.addAuthor(new Author(String.format("FirstName_%d", i), String.format("LastName_%d", i), String.format("email@test%d", i)));
+        }
+        System.out.println(authors);
 
-        Author author = new Author("test1", "test2", "test3");
-        Author author2 = new Author("test1", "test2", "test3");
-        System.out.println(author2);
+        new Console(new ListStorage(), authors).getConsole();
 
 
     }

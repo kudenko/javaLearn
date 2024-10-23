@@ -2,21 +2,23 @@ package library.console;
 
 import library.Book;
 import library.Journal;
+import library.author.InMemoryAuthorStorage;
 import library.storage.Storagable;
 
 import java.util.Scanner;
 
 public class Console {
+    private Scanner scanner = new Scanner(System.in);
+    private Storagable storage;
+    private InMemoryAuthorStorage inMemoryAuthorStorage;
+
     public Console() {
     }
 
-    public Console(Storagable storage) {
+    public Console(Storagable storage, InMemoryAuthorStorage authorStorage) {
         this.storage = storage;
+        inMemoryAuthorStorage = authorStorage;
     }
-
-
-    private Scanner scanner = new Scanner(System.in);
-    private Storagable storage;
 
     public void getConsole() {
         String command;
@@ -59,13 +61,14 @@ public class Console {
                     int countOfPages = scanner.nextInt();
                     scanner.nextLine();
 
-                    System.out.println("Enter Author.");
-                    String author = scanner.nextLine();
+                    System.out.println("Enter Author by ID from the list. Enter 'p' for previous page and 'n' for next page");
 
-                    storage.addPublication(new Book(bookName, countOfPages, author));
+                    long authorId = inMemoryAuthorStorage.authorSelection(10, scanner);
+
+                    storage.addPublication(new Book(bookName, countOfPages, authorId));
 
                     System.out.printf("Book with name '%s' pages count '%d', " +
-                            "author '%s' was successfully added%n", bookName, countOfPages, author);
+                            "author ID '%d' was successfully added%n", bookName, countOfPages, authorId);
                     System.out.println("You can enter new command.");
                 }
                 break;
@@ -73,12 +76,13 @@ public class Console {
                     System.out.println("Enter publication name for deletion.");
                     String deleteName = scanner.nextLine();
 
-                    System.out.println("Enter author.");
-                    String author  = scanner.nextLine();
+                    System.out.println("Enter Author by ID from the list. Enter 'p' for previous page and 'n' for next page");
 
-                    storage.removePublication(new Book(deleteName, 0, author));
+                    long authorId = inMemoryAuthorStorage.authorSelection(10, scanner);
 
-                    System.out.printf("Book with name %s and author count %s was successfully deleted", deleteName,  author);
+                    storage.removePublication(new Book(deleteName, 0, authorId));
+
+                    System.out.printf("Book with name %s and author count %s was successfully deleted", deleteName, authorId);
                     System.out.println();
                     System.out.println("You can enter new command.");
                 }
@@ -90,6 +94,7 @@ public class Console {
                 }
                 break;
                 case "exit": {
+                    System.out.println("See you next time!!!");
                     return;
                 }
             }
