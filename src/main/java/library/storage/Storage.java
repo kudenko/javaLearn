@@ -1,8 +1,11 @@
-package library;
+package library.storage;
+
+import library.Library;
+import library.Publication;
 
 import java.util.Arrays;
 
-public class Storage {
+public class Storage implements Storagable {
     private Publication[] publications;
     private int size = 16;
     private int index = 0;
@@ -86,6 +89,6 @@ public class Storage {
     }
 
     public void print() {
-        new Library().printPublications(publications);
+        Library.printPublications(publications);
     }
 }

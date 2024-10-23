@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class Library {
-    public void printPublications(Publication[] publications) {
+    public static void printPublications(Publication[] publications) {
         if(publications == null || Arrays.stream(publications).noneMatch(Objects::nonNull)) {
             System.out.println("Нет публикаций для печати");
             return;

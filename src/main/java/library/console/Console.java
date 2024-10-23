@@ -2,8 +2,7 @@ package library.console;
 
 import library.Book;
 import library.Journal;
-import library.Publication;
-import library.Storage;
+import library.storage.Storagable;
 
 import java.util.Scanner;
 
@@ -11,13 +10,13 @@ public class Console {
     public Console() {
     }
 
-    public Console(Storage storage) {
+    public Console(Storagable storage) {
         this.storage = storage;
     }
 
 
     private Scanner scanner = new Scanner(System.in);
-    private Storage storage;
+    private Storagable storage;
 
     public void getConsole() {
         String command;
@@ -87,6 +86,7 @@ public class Console {
                 case "print": {
                     System.out.println("Available publications: ");
                     storage.print();
+                    System.out.println("You can enter new command.");
                 }
                 break;
                 case "exit": {

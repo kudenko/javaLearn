@@ -1,5 +1,8 @@
 import library.*;
+import library.author.Author;
 import library.console.Console;
+import library.storage.ListStorage;
+import library.storage.Storage;
 
 public class Main {
     public static void main(String[] args) {
@@ -12,8 +15,7 @@ public class Main {
         storage.addPublication(new Book("Test4", 35, "Yanov Oleksander"));
         storage.addPublication(new Book("Test5", 36, "Author"));
 
-        Library library = new Library();
-        library.printPublications(storage.getPublications());
+        Library.printPublications(storage.getPublications());
         storage.removePublication(publication);
 
         //Output:
@@ -25,7 +27,7 @@ public class Main {
 
         System.out.println();
         System.out.println("Deleted publications: ");
-        library.printPublications(storage.getPublications());
+        Library.printPublications(storage.getPublications());
 //        Deleted publications:
 //        Journal{name=Test3, countPages=34, number=1, year=2024}
 //        Book{name=Test4, countPages=35, author=Yanov Oleksander}
@@ -42,7 +44,14 @@ public class Main {
         //Book{name=Test4, countPages=35, author=Yanov Oleksander}
         //Book{name=Test5, countPages=36, author=Author}
 
-        new Console(storage).getConsole();
+       // new Console(storage).getConsole();
+
+        //new Console(new ListStorage()).getConsole();
+
+        Author author = new Author("test1", "test2", "test3");
+        Author author2 = new Author("test1", "test2", "test3");
+        System.out.println(author2);
+
 
     }
 
