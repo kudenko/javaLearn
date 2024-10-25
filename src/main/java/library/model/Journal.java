@@ -1,4 +1,4 @@
-package library;
+package library.model;
 
 public class Journal extends Publication{
     private int number;

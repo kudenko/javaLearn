@@ -1,17 +1,17 @@
 package library.storage;
 
-import library.Publication;
+import library.model.Publication;
 
-public interface Storagable {
+public interface Repository {
     public void addPublication(Publication publication);
 
-    public Publication[] getPublications();
+//    public <T> T[]  getPublications();
 
     public void removePublication(Publication publication);
 
     public void removeByIndex(int index);
 
-    public Storagable findPublications(String publicationName);
+    public Repository findPublications(String publicationName);
 
     public Publication findByIndex(int index);
 

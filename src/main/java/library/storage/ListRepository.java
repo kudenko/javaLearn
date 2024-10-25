@@ -1,20 +1,20 @@
 package library.storage;
 
-import library.Library;
-import library.Publication;
+import library.model.Library;
+import library.model.Publication;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ListStorage implements Storagable {
+public class ListRepository implements Repository {
     private List<Publication> publicationList;
 
-    public ListStorage() {
+    public ListRepository() {
         publicationList = new ArrayList<>();
     }
 
-    public ListStorage(List<Publication> publicationList) {
+    public ListRepository(List<Publication> publicationList) {
         this.publicationList = publicationList;
     }
 
@@ -23,10 +23,10 @@ public class ListStorage implements Storagable {
         publicationList.add(publication);
     }
 
-    @Override
-    public Publication[] getPublications() {
-        return publicationList.toArray(new Publication[0]);
-    }
+//    @Override
+//    public Publication[] getPublications() {
+//        return publicationList.toArray(new Publication[0]);
+//    }
 
     @Override
     public void removePublication(Publication publication) {
@@ -39,8 +39,8 @@ public class ListStorage implements Storagable {
     }
 
     @Override
-    public Storagable findPublications(String publicationName) {
-        return new ListStorage(publicationList.stream().filter(publication -> publication.getName().equals(publicationName)).collect(Collectors.toList()));
+    public Repository findPublications(String publicationName) {
+        return new ListRepository(publicationList.stream().filter(publication -> publication.getName().equals(publicationName)).collect(Collectors.toList()));
     }
 
     @Override
@@ -50,6 +50,6 @@ public class ListStorage implements Storagable {
 
     @Override
     public void print() {
-        Library.printPublications(getPublications());
+//        Library.printPublications(getPublications());
     }
 }

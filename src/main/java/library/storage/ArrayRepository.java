@@ -1,21 +1,21 @@
 package library.storage;
 
-import library.Library;
-import library.Publication;
+import library.model.Library;
+import library.model.Publication;
 
 import java.util.Arrays;
 
-public class Storage implements Storagable {
+public class ArrayRepository implements Repository {
     private Publication[] publications;
     private int size = 16;
     private int index = 0;
     private int magnificationFactor = 2;
 
-    public Storage() {
+    public ArrayRepository() {
         this.publications = new Publication[size];
     }
 
-    public Storage(int size) {
+    public ArrayRepository(int size) {
         this.size = size;
         this.publications = new Publication[size];
     }
@@ -57,8 +57,8 @@ public class Storage implements Storagable {
         }
     }
 
-    public Storage findPublications(String publicationName) {
-        Storage foundPublications = new Storage();
+    public ArrayRepository findPublications(String publicationName) {
+        ArrayRepository foundPublications = new ArrayRepository();
         for (int i = 0; i < publications.length; i++) {
             if (publications[i] != null && publications[i].getName().equals(publicationName)) {
                 foundPublications.addPublication(publications[i]);

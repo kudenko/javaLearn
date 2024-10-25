@@ -1,4 +1,6 @@
-package library.author;
+package library.storage;
+
+import library.author.Author;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +26,7 @@ public class InMemoryAuthorStorage {
     public Author findByEmail(String email) {
         return authorsStorage.stream().filter(author -> author.getEmail().equals(email)).findFirst().orElse(null);
     }
-
+//TODO add generic typisation and move to Repository interface
     public void addAuthor(Author author) {
         if (!authorsStorage.contains(author)) {
             authorsStorage.add(author);
@@ -71,6 +73,7 @@ public class InMemoryAuthorStorage {
         System.out.println(printList);
     }
 
+    //TODO refactor logic, it is not related to STORAGE AT ALL, it's might be moved to AuthorService.
     public long authorSelection(int itemsPerPage, Scanner scanner) {
         if (itemsPerPage <= 0) {
             System.out.println("items per page should be > 0");
