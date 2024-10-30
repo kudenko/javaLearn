@@ -1,26 +1,27 @@
 package library.storage;
 
-import library.Library;
-import library.Publication;
+import library.model.Library;
+import library.model.Publication;
 
 import java.util.Arrays;
+import java.util.List;
 
-public class Storage implements Storagable {
+public class ArrayRepository implements Repository<Publication> {
     private Publication[] publications;
     private int size = 16;
     private int index = 0;
-    private int magnificationFactor = 2;
+    private final int magnificationFactor = 2;
 
-    public Storage() {
+    public ArrayRepository() {
         this.publications = new Publication[size];
     }
 
-    public Storage(int size) {
+    public ArrayRepository(int size) {
         this.size = size;
         this.publications = new Publication[size];
     }
 
-    public void addPublication(Publication publication) {
+    public void addEntity(Publication publication) {
         if (index <= size) {
             this.size = size * magnificationFactor;
             publications = Arrays.copyOf(publications, size);
@@ -29,11 +30,17 @@ public class Storage implements Storagable {
         index++;
     }
 
-    public Publication[] getPublications() {
+    @Override
+    public List<Publication> getEntitiesList() {
+        return List.of(publications);
+    }
+
+    public Publication[] getEntitiesArray() {
         return publications;
     }
 
-    public void removePublication(Publication publication) {
+
+    public void removeEntity(Publication publication) {
         if (publications == null || publications.length == 0) {
             System.out.println("Publications are empty");
             return;
@@ -57,11 +64,17 @@ public class Storage implements Storagable {
         }
     }
 
-    public Storage findPublications(String publicationName) {
-        Storage foundPublications = new Storage();
+    @Override
+    public Publication findById(long entityId) {
+        return Arrays.stream(publications).filter(publication ->
+                publication.getPublicationId() == entityId).findFirst().orElse(null);
+    }
+
+    public ArrayRepository findEntityByName(String publicationName) {
+        ArrayRepository foundPublications = new ArrayRepository();
         for (int i = 0; i < publications.length; i++) {
             if (publications[i] != null && publications[i].getName().equals(publicationName)) {
-                foundPublications.addPublication(publications[i]);
+                foundPublications.addEntity(publications[i]);
             }
         }
         if (foundPublications.isEmpty()) {
