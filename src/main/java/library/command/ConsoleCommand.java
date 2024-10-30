@@ -1,0 +1,27 @@
+package library.command;
+
+public enum ConsoleCommand {
+    HELP("help", "prints list of the commands"),
+    EXIT("exit", "exit the program"),
+    ADD_JOURNAL("addJournal","adds journal to the library"),
+    ADD_BOOK("addBook", "adds book to the library"),
+    REMOVE_BOOK("removeBook", "removes book from the library"),
+    PRINT("print", "prints all books in the library");
+
+    private final String command;
+
+    private final String commandAction;
+
+    ConsoleCommand(String command, String commandAction) {
+        this.command = command;
+        this.commandAction = commandAction;
+    }
+
+    public String getCommandName() {
+        return command;
+    }
+
+    public String getCommandAction() {
+        return commandAction;
+    }
+}

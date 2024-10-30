@@ -1,0 +1,4 @@
+1.  обработка неправильных команд
+2. модели в ДТО
+3. Command pattern
+4. Gradle and maven
