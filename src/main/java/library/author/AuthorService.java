@@ -1,21 +1,26 @@
 package library.author;
 
+import library.command.AddAuthor;
 import library.console.View;
 import library.storage.InMemoryAuthorStorage;
+import library.storage.Repository;
 import library.utils.Pagination;
 
 public class AuthorService {
-    public static long authorSelection(InMemoryAuthorStorage authorsStorage, View view) {
-        //if authors is empty, provide choice to create author first as separate command
+    public static long authorSelection(Repository<Author> authorsStorage, View view) {
         if (authorsStorage.getEntitiesList().isEmpty()) {
-            view.write("Authors shouldn't be empty");
-            throw new RuntimeException("Authors shouldn't be empty");
+            view.write("Authors shouldn't be empty. Please create a new one.");
+            new AddAuthor(authorsStorage, view).handle();
+        } else {
+            view.write("Enter Author by ID from the list. Enter 'p' for previous page and 'n' for next page");
         }
 
         int startingPage = 1;
         Long authorId = null;
         while (authorId == null) {
-            Pagination.printPagination(authorsStorage.getEntitiesList(), 10, startingPage, view);
+            Pagination.printPagination(authorsStorage.getEntitiesList(),
+                    authorsStorage.getEntitiesList().size() >= 10 ? 10 : authorsStorage.getEntitiesList().size(),
+                    startingPage, view);
             String enteredText = view.read();
             if (enteredText.equals("n")) {
                 startingPage++;
@@ -36,7 +41,7 @@ public class AuthorService {
         return authors;
     }
 
-    private static Long selectAuthorIdFromTheList(String enteredText, InMemoryAuthorStorage authorsStorage, View view) {
+    private static Long selectAuthorIdFromTheList(String enteredText, Repository<Author> authorsStorage, View view) {
         try {
             long authorId = Long.parseLong(enteredText);
             if (authorsStorage.findById(authorId) != null) {

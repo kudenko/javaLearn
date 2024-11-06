@@ -1,8 +1,8 @@
 package library.model;
 
 public class Journal extends Publication{
-    private int number;
-    private int publicationYear;
+    private final int number;
+    private final int publicationYear;
 
     public Journal(String name, int countPages, int number, int publicationYear) {
         super(name, countPages);

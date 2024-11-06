@@ -18,5 +18,7 @@ public interface  Repository<T> {
 
     T findByIndex(int index);
 
+    void addAllEntities(List<T> entities);
+
     void print();
 }

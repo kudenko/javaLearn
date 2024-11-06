@@ -53,6 +53,11 @@ public class InMemoryAuthorStorage implements Repository<Author> {
     }
 
     @Override
+    public void addAllEntities(List<Author> entities) {
+        authorsStorage.addAll(entities);
+    }
+
+    @Override
     public void print() {
         authorsStorage.forEach(System.out::println);
     }

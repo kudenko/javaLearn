@@ -3,7 +3,7 @@ package library.model;
 import java.util.Objects;
 
 public class Book extends Publication {
-    private long authorId;
+    private final long authorId;
 
     public Book(String name, int countPages, long authorId) {
         super(name, countPages);

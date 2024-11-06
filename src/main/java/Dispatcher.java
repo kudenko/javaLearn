@@ -1,3 +1,4 @@
+import library.author.Author;
 import library.author.AuthorService;
 import library.command.*;
 import library.console.Console;
@@ -12,14 +13,16 @@ import java.util.List;
 
 public class Dispatcher {
     public static void initApp() {
-        InMemoryAuthorStorage authorStorage = AuthorService.createAuthors();
+        Repository<Author> authorStorage = new InMemoryAuthorStorage();
+                 //AuthorService.createAuthors();
         Repository<Publication> storage = new ListRepository();
         View view = new Console();
         List<Command> commands = new ArrayList<>();
         commands.add(new Help(view));
         commands.add(new Exit(view));
         commands.add(new AddJournal(storage, view));
-        commands.add(new AddBook(storage,authorStorage, view));
+        commands.add(new AddBook(storage, authorStorage, view));
+        commands.add(new AddAuthor(authorStorage, view));
         commands.add(new RemoveBook(storage,authorStorage, view));
         commands.add(new Print(view, storage));
         execution(view, commands);

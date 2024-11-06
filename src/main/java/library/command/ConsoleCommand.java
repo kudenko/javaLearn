@@ -5,6 +5,7 @@ public enum ConsoleCommand {
     EXIT("exit", "exit the program"),
     ADD_JOURNAL("addJournal","adds journal to the library"),
     ADD_BOOK("addBook", "adds book to the library"),
+    ADD_AUTHOR("addAuthor", "adds author to the library"),
     REMOVE_BOOK("removeBook", "removes book from the library"),
     PRINT("print", "prints all books in the library");
 
