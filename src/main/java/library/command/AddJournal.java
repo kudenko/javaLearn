@@ -8,6 +8,7 @@ import static library.command.ConsoleCommand.ADD_JOURNAL;
 
 public class AddJournal implements Command {
     private static final ConsoleCommand commandName = ADD_JOURNAL;
+    //use typization everywhere
     Repository storage;
     private final View view;
 

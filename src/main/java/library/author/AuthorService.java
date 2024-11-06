@@ -6,6 +6,7 @@ import library.utils.Pagination;
 
 public class AuthorService {
     public static long authorSelection(InMemoryAuthorStorage authorsStorage, View view) {
+        //if authors is empty, provide choice to create author first as separate command
         if (authorsStorage.getEntitiesList().isEmpty()) {
             view.write("Authors shouldn't be empty");
             throw new RuntimeException("Authors shouldn't be empty");

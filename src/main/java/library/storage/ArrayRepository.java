@@ -6,6 +6,7 @@ import library.model.Publication;
 import java.util.Arrays;
 import java.util.List;
 
+//Array repository can be removed
 public class ArrayRepository implements Repository<Publication> {
     private Publication[] publications;
     private int size = 16;

@@ -2,6 +2,7 @@ import library.author.AuthorService;
 import library.command.*;
 import library.console.Console;
 import library.console.View;
+import library.model.Publication;
 import library.storage.InMemoryAuthorStorage;
 import library.storage.ListRepository;
 import library.storage.Repository;
@@ -11,9 +12,8 @@ import java.util.List;
 
 public class Dispatcher {
     public static void initApp() {
-        new Console().getConsole();
         InMemoryAuthorStorage authorStorage = AuthorService.createAuthors();
-        Repository storage = new ListRepository();
+        Repository<Publication> storage = new ListRepository();
         View view = new Console();
         List<Command> commands = new ArrayList<>();
         commands.add(new Help(view));

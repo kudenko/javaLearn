@@ -40,6 +40,5 @@ public class AddBook implements Command {
         view.write(String.format("Book with name '%s' pages count '%d', " +
                 "author ID '%d', was successfully added%n", bookName, countOfPages, authorId));
         view.write("You can enter new command.");
-        storage.print();
     }
 }
