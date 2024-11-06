@@ -6,11 +6,7 @@ public class Console implements View {
     private static final Scanner scanner = new Scanner(System.in);
 
     public Console() {
-    }
-
-    public void getConsole() {
-        System.out.println("Please, enter a commend. Enter 'help' for command list ");
-
+        write("Please, enter a commend. Enter 'help' for command list ");
     }
 
     @Override

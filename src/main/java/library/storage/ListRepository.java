@@ -59,6 +59,11 @@ public class ListRepository implements Repository<Publication> {
     }
 
     @Override
+    public void addAllEntities(List<Publication> entities) {
+        publicationList.addAll(entities);
+    }
+
+    @Override
     public void print() {
         Library.printPublications(getEntitiesArray());
     }

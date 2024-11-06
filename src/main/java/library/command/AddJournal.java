@@ -2,16 +2,17 @@ package library.command;
 
 import library.console.View;
 import library.model.Journal;
+import library.model.Publication;
 import library.storage.Repository;
 
 import static library.command.ConsoleCommand.ADD_JOURNAL;
 
 public class AddJournal implements Command {
     private static final ConsoleCommand commandName = ADD_JOURNAL;
-    Repository storage;
+    Repository<Publication> storage;
     private final View view;
 
-    public AddJournal(Repository storage, View view) {
+    public AddJournal(Repository<Publication> storage, View view) {
         this.storage = storage;
         this.view = view;
     }

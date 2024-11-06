@@ -1,20 +1,21 @@
 package library.command;
 
+import library.author.Author;
 import library.author.AuthorService;
 import library.console.View;
 import library.model.Book;
-import library.storage.InMemoryAuthorStorage;
+import library.model.Publication;
 import library.storage.Repository;
 
 import static library.command.ConsoleCommand.REMOVE_BOOK;
 
 public class RemoveBook implements Command {
     private static final ConsoleCommand commandName = REMOVE_BOOK;
-    Repository storage;
-    InMemoryAuthorStorage authors;
+    Repository<Publication> storage;
+    Repository<Author> authors;
     private final View view;
 
-    public RemoveBook(Repository storage, InMemoryAuthorStorage authors, View view) {
+    public RemoveBook(Repository<Publication> storage, Repository<Author> authors, View view) {
         this.storage = storage;
         this.authors = authors;
         this.view = view;
