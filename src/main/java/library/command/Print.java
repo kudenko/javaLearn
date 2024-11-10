@@ -1,23 +1,22 @@
 package library.command;
 
 import library.console.View;
+import library.model.Publication;
 import library.storage.Repository;
 
-import static library.command.ConsoleCommand.PRINT;
 
 public class Print implements Command {
-    private static final ConsoleCommand commandName = PRINT;
     private final View view;
-    private final Repository repository;
+    private final Repository<Publication> repository;
 
-    public Print(View view, Repository repository) {
+    public Print(View view, Repository<Publication> repository) {
         this.view = view;
         this.repository = repository;
     }
 
     @Override
     public boolean canHandle(String command) {
-        return (command.equals(commandName.getCommandName()));
+        return (command.equals(ConsoleCommand.PRINT.getCommandName()));
     }
 
     @Override

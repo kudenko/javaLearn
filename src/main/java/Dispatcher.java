@@ -14,7 +14,8 @@ import java.util.List;
 public class Dispatcher {
     public static void initApp() {
         Repository<Author> authorStorage = new InMemoryAuthorStorage();
-                 //AuthorService.createAuthors();
+//        Repository<Author> authorStorage = AuthorService.createAuthors();
+
         Repository<Publication> storage = new ListRepository();
         View view = new Console();
         List<Command> commands = new ArrayList<>();

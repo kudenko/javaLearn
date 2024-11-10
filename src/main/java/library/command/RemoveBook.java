@@ -7,10 +7,8 @@ import library.model.Book;
 import library.model.Publication;
 import library.storage.Repository;
 
-import static library.command.ConsoleCommand.REMOVE_BOOK;
 
 public class RemoveBook implements Command {
-    private static final ConsoleCommand commandName = REMOVE_BOOK;
     Repository<Publication> storage;
     Repository<Author> authors;
     private final View view;
@@ -23,7 +21,7 @@ public class RemoveBook implements Command {
 
     @Override
     public boolean canHandle(String command) {
-        return (command.equals(commandName.getCommandName()));
+        return (command.equals(ConsoleCommand.REMOVE_BOOK.getCommandName()));
     }
 
     @Override

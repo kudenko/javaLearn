@@ -7,10 +7,7 @@ import library.model.Book;
 import library.model.Publication;
 import library.storage.Repository;
 
-import static library.command.ConsoleCommand.ADD_BOOK;
-
 public class AddBook implements Command {
-    private static final ConsoleCommand commandName = ADD_BOOK;
     Repository<Publication> storage;
     Repository<Author> authors;
     private final View view;
@@ -23,7 +20,7 @@ public class AddBook implements Command {
 
     @Override
     public boolean canHandle(String command) {
-        return (command.equals(commandName.getCommandName()));
+        return (command.equals(ConsoleCommand.ADD_BOOK.getCommandName()));
     }
 
     @Override

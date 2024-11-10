@@ -7,7 +7,6 @@ import java.util.Arrays;
 import static library.command.ConsoleCommand.*;
 
 public class Help implements Command {
-    private static final ConsoleCommand commandName = HELP;
     private final View view;
 
     public Help(View view) {
@@ -17,7 +16,7 @@ public class Help implements Command {
 
     @Override
     public boolean canHandle(String command) {
-        return (command.equals(commandName.getCommandName()));
+        return (command.equals(HELP.getCommandName()));
     }
 
     @Override
