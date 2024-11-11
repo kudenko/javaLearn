@@ -8,8 +8,6 @@ public interface  Repository<T> {
 
     List<T> getEntitiesList();
 
-    T[] getEntitiesArray();
-
     void removeEntity(T entity);
 
     void removeByIndex(int index);
@@ -21,4 +19,6 @@ public interface  Repository<T> {
     void addAllEntities(List<T> entities);
 
     void print();
+
+    T editEntity(T entity);
 }

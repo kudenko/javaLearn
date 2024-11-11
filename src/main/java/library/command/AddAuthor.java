@@ -4,10 +4,7 @@ import library.author.Author;
 import library.console.View;
 import library.storage.Repository;
 
-import static library.command.ConsoleCommand.ADD_AUTHOR;
-
 public class AddAuthor implements Command {
-    private static final ConsoleCommand commandName = ADD_AUTHOR;
     Repository<Author> authors;
     private final View view;
 
@@ -18,7 +15,7 @@ public class AddAuthor implements Command {
 
     @Override
     public boolean canHandle(String command) {
-        return (command.equals(commandName.getCommandName()));
+        return (command.equals(ConsoleCommand.ADD_AUTHOR.getCommandName()));
     }
 
     @Override

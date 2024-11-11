@@ -9,15 +9,11 @@ import java.util.stream.Collectors;
 public class InMemoryAuthorStorage implements Repository<Author> {
 
     List<Author> authorsStorage;
+    private static int authorsId = 0;
 
     @Override
     public List<Author> getEntitiesList() {
         return authorsStorage;
-    }
-
-    @Override
-    public Author[] getEntitiesArray() {
-        return authorsStorage.toArray(new Author[0]);
     }
 
     @Override
@@ -69,18 +65,11 @@ public class InMemoryAuthorStorage implements Repository<Author> {
     @Override
     public void addEntity(Author author) {
         if (!authorsStorage.contains(author)) {
+            author.setId(++authorsId);
             authorsStorage.add(author);
         } else {
             System.out.println("This author isn't new. Author " + author.getFirstName() + " " + author.getLastName() + " was modified");
-            editAuthor(author);
-        }
-    }
-
-    public void editAuthor(Author author) {
-        if (authorsStorage.contains(author)) {
-            authorsStorage.set(authorsStorage.indexOf(author), author);
-        } else {
-            System.out.println("This author isn't in the system. Please check the data.");
+            editEntity(author);
         }
     }
 
@@ -91,5 +80,15 @@ public class InMemoryAuthorStorage implements Repository<Author> {
     @Override
     public String toString() {
         return authorsStorage.stream().map(Author::toString).collect(Collectors.joining("\n"));
+    }
+
+    @Override
+    public Author editEntity(Author author) {
+        if (authorsStorage.contains(author)) {
+            authorsStorage.set(authorsStorage.indexOf(author), author);
+        } else {
+            System.out.println("This author isn't in the system. Please check the data.");
+        }
+        return author;
     }
 }

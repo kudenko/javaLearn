@@ -5,10 +5,8 @@ import library.model.Journal;
 import library.model.Publication;
 import library.storage.Repository;
 
-import static library.command.ConsoleCommand.ADD_JOURNAL;
 
 public class AddJournal implements Command {
-    private static final ConsoleCommand commandName = ADD_JOURNAL;
     Repository<Publication> storage;
     private final View view;
 
@@ -19,7 +17,7 @@ public class AddJournal implements Command {
 
     @Override
     public boolean canHandle(String command) {
-        return (command.equals(commandName.getCommandName()));
+        return (command.equals(ConsoleCommand.ADD_JOURNAL.getCommandName()));
     }
 
     @Override

@@ -7,13 +7,11 @@ public class Author {
     private String firstName;
     private String lastName;
     private String email;
-    private static int counter;
 
     public Author(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.id = ++counter;
     }
 
     public long getId() {
@@ -30,6 +28,10 @@ public class Author {
 
     public String getEmail() {
         return email;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     @Override
