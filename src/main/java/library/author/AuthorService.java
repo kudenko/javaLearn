@@ -8,23 +8,19 @@ import library.utils.Pagination;
 
 public class AuthorService {
     public static long authorSelection(Repository<Author> authorsStorage, View view) {
-        if (authorsStorage.getEntitiesList().isEmpty()) {
-            view.write("Authors shouldn't be empty. Please create a new one.");
-            new AddAuthor(authorsStorage, view).handle();
-        } else {
-            view.write("Enter Author by ID from the list. Enter 'p' for previous page and 'n' for next page");
-        }
+        checkAuthorsStorage(authorsStorage, view);
 
         int startingPage = 1;
+        int itemsPerPage = Math.min(authorsStorage.getEntitiesList().size(), 10);
+        int pages = Pagination.getPagePaginationPageCount(authorsStorage.getEntitiesList(), itemsPerPage);
+
         Long authorId = null;
         while (authorId == null) {
-            Pagination.printPagination(authorsStorage.getEntitiesList(),
-                    authorsStorage.getEntitiesList().size() >= 10 ? 10 : authorsStorage.getEntitiesList().size(),
-                    startingPage, view);
+            Pagination.printPagination(authorsStorage.getEntitiesList(), itemsPerPage, startingPage, view);
             String enteredText = view.read();
-            if (enteredText.equals("n")) {
+            if (enteredText.equals("n") && startingPage <= pages) {
                 startingPage++;
-            } else if (enteredText.equals("p")) {
+            } else if (enteredText.equals("p") && startingPage > 0) {
                 startingPage--;
             } else {
                 authorId = selectAuthorIdFromTheList(enteredText, authorsStorage, view);
@@ -53,5 +49,16 @@ public class AuthorService {
             view.write("The ID should be in the number format. Or it should be letters 'p' or 'n'");
         }
         return null;
+    }
+
+    private static void checkAuthorsStorage(Repository<Author> authorsStorage, View view) {
+        if (authorsStorage.getEntitiesList().isEmpty()) {
+            view.write("Authors shouldn't be empty. Please create a new one.");
+            new AddAuthor(authorsStorage, view).handle();
+        } else {
+            view.write("Enter Author by ID from the list." +
+                    "\nEnter 'n' for next page" +
+                    "\nAvailable authors: " + authorsStorage.getEntitiesList().size());
+        }
     }
 }

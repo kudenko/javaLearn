@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ListRepository implements Repository<Publication> {
-    private List<Publication> publicationList;
+    private final List<Publication> publicationList;
+    private static long publicationGeneralId = 0;
+
 
     public ListRepository() {
         publicationList = new ArrayList<>();
@@ -20,17 +22,18 @@ public class ListRepository implements Repository<Publication> {
 
     @Override
     public void addEntity(Publication publication) {
-        publicationList.add(publication);
+        if(!publicationList.contains(publication)) {
+            publication.setPublicationId(++publicationGeneralId);
+            publicationList.add(publication);
+        } else {
+            System.out.println("This publication isn't new. Publication " + publication.getPublicationId() + " " + publication.getName() + " was modified");
+            editEntity(publication);
+        }
     }
 
     @Override
     public List<Publication> getEntitiesList() {
         return publicationList;
-    }
-
-    @Override
-    public Publication[] getEntitiesArray() {
-        return publicationList.toArray(new Publication[0]);
     }
 
     @Override
@@ -65,6 +68,16 @@ public class ListRepository implements Repository<Publication> {
 
     @Override
     public void print() {
-        Library.printPublications(getEntitiesArray());
+        Library.printPublications(getEntitiesList());
+    }
+
+    @Override
+    public Publication editEntity(Publication publication) {
+        if (publicationList.contains(publication)) {
+            publicationList.set(publicationList.indexOf(publication), publication);
+        } else {
+            System.out.println("This publication isn't in the system. Please check the data.");
+        }
+        return publication;
     }
 }

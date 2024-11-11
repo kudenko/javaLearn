@@ -1,15 +1,15 @@
 package library.model;
 
-import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 public class Library {
-    public static void printPublications(Publication[] publications) {
-        if(publications == null || Arrays.stream(publications).noneMatch(Objects::nonNull)) {
-            System.out.println("Нет публикаций для печати");
+    public static void printPublications(List<Publication> publications) {
+        if(publications.isEmpty()) {
+            System.out.println("No publications for printing");
             return;
         }
-        Arrays.stream(publications)
+        publications.stream()
                 .filter(Objects::nonNull).forEach(publication -> System.out.println(publication.print()));
     }
 }

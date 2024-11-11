@@ -13,8 +13,8 @@ import java.util.List;
 
 public class Dispatcher {
     public static void initApp() {
-        Repository<Author> authorStorage = new InMemoryAuthorStorage();
-//        Repository<Author> authorStorage = AuthorService.createAuthors();
+//        Repository<Author> authorStorage = new InMemoryAuthorStorage();
+        Repository<Author> authorStorage = AuthorService.createAuthors();
 
         Repository<Publication> storage = new ListRepository();
         View view = new Console();

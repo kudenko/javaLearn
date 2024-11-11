@@ -20,11 +20,11 @@ public class Book extends Publication {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book that = (Book) o;
-        return authorId == that.authorId && Objects.equals(getName(), that.getName());
+        return authorId == that.authorId && super.getPublicationId() == that.getPublicationId() && Objects.equals(getName(), that.getName());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getName(), authorId);
+        return Objects.hash(getName(), authorId, super.getPublicationId());
     }
 }
