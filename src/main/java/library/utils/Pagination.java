@@ -5,7 +5,11 @@ import library.console.View;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Pagination {
+public final class Pagination {
+
+    private Pagination() {
+        throw new UnsupportedOperationException("This class cannot be initialized");
+    }
 
     public static <T> void printPagination(List<T> list, int itemsPerPage, int page, View view) {
         if (arePaginationArgumentsValid(list, itemsPerPage, page, view)) {

@@ -91,4 +91,12 @@ public class InMemoryAuthorStorage implements Repository<Author> {
         }
         return author;
     }
+
+    @Override
+    public void removeById(Long id) {
+        Author author = findById(id);
+        if(author != null) {
+            removeEntity(author);
+        }
+    }
 }
