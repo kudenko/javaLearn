@@ -80,4 +80,18 @@ public class ListRepository implements Repository<Publication> {
         }
         return publication;
     }
+
+    @Override
+    public void removeById(Long id) {
+        Publication publication = findById(id);
+        if(publication != null) {
+            removeEntity(publication);
+        }
+    }
+
+    public List<Publication> findBooks(String bookName, long authorId) {
+        return publicationList.stream().filter(book -> book.getName().equals(bookName))
+                .filter(book -> book.getAuthorId() == authorId)
+                .toList();
+    }
 }

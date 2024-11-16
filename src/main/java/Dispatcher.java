@@ -16,7 +16,7 @@ public class Dispatcher {
 //        Repository<Author> authorStorage = new InMemoryAuthorStorage();
         Repository<Author> authorStorage = AuthorService.createAuthors();
 
-        Repository<Publication> storage = new ListRepository();
+        ListRepository storage = new ListRepository();
         View view = new Console();
         List<Command> commands = new ArrayList<>();
         commands.add(new Help(view));

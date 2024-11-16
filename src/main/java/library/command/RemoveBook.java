@@ -5,15 +5,18 @@ import library.author.AuthorService;
 import library.console.View;
 import library.model.Book;
 import library.model.Publication;
+import library.storage.ListRepository;
 import library.storage.Repository;
+
+import java.util.List;
 
 
 public class RemoveBook implements Command {
-    Repository<Publication> storage;
+    ListRepository storage;
     Repository<Author> authors;
     private final View view;
 
-    public RemoveBook(Repository<Publication> storage, Repository<Author> authors, View view) {
+    public RemoveBook(ListRepository storage, Repository<Author> authors, View view) {
         this.storage = storage;
         this.authors = authors;
         this.view = view;
@@ -26,6 +29,8 @@ public class RemoveBook implements Command {
 
     @Override
     public void handle() {
+        Book removedBook = null;
+        Long bookIdForDeletion = null;
         view.write("Enter publication name for deletion.");
         String deleteName = view.read();
 
@@ -33,9 +38,31 @@ public class RemoveBook implements Command {
 
         long authorId = AuthorService.authorSelection(authors, view);
 
-        storage.removeEntity(new Book(deleteName, 0, authorId));
+        List<Publication> deletionPublication = storage.findBooks(deleteName, authorId);
 
-        view.write(String.format("Book with name %s and author count %s was successfully deleted", deleteName, authorId));
+        if(deletionPublication.isEmpty()) {
+            view.write(String.format("There is no book with with name %s and author id %d", deleteName, authorId));
+            return;
+        }
+
+        if(deletionPublication.size() > 1) {
+            ListRepository repoWithBookForDeletion = new ListRepository(deletionPublication);
+            view.write("Such combination has several books.");
+            while (bookIdForDeletion == null) {
+                view.write("Please enter publication id for deletion from the list: ");
+                repoWithBookForDeletion.print();
+                bookIdForDeletion = view.readLong();
+            }
+            removedBook = (Book)repoWithBookForDeletion.findById(bookIdForDeletion);
+        }
+
+        if(deletionPublication.size() == 1) {
+            removedBook = (Book) deletionPublication.get(0);
+            bookIdForDeletion = removedBook.getPublicationId();
+        }
+        storage.removeById(bookIdForDeletion);
+
+        view.write(String.format("Book with name %s and author id %d was successfully deleted", removedBook.getName(), removedBook.getAuthorId()));
         view.write("You can enter new command.");
     }
 }

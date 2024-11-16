@@ -40,4 +40,8 @@ public class Publication {
     public void setPublicationId(long publicationId) {
         this.publicationId = publicationId;
     }
+
+    public Long getAuthorId() {
+        return null;
+    }
 }

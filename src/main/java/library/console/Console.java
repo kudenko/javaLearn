@@ -19,6 +19,17 @@ public class Console implements View {
         System.out.println(input);
     }
 
+    @Override
+    public long readLong() {
+        while(true) {
+            try {
+                return Integer.parseInt(read());
+            } catch (NumberFormatException e) {
+                write("Passed String is not a number. Please, enter a number");
+            }
+        }
+    }
+
     public int readInt() {
         while(true) {
             try {

@@ -21,4 +21,6 @@ public interface  Repository<T> {
     void print();
 
     T editEntity(T entity);
+
+    void removeById(Long id);
 }
