@@ -17,6 +17,14 @@ public class Journal extends Publication{
         return String.format("Journal{%s, number=%d, year=%d}", super.print(), number, publicationYear);
     }
 
+    public int getNumber() {
+        return number;
+    }
+
+    public int getPublicationYear() {
+        return publicationYear;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

@@ -4,23 +4,19 @@ package library.storage;
 import java.util.List;
 
 public interface  Repository<T> {
-    void addEntity(T entity);
+    void save(T entity);
 
-    List<T> getEntitiesList();
+    List<T> findAll();
 
-    void removeEntity(T entity);
+    void delete(T entity);
 
-    void removeByIndex(int index);
+    T findById(long id);
 
-    T findById(long entityId);
-
-    T findByIndex(int index);
-
-    void addAllEntities(List<T> entities);
+    void saveAll(List<T> entities);
 
     void print();
 
-    T editEntity(T entity);
+    T update(T entity);
 
-    void removeById(Long id);
+    void delete(Long id);
 }

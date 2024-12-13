@@ -29,7 +29,7 @@ public class AddAuthor implements Command {
         view.write("Enter Author's email.");
         String email = view.read();
 
-        authors.addEntity(new Author(authorName, authorLastName, email));
+        authors.save(new Author(authorName, authorLastName, email));
 
         view.write(String.format("Author '%s' '%s', " +
                 "with email '%s', was successfully added%n", authorName, authorLastName, email));

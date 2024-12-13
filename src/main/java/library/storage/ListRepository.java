@@ -21,28 +21,28 @@ public class ListRepository implements Repository<Publication> {
     }
 
     @Override
-    public void addEntity(Publication publication) {
+    public void save(Publication publication) {
         if(!publicationList.contains(publication)) {
             publication.setPublicationId(++publicationGeneralId);
             publicationList.add(publication);
         } else {
             System.out.println("This publication isn't new. Publication " + publication.getPublicationId() + " " + publication.getName() + " was modified");
-            editEntity(publication);
+            update(publication);
         }
     }
 
     @Override
-    public List<Publication> getEntitiesList() {
+    public List<Publication> findAll() {
         return publicationList;
     }
 
     @Override
-    public void removeEntity(Publication publication) {
+    public void delete(Publication publication) {
         publicationList.remove(publication);
     }
 
     @Override
-    public void removeByIndex(int index) {
+    public void delete(int index) {
         publicationList.remove(index);
     }
 
@@ -62,17 +62,17 @@ public class ListRepository implements Repository<Publication> {
     }
 
     @Override
-    public void addAllEntities(List<Publication> entities) {
+    public void saveAll(List<Publication> entities) {
         publicationList.addAll(entities);
     }
 
     @Override
     public void print() {
-        Library.printPublications(getEntitiesList());
+        Library.printPublications(findAll());
     }
 
     @Override
-    public Publication editEntity(Publication publication) {
+    public Publication update(Publication publication) {
         if (publicationList.contains(publication)) {
             publicationList.set(publicationList.indexOf(publication), publication);
         } else {
@@ -82,10 +82,10 @@ public class ListRepository implements Repository<Publication> {
     }
 
     @Override
-    public void removeById(Long id) {
+    public void delete(Long id) {
         Publication publication = findById(id);
         if(publication != null) {
-            removeEntity(publication);
+            delete(publication);
         }
     }
 

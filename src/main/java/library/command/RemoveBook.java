@@ -60,7 +60,7 @@ public class RemoveBook implements Command {
             removedBook = (Book) deletionPublication.get(0);
             bookIdForDeletion = removedBook.getPublicationId();
         }
-        storage.removeById(bookIdForDeletion);
+        storage.delete(bookIdForDeletion);
 
         view.write(String.format("Book with name %s and author id %d was successfully deleted", removedBook.getName(), removedBook.getAuthorId()));
         view.write("You can enter new command.");

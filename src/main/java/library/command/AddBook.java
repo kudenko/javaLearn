@@ -32,7 +32,7 @@ public class AddBook implements Command {
         int countOfPages = view.readInt();
 
         long authorId = AuthorService.authorSelection(authors, view);
-        storage.addEntity(new Book(bookName, countOfPages, authorId));
+        storage.save(new Book(bookName, countOfPages, authorId));
 
         view.write(String.format("Book with name '%s' pages count '%d', " +
                 "author ID '%d', was successfully added%n", bookName, countOfPages, authorId));

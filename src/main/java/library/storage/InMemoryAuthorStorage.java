@@ -12,17 +12,17 @@ public class InMemoryAuthorStorage implements Repository<Author> {
     private static int authorsId = 0;
 
     @Override
-    public List<Author> getEntitiesList() {
+    public List<Author> findAll() {
         return authorsStorage;
     }
 
     @Override
-    public void removeEntity(Author entity) {
+    public void delete(Author entity) {
         authorsStorage.remove(entity);
     }
 
     @Override
-    public void removeByIndex(int index) {
+    public void delete(int index) {
         authorsStorage.remove(index);
     }
 
@@ -49,7 +49,7 @@ public class InMemoryAuthorStorage implements Repository<Author> {
     }
 
     @Override
-    public void addAllEntities(List<Author> entities) {
+    public void saveAll(List<Author> entities) {
         authorsStorage.addAll(entities);
     }
 
@@ -63,13 +63,13 @@ public class InMemoryAuthorStorage implements Repository<Author> {
     }
 
     @Override
-    public void addEntity(Author author) {
+    public void save(Author author) {
         if (!authorsStorage.contains(author)) {
             author.setId(++authorsId);
             authorsStorage.add(author);
         } else {
             System.out.println("This author isn't new. Author " + author.getFirstName() + " " + author.getLastName() + " was modified");
-            editEntity(author);
+            update(author);
         }
     }
 
@@ -83,7 +83,7 @@ public class InMemoryAuthorStorage implements Repository<Author> {
     }
 
     @Override
-    public Author editEntity(Author author) {
+    public Author update(Author author) {
         if (authorsStorage.contains(author)) {
             authorsStorage.set(authorsStorage.indexOf(author), author);
         } else {
@@ -93,10 +93,10 @@ public class InMemoryAuthorStorage implements Repository<Author> {
     }
 
     @Override
-    public void removeById(Long id) {
+    public void delete(Long id) {
         Author author = findById(id);
         if(author != null) {
-            removeEntity(author);
+            delete(author);
         }
     }
 }

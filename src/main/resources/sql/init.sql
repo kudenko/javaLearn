@@ -6,7 +6,7 @@ GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA library TO librarian;
 
 GRANT USAGE ON SCHEMA library TO librarian;
 
-SET SCHEMA 'library';
+SET SCHEMA 'public';
 
 CREATE  TABLE author (
     id SERIAL PRIMARY KEY,

@@ -11,12 +11,12 @@ public class AuthorService {
         checkAuthorsStorage(authorsStorage, view);
 
         int startingPage = 1;
-        int itemsPerPage = Math.min(authorsStorage.getEntitiesList().size(), 10);
-        int pages = Pagination.getPagePaginationPageCount(authorsStorage.getEntitiesList(), itemsPerPage);
+        int itemsPerPage = Math.min(authorsStorage.findAll().size(), 10);
+        int pages = Pagination.getPagePaginationPageCount(authorsStorage.findAll(), itemsPerPage);
 
         Long authorId = null;
         while (authorId == null) {
-            Pagination.printPagination(authorsStorage.getEntitiesList(), itemsPerPage, startingPage, view);
+            Pagination.printPagination(authorsStorage.findAll(), itemsPerPage, startingPage, view);
             String enteredText = view.read();
             if (enteredText.equals("n") && startingPage <= pages) {
                 startingPage++;
@@ -32,7 +32,7 @@ public class AuthorService {
     public static InMemoryAuthorStorage createAuthors() {
         InMemoryAuthorStorage authors = new InMemoryAuthorStorage();
         for (int i = 1; i < 31; i++) {
-            authors.addEntity(new Author(String.format("FirstName_%d", i), String.format("LastName_%d", i), String.format("email@test%d", i)));
+            authors.save(new Author(String.format("FirstName_%d", i), String.format("LastName_%d", i), String.format("email@test%d", i)));
         }
         return authors;
     }
@@ -52,13 +52,13 @@ public class AuthorService {
     }
 
     private static void checkAuthorsStorage(Repository<Author> authorsStorage, View view) {
-        if (authorsStorage.getEntitiesList().isEmpty()) {
+        if (authorsStorage.findAll().isEmpty()) {
             view.write("Authors shouldn't be empty. Please create a new one.");
             new AddAuthor(authorsStorage, view).handle();
         } else {
             view.write("Enter Author by ID from the list." +
                     "\nEnter 'n' for next page" +
-                    "\nAvailable authors: " + authorsStorage.getEntitiesList().size());
+                    "\nAvailable authors: " + authorsStorage.findAll().size());
         }
     }
 }

@@ -2,16 +2,15 @@ package library.command;
 
 import library.console.View;
 import library.model.Journal;
-import library.model.Publication;
 import library.storage.Repository;
 
 
 public class AddJournal implements Command {
-    Repository<Publication> storage;
+    Repository<Journal> repository;
     private final View view;
 
-    public AddJournal(Repository<Publication> storage, View view) {
-        this.storage = storage;
+    public AddJournal(Repository<Journal> repository, View view) {
+        this.repository = repository;
         this.view = view;
     }
 
@@ -30,8 +29,8 @@ public class AddJournal implements Command {
         int jNumber = view.readInt();
         view.write("Enter publication year.");
         int pubYear = view.readInt();
-
-        storage.addEntity(new Journal(journalName, countOfPages, jNumber, pubYear));
+        //TODO try catch block
+        repository.save(new Journal(journalName, countOfPages, jNumber, pubYear));
         view.write(String.format("Journal with name '%s' pages count '%d', " +
                 "number '%d'; and year '%d' was successfully added%n", journalName, countOfPages, jNumber, pubYear));
         view.write("You can enter new command.");

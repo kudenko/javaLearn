@@ -41,7 +41,7 @@ public class Publication {
         this.publicationId = publicationId;
     }
 
-    public Long getAuthorId() {
-        return null;
+    public int getCountPages() {
+        return countPages;
     }
 }
