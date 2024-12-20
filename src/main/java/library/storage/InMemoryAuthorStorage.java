@@ -21,11 +21,6 @@ public class InMemoryAuthorStorage implements Repository<Author> {
         authorsStorage.remove(entity);
     }
 
-    @Override
-    public void delete(int index) {
-        authorsStorage.remove(index);
-    }
-
     public int getAuthorsSize() {
         return authorsStorage.size();
     }
@@ -41,11 +36,6 @@ public class InMemoryAuthorStorage implements Repository<Author> {
     @Override
     public Author findById(long id) {
         return authorsStorage.stream().filter(author -> author.getId() == id).findFirst().orElse(null);
-    }
-
-    @Override
-    public Author findByIndex(int index) {
-        return authorsStorage.get(index);
     }
 
     @Override

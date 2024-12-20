@@ -42,11 +42,6 @@ public class ListRepository implements Repository<Publication> {
     }
 
     @Override
-    public void delete(int index) {
-        publicationList.remove(index);
-    }
-
-    @Override
     public Publication findById(long entityId) {
         return publicationList.stream().filter(publication ->
                 publication.getPublicationId() == entityId).findFirst().orElse(null);
@@ -54,11 +49,6 @@ public class ListRepository implements Repository<Publication> {
 
     public ListRepository findEntityByName(String publicationName) {
         return new ListRepository(publicationList.stream().filter(publication -> publication.getName().equals(publicationName)).collect(Collectors.toList()));
-    }
-
-    @Override
-    public Publication findByIndex(int index) {
-        return publicationList.get(index);
     }
 
     @Override

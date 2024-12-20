@@ -18,7 +18,7 @@ public class Dispatcher {
         commands.add(new Help(view));
         commands.add(new Exit(view));
         commands.add(new AddJournal(journalRepository, view));
-//        commands.add(new AddBook(storage, authorStorage, view));
+        commands.add(new AddBook(bookRepository, authorRepository, view));
 //        commands.add(new AddAuthor(authorStorage, view));
 //        commands.add(new RemoveBook(storage,authorStorage, view));
 //        commands.add(new Print(view, storage));

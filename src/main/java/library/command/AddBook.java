@@ -8,11 +8,11 @@ import library.model.Publication;
 import library.storage.Repository;
 
 public class AddBook implements Command {
-    Repository<Publication> storage;
+    Repository<Book> storage;
     Repository<Author> authors;
     private final View view;
 
-    public AddBook(Repository<Publication> storage, Repository<Author> authors, View view) {
+    public AddBook(Repository<Book> storage, Repository<Author> authors, View view) {
         this.storage = storage;
         this.authors = authors;
         this.view = view;

@@ -1,10 +1,13 @@
 package library.storage;
 
 
+import library.exceptions.RepositoryException;
+
 import java.util.List;
 
 public interface  Repository<T> {
     void save(T entity);
+            //throws RepositoryException;
 
     List<T> findAll();
 

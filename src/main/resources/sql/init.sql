@@ -1,12 +1,22 @@
 CREATE SCHEMA IF NOT EXISTS library;
 
+SET SCHEMA 'library';
+
 CREATE USER librarian WITH encrypted password 'libra';
 
 GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA library TO librarian;
 
-GRANT USAGE ON SCHEMA library TO librarian;
+GRANT ALL ON SCHEMA library TO librarian;
 
-SET SCHEMA 'public';
+GRANT ALL PRIVILEGES ON TABLE author TO librarian;
+
+GRANT ALL PRIVILEGES ON TABLE book TO librarian;
+
+GRANT ALL PRIVILEGES ON TABLE journal TO librarian;
+
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA library to librarian;
+
+SET SCHEMA 'library';
 
 CREATE  TABLE author (
     id SERIAL PRIMARY KEY,
