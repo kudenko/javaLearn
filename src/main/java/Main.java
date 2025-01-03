@@ -3,10 +3,7 @@ import library.config.DatabaseConnectionManager;
 import library.config.PropertyConfig;
 import library.model.Book;
 import library.model.Journal;
-import library.storage.AuthorRepository;
-import library.storage.BookRepository;
-import library.storage.JournalRepository;
-import library.storage.Repository;
+import library.storage.*;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -22,7 +19,7 @@ public class Main {
         );
         Repository<Book> bookRepository = new BookRepository(connectionManager);
         Repository<Author> authorRepository = new AuthorRepository(connectionManager);
-        Repository<Journal> journalRepository = new JournalRepository(connectionManager);
+        JournalRepositoryCustom<Journal> journalRepository = new JournalRepository(connectionManager);
         //System.out.println(journalRepository.findById(1l));
 //        journalRepository.save(new Journal(1, "test", 23, 33, 1456));
 //        System.out.println(journalRepository.update(new Journal(1, "UPDATED", 20, 2, 1999)));

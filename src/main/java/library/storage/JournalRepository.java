@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JournalRepository implements Repository<Journal> {
+public class JournalRepository implements JournalRepositoryCustom<Journal> {
 
     private final DatabaseConnectionManager connectionManager;
 
@@ -144,6 +144,7 @@ public class JournalRepository implements Repository<Journal> {
         }
     }
 
+    @Override
     public List<Journal> findByNameYearNumber(String name, int year, int number) {
         List<Journal> journals = new ArrayList<>();
         try(Connection connection = connectionManager.getConnection();

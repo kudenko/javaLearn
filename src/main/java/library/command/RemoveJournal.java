@@ -3,20 +3,17 @@ package library.command;
 import library.console.View;
 import library.model.Journal;
 import library.storage.JournalRepository;
+import library.storage.JournalRepositoryCustom;
 import library.storage.Repository;
 
 import java.util.List;
 
 public class RemoveJournal implements Command {
-    JournalRepository storage;
+    JournalRepositoryCustom<Journal>  storage;
     private final View view;
 
-    public RemoveJournal(Repository<Journal> storage, View view) {
-        if (storage instanceof JournalRepository) {
-            this.storage = (JournalRepository) storage;
-        } else {
-            throw new IllegalArgumentException("Provided storage must be of type JournalRepository.");
-        }
+    public RemoveJournal(JournalRepositoryCustom<Journal> storage, View view) {
+        this.storage =  storage;
         this.view = view;
     }
 

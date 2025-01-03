@@ -4,13 +4,14 @@ import library.console.Console;
 import library.console.View;
 import library.model.Book;
 import library.model.Journal;
+import library.storage.JournalRepositoryCustom;
 import library.storage.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Dispatcher {
-    public static void initApp(Repository<Book> bookRepository, Repository<Author> authorRepository, Repository<Journal> journalRepository) {
+    public static void initApp(Repository<Book> bookRepository, Repository<Author> authorRepository, JournalRepositoryCustom<Journal> journalRepository) {
         View view = new Console();
         List<Command> commands = new ArrayList<>();
         commands.add(new Help(view));
