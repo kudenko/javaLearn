@@ -1,11 +1,9 @@
 import library.author.Author;
 import library.command.*;
-import library.config.DatabaseConnectionManager;
 import library.console.Console;
 import library.console.View;
 import library.model.Book;
 import library.model.Journal;
-import library.storage.ListRepository;
 import library.storage.Repository;
 
 import java.util.ArrayList;
@@ -19,9 +17,10 @@ public class Dispatcher {
         commands.add(new Exit(view));
         commands.add(new AddJournal(journalRepository, view));
         commands.add(new AddBook(bookRepository, authorRepository, view));
-//        commands.add(new AddAuthor(authorStorage, view));
-//        commands.add(new RemoveBook(storage,authorStorage, view));
-//        commands.add(new Print(view, storage));
+        commands.add(new AddAuthor(authorRepository, view));
+        commands.add(new RemoveBook(bookRepository, authorRepository, view));
+        commands.add(new Print(view, bookRepository, journalRepository));
+        commands.add(new RemoveJournal(journalRepository, view));
         execution(view, commands);
     }
 
