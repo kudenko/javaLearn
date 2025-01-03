@@ -2,7 +2,6 @@ package library.author;
 
 import library.command.AddAuthor;
 import library.console.View;
-import library.storage.InMemoryAuthorStorage;
 import library.storage.Repository;
 import library.utils.Pagination;
 
@@ -27,14 +26,6 @@ public class AuthorService {
             }
         }
         return authorId;
-    }
-
-    public static InMemoryAuthorStorage createAuthors() {
-        InMemoryAuthorStorage authors = new InMemoryAuthorStorage();
-        for (int i = 1; i < 31; i++) {
-            authors.save(new Author(String.format("FirstName_%d", i), String.format("LastName_%d", i), String.format("email@test%d", i)));
-        }
-        return authors;
     }
 
     private static Long selectAuthorIdFromTheList(String enteredText, Repository<Author> authorsStorage, View view) {

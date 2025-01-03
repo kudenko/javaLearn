@@ -24,6 +24,8 @@ public class JournalRepository implements Repository<Journal> {
 
     private static final String UPDATE = "UPDATE journal SET name = ?, count_pages = ?, number = ?, publication_year = ? WHERE id = ?";
 
+    private static final String FIND_BY_NAME_NUMBER_YEAR = "SELECT * FROM journal WHERE name = ? AND publication_year = ? AND number = ?;";
+
     public JournalRepository(DatabaseConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
     }
@@ -140,5 +142,23 @@ public class JournalRepository implements Repository<Journal> {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Journal> findByNameYearNumber(String name, int year, int number) {
+        List<Journal> journals = new ArrayList<>();
+        try(Connection connection = connectionManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_NAME_NUMBER_YEAR)) {
+            preparedStatement.setString(1, name);
+            preparedStatement.setInt(2, year);
+            preparedStatement.setInt(3, number);
+            ResultSet resultSet  = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                long id = resultSet.getLong("id");
+                journals.add(findById(id));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return journals;
     }
 }

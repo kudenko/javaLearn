@@ -1,17 +1,21 @@
 package library.command;
 
 import library.console.View;
-import library.model.Publication;
+import library.model.Book;
+import library.model.Journal;
 import library.storage.Repository;
 
 
 public class Print implements Command {
     private final View view;
-    private final Repository<Publication> repository;
+    private final Repository<Book> bookRepository;
+    private final Repository<Journal> journalRepository;
 
-    public Print(View view, Repository<Publication> repository) {
+
+    public Print(View view, Repository<Book> bookRepository, Repository<Journal> journalRepository) {
         this.view = view;
-        this.repository = repository;
+        this.bookRepository = bookRepository;
+        this.journalRepository = journalRepository;
     }
 
     @Override
@@ -22,6 +26,7 @@ public class Print implements Command {
     @Override
     public void handle() {
         view.write("Available publications: ");
-        repository.print();
+        journalRepository.print();
+        bookRepository.print();
     }
 }

@@ -102,7 +102,17 @@ public class AuthorRepository implements Repository<Author> {
 
     @Override
     public Author update(Author entity) {
-        return null;
+        try(Connection connection = connectionManager.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE)) {
+            preparedStatement.setString(1, entity.getFirstName());
+            preparedStatement.setString(2, entity.getLastName());
+            preparedStatement.setString(3, entity.getEmail());
+            preparedStatement.setLong(4, entity.getId());
+            preparedStatement.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return findById(entity.getId());
     }
 
     @Override

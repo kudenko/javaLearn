@@ -3,21 +3,20 @@ package library.command;
 import library.author.Author;
 import library.author.AuthorService;
 import library.console.View;
+import library.exceptions.AuthorRepositoryException;
 import library.model.Book;
-import library.model.Publication;
-import library.storage.ListRepository;
 import library.storage.Repository;
 
 import java.util.List;
 
 
 public class RemoveBook implements Command {
-    ListRepository storage;
+    Repository<Book> bookRepository;
     Repository<Author> authors;
     private final View view;
 
-    public RemoveBook(ListRepository storage, Repository<Author> authors, View view) {
-        this.storage = storage;
+    public RemoveBook(Repository<Book> bookRepository, Repository<Author> authors, View view) {
+        this.bookRepository = bookRepository;
         this.authors = authors;
         this.view = view;
     }
@@ -38,29 +37,29 @@ public class RemoveBook implements Command {
 
         long authorId = AuthorService.authorSelection(authors, view);
 
-        List<Publication> deletionPublication = storage.findBooks(deleteName, authorId);
+        List<Book> deletionPublication = bookRepository.findAll().stream().filter(book -> book.getAuthorId() == authorId).filter(book -> book.getName().equals(deleteName)).toList();
 
         if(deletionPublication.isEmpty()) {
-            view.write(String.format("There is no book with with name %s and author id %d", deleteName, authorId));
+            //throw new AuthorRepositoryException(String.format("There is no book with name %s and author id %d", deleteName, authorId));
+            view.write(String.format("There is no book with name %s and author id %d", deleteName, authorId));
             return;
         }
 
         if(deletionPublication.size() > 1) {
-            ListRepository repoWithBookForDeletion = new ListRepository(deletionPublication);
             view.write("Such combination has several books.");
             while (bookIdForDeletion == null) {
                 view.write("Please enter publication id for deletion from the list: ");
-                repoWithBookForDeletion.print();
+                deletionPublication.forEach(System.out::println);
                 bookIdForDeletion = view.readLong();
             }
-            removedBook = (Book)repoWithBookForDeletion.findById(bookIdForDeletion);
+            removedBook = bookRepository.findById(bookIdForDeletion);
         }
 
         if(deletionPublication.size() == 1) {
-            removedBook = (Book) deletionPublication.get(0);
+            removedBook = deletionPublication.get(0);
             bookIdForDeletion = removedBook.getPublicationId();
         }
-        storage.delete(bookIdForDeletion);
+        bookRepository.delete(bookIdForDeletion);
 
         view.write(String.format("Book with name %s and author id %d was successfully deleted", removedBook.getName(), removedBook.getAuthorId()));
         view.write("You can enter new command.");
