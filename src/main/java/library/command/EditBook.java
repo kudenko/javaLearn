@@ -8,12 +8,12 @@ import library.model.Book;
 import library.storage.AuthorRepositoryCustom;
 import library.storage.Repository;
 
-public class AddBook implements Command {
+public class EditBook implements Command {
     Repository<Book> storage;
     AuthorRepositoryCustom<Author> authors;
     private final View view;
 
-    public AddBook(Repository<Book> storage, AuthorRepositoryCustom<Author> authors, View view) {
+    public EditBook(Repository<Book> storage, AuthorRepositoryCustom<Author> authors, View view) {
         this.storage = storage;
         this.authors = authors;
         this.view = view;
@@ -21,12 +21,21 @@ public class AddBook implements Command {
 
     @Override
     public boolean canHandle(String command) {
-        return (command.equals(ConsoleCommand.ADD_BOOK.getCommandName()));
+        return (command.equals(ConsoleCommand.EDIT_BOOK.getCommandName()));
     }
 
     @Override
     public void handle() {
-        view.write("Enter Book name.");
+        Long bookId = null;
+        Book book = null;
+        while (book == null) {
+            view.write("Enter book's id for editing from the list.");
+            storage.print();
+            bookId = view.readLong();
+            book = storage.findById(bookId);
+        }
+
+        view.write("Enter Book name for editing.");
         String bookName = view.read();
 
         view.write("Enter count of pages.");
@@ -34,12 +43,13 @@ public class AddBook implements Command {
 
         long authorId = AuthorService.authorSelection(authors, view);
         try {
-            storage.save(new Book(bookName, countOfPages, authorId));
+            book = new Book(bookId, bookName, countOfPages, authorId);
+            storage.update(book);
             view.write(String.format("Book with name '%s' pages count '%d', " +
-                    "author ID '%d', was successfully added%n", bookName, countOfPages, authorId));
+                    "author ID '%d', was successfully edited%n", bookName, countOfPages, authorId));
             view.write("You can enter new command.");
         } catch (BookRepositoryException e) {
-            view.write("Error in book save. Please try again.");
+            view.write("Error in book update. Please try again.");
         }
     }
 }

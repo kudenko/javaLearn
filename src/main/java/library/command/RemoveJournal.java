@@ -1,6 +1,7 @@
 package library.command;
 
 import library.console.View;
+import library.exceptions.JournalRepositoryException;
 import library.model.Journal;
 import library.storage.JournalRepositoryCustom;
 
@@ -35,7 +36,11 @@ public class RemoveJournal implements Command {
 
         for (Journal deletionJournal : deletionJournals) {
             view.write(String.format("Journal with id = %d was successfully deleted", deletionJournal.getId()));
-            storage.delete(deletionJournal.getId());
+            try {
+                storage.delete(deletionJournal.getId());
+            } catch (JournalRepositoryException e) {
+                view.write("Error in Journal deletion.");
+            }
         }
         view.write("You can enter new command.");
     }

@@ -1,6 +1,7 @@
 package library.command;
 
 import library.console.View;
+import library.exceptions.JournalRepositoryException;
 import library.exceptions.RepositoryException;
 import library.model.Journal;
 import library.storage.Repository;
@@ -30,12 +31,11 @@ public class AddJournal implements Command {
         int jNumber = view.readInt();
         view.write("Enter publication year.");
         int pubYear = view.readInt();
-        //TODO try catch block
-//        try {
+        try {
             repository.save(new Journal(journalName, countOfPages, jNumber, pubYear));
-//        } catch (RepositoryException e) {
-//
-//        }
+        } catch (JournalRepositoryException e) {
+            view.write("Error in journal save. Please try again");
+        }
         view.write(String.format("Journal with name '%s' pages count '%d', " +
                 "number '%d'; and year '%d' was successfully added%n", journalName, countOfPages, jNumber, pubYear));
         view.write("You can enter new command.");

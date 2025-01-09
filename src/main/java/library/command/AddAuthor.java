@@ -2,6 +2,7 @@ package library.command;
 
 import library.author.Author;
 import library.console.View;
+import library.exceptions.AuthorRepositoryException;
 import library.storage.AuthorRepositoryCustom;
 
 public class AddAuthor implements Command {
@@ -31,12 +32,16 @@ public class AddAuthor implements Command {
 
         if(!authors.findByEmail(email).isEmpty()) {
             view.write(String.format("The author with email %s already exists", email));
+            view.write("Please, enter new command.");
+            return;
         }
-
-        authors.save(new Author(authorName, authorLastName, email));
-
-        view.write(String.format("Author '%s' '%s', " +
-                "with email '%s', was successfully added%n", authorName, authorLastName, email));
-        view.write("You can enter next command.");
+        try {
+            authors.save(new Author(authorName, authorLastName, email));
+            view.write(String.format("Author '%s' '%s', " +
+                    "with email '%s', was successfully added%n", authorName, authorLastName, email));
+            view.write("You can enter next command.");
+        } catch (AuthorRepositoryException e) {
+            view.write("Author save didn't work. Please try again.");
+        }
     }
 }

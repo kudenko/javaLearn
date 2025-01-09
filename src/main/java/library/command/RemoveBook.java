@@ -3,6 +3,7 @@ package library.command;
 import library.author.Author;
 import library.author.AuthorService;
 import library.console.View;
+import library.exceptions.BookRepositoryException;
 import library.model.Book;
 import library.storage.AuthorRepositoryCustom;
 import library.storage.Repository;
@@ -58,9 +59,12 @@ public class RemoveBook implements Command {
             removedBook = deletionPublication.get(0);
             bookIdForDeletion = removedBook.getPublicationId();
         }
-        bookRepository.delete(bookIdForDeletion);
-
-        view.write(String.format("Book with name %s and author id %d was successfully deleted", removedBook.getName(), removedBook.getAuthorId()));
-        view.write("You can enter new command.");
+        try {
+            bookRepository.delete(bookIdForDeletion);
+            view.write(String.format("Book with name %s and author id %d was successfully deleted", removedBook.getName(), removedBook.getAuthorId()));
+            view.write("You can enter new command.");
+        } catch (BookRepositoryException e) {
+            view.write("Error in book deletion. Please try again.");
+        }
     }
 }

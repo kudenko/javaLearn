@@ -34,6 +34,7 @@ public class RemoveAuthor implements Command {
 
         if(deleteAuthors.isEmpty()) {
             view.write(String.format("There is no author with email %s", deleteEmail));
+            view.write("Please, enter new command.");
             return;
         }
 
@@ -41,7 +42,7 @@ public class RemoveAuthor implements Command {
         Long delAuthorId = null;
 
         if(deleteAuthors.size() > 1) {
-            view.write("Such combination has several authors.");
+            view.write("We have several authors with such email");
             while (delAuthorId == null) {
                 view.write("Please enter author's id for deletion from the library: ");
                 deleteAuthors.forEach(System.out::println);

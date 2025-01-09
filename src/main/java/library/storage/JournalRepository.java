@@ -1,6 +1,8 @@
 package library.storage;
 
 import library.config.DatabaseConnectionManager;
+import library.exceptions.JournalRepositoryException;
+import library.exceptions.RepositoryException;
 import library.model.Journal;
 
 import java.sql.Connection;
@@ -39,11 +41,9 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
              preparedStatement.setLong(3, entity.getNumber());
              preparedStatement.setInt(4, entity.getPublicationYear());
              preparedStatement.execute();
-        } catch (SQLException ex) {
-            //log
-            //TODO change to repository exception
-            ex.printStackTrace();
-            throw new RuntimeException("");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new JournalRepositoryException("Error in Journal save", e);
         }
     }
 
@@ -63,13 +63,9 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
                 Journal journal = new Journal(id, name, countPages, number, year);
                 journals.add(journal);
             }
-
-
-        } catch (SQLException ex) {
-            //log
-            //TODO change to repository exception
-            ex.printStackTrace();
-            throw new RuntimeException("");
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RepositoryException("Error in find all journals", e);
         }
         return journals;
     }
@@ -82,6 +78,7 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new JournalRepositoryException("Error in journal deletion", e);
         }
     }
 
@@ -102,6 +99,7 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new JournalRepositoryException(String.format("Error in find journal with id %d", id), e);
         }
         return journal;
     }
@@ -128,6 +126,7 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new JournalRepositoryException("Error in Journal update", e);
         }
 
         return findById(entity.getId());
@@ -141,6 +140,7 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new JournalRepositoryException(String.format("Error in journal deletion with id %d", id), e);
         }
     }
 
@@ -159,6 +159,7 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new JournalRepositoryException(String.format("Error in finding Journal with name %s, year %d and number %d", name, year, number), e);
         }
         return journals;
     }

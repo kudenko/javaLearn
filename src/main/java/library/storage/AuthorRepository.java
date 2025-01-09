@@ -2,6 +2,7 @@ package library.storage;
 
 import library.author.Author;
 import library.config.DatabaseConnectionManager;
+import library.exceptions.AuthorRepositoryException;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -39,7 +40,7 @@ public class AuthorRepository implements AuthorRepositoryCustom<Author> {
             preparedStatement.setString(3, entity.getEmail());
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new AuthorRepositoryException("Save didn't work. Please try again.", e);
         }
 
     }
@@ -60,7 +61,7 @@ public class AuthorRepository implements AuthorRepositoryCustom<Author> {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new AuthorRepositoryException("Cannot find all authors.", e);
         }
         return authors;
     }
@@ -86,7 +87,7 @@ public class AuthorRepository implements AuthorRepositoryCustom<Author> {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new AuthorRepositoryException(String.format("Cannot find entity by ID %d.", id), e);
         }
         return author;
     }
@@ -111,7 +112,7 @@ public class AuthorRepository implements AuthorRepositoryCustom<Author> {
             preparedStatement.setLong(4, entity.getId());
             preparedStatement.execute();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new AuthorRepositoryException("Cannot update author entity", e);
         }
         return findById(entity.getId());
     }
@@ -123,7 +124,7 @@ public class AuthorRepository implements AuthorRepositoryCustom<Author> {
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new AuthorRepositoryException(String.format("Cannot delete author's entity with id = %d", id), e);
         }
     }
 
@@ -144,7 +145,7 @@ public class AuthorRepository implements AuthorRepositoryCustom<Author> {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new AuthorRepositoryException(String.format("Error when find author by email. %s", email), e);
         }
         return authors;
     }

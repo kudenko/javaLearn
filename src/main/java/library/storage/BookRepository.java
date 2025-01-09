@@ -1,6 +1,8 @@
 package library.storage;
 
 import library.config.DatabaseConnectionManager;
+import library.exceptions.AuthorRepositoryException;
+import library.exceptions.BookRepositoryException;
 import library.model.Book;
 
 import java.sql.Connection;
@@ -41,6 +43,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new BookRepositoryException("Cannot save a book", e);
         }
     }
 
@@ -60,7 +63,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new BookRepositoryException("Cannot find all books", e);
         }
         return books;
     }
@@ -86,7 +89,8 @@ public class BookRepository implements BookRepositoryCustom<Book> {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new BookRepositoryException(String.format("Error in find author by id %d", id), e);
         }
         return book;
     }
@@ -112,6 +116,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+            throw new AuthorRepositoryException("Error in book update", e);
         }
         return findById(entity.getId());
     }
@@ -123,7 +128,8 @@ public class BookRepository implements BookRepositoryCustom<Book> {
             preparedStatement.setLong(1, id);
             preparedStatement.execute();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new BookRepositoryException("Error in book deletion", e);
         }
     }
 
@@ -143,7 +149,8 @@ public class BookRepository implements BookRepositoryCustom<Book> {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
+            throw new BookRepositoryException(String.format("Error in find book by author ID %d", authorId), e);
         }
         return books;
     }
