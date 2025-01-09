@@ -2,9 +2,7 @@ package library.command;
 
 import library.console.View;
 import library.model.Journal;
-import library.storage.JournalRepository;
 import library.storage.JournalRepositoryCustom;
-import library.storage.Repository;
 
 import java.util.List;
 

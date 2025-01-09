@@ -2,13 +2,13 @@ package library.command;
 
 import library.author.Author;
 import library.console.View;
-import library.storage.Repository;
+import library.storage.AuthorRepositoryCustom;
 
 public class AddAuthor implements Command {
-    Repository<Author> authors;
+    AuthorRepositoryCustom<Author> authors;
     private final View view;
 
-    public AddAuthor(Repository<Author> authors, View view) {
+    public AddAuthor(AuthorRepositoryCustom<Author> authors, View view) {
         this.authors = authors;
         this.view = view;
     }
@@ -28,6 +28,10 @@ public class AddAuthor implements Command {
 
         view.write("Enter Author's email.");
         String email = view.read();
+
+        if(!authors.findByEmail(email).isEmpty()) {
+            view.write(String.format("The author with email %s already exists", email));
+        }
 
         authors.save(new Author(authorName, authorLastName, email));
 

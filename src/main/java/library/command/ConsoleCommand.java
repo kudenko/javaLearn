@@ -7,6 +7,7 @@ public enum ConsoleCommand {
     ADD_BOOK("addBook", "adds book to the library"),
     ADD_AUTHOR("addAuthor", "adds author to the library"),
     REMOVE_BOOK("removeBook", "removes book from the library"),
+    REMOVE_AUTHOR("removeAuthor", "removes author from the library"),
     REMOVE_JOURNAL("removeJournal", "removes journal from the library"),
     PRINT("print", "prints all publications in the library");
 

@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AuthorRepository implements Repository<Author> {
+public class AuthorRepository implements AuthorRepositoryCustom<Author> {
 
     private final DatabaseConnectionManager connectionManager;
 
@@ -24,6 +24,7 @@ public class AuthorRepository implements Repository<Author> {
 
     private static final String UPDATE = "UPDATE author SET first_name = ?, last_name = ?, email = ? WHERE id = ?";
 
+    private static final String FIND_BY_EMAIL = "SELECT * FROM author WHERE email =?;";
 
     public AuthorRepository(DatabaseConnectionManager connectionManager) {
         this.connectionManager = connectionManager;
@@ -124,5 +125,27 @@ public class AuthorRepository implements Repository<Author> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<Author> findByEmail(String email) {
+        List<Author> authors = new ArrayList<>();
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_EMAIL)){
+            preparedStatement.setString(1, email);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                email = resultSet.getString("email");
+                String firstName = resultSet.getString("first_name");
+                String lastName = resultSet.getString("last_name");
+                long id = resultSet.getLong("id");
+                Author author = new Author(id, firstName, lastName, email);
+                authors.add(author);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return authors;
     }
 }

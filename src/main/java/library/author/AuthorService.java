@@ -2,11 +2,12 @@ package library.author;
 
 import library.command.AddAuthor;
 import library.console.View;
+import library.storage.AuthorRepositoryCustom;
 import library.storage.Repository;
 import library.utils.Pagination;
 
 public class AuthorService {
-    public static long authorSelection(Repository<Author> authorsStorage, View view) {
+    public static long authorSelection(AuthorRepositoryCustom<Author> authorsStorage, View view) {
         checkAuthorsStorage(authorsStorage, view);
 
         int startingPage = 1;
@@ -42,7 +43,7 @@ public class AuthorService {
         return null;
     }
 
-    private static void checkAuthorsStorage(Repository<Author> authorsStorage, View view) {
+    private static void checkAuthorsStorage(AuthorRepositoryCustom<Author> authorsStorage, View view) {
         if (authorsStorage.findAll().isEmpty()) {
             view.write("Authors shouldn't be empty. Please create a new one.");
             new AddAuthor(authorsStorage, view).handle();

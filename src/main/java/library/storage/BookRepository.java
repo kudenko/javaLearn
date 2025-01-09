@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookRepository implements Repository<Book> {
+public class BookRepository implements BookRepositoryCustom<Book> {
 
     private static final String INSERT = "INSERT INTO book(name, count_pages, author_id) VALUES (?,?,?)";
 
@@ -21,6 +21,8 @@ public class BookRepository implements Repository<Book> {
     private static final String SELECT = "SELECT * FROM book WHERE id = ?;";
 
     private static final String UPDATE = "UPDATE book SET name = ?, count_pages = ?, author_id = ? WHERE id = ?";
+
+    private static final String SELECT_BY_AUTHOR_ID = "SELECT * FROM book WHERE author_id = ?;";
 
 
     private final DatabaseConnectionManager connectionManager;
@@ -123,5 +125,26 @@ public class BookRepository implements Repository<Book> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public List<Book> findBooksByAuthorId(Long authorId) {
+        List<Book> books = new ArrayList<>();
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_AUTHOR_ID)) {
+            preparedStatement.setLong(1, authorId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                long id = resultSet.getLong("id");
+                String name = resultSet.getString("name");
+                int pagesCount = resultSet.getInt("count_pages");
+                Book book = new Book(id, name, pagesCount, authorId);
+                books.add(book);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return books;
     }
 }

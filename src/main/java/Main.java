@@ -5,9 +5,6 @@ import library.model.Book;
 import library.model.Journal;
 import library.storage.*;
 
-import java.sql.Connection;
-import java.sql.SQLException;
-
 public class Main {
     public static void main(String[] args) {
         PropertyConfig propertyConfig = new PropertyConfig();
@@ -17,8 +14,8 @@ public class Main {
                 propertyConfig.getDbUsername(),
                 propertyConfig.getDbPassword()
         );
-        Repository<Book> bookRepository = new BookRepository(connectionManager);
-        Repository<Author> authorRepository = new AuthorRepository(connectionManager);
+        BookRepositoryCustom<Book> bookRepository = new BookRepository(connectionManager);
+        AuthorRepositoryCustom<Author> authorRepository = new AuthorRepository(connectionManager);
         JournalRepositoryCustom<Journal> journalRepository = new JournalRepository(connectionManager);
         //System.out.println(journalRepository.findById(1l));
 //        journalRepository.save(new Journal(1, "test", 23, 33, 1456));
@@ -35,7 +32,9 @@ public class Main {
 
         //????
 //        authorRepository.delete(1l);
-        System.out.println(authorRepository.findById(1l));
+//        System.out.println(authorRepository.findById(1L));
+       // System.out.println(authorRepository.findByEmail("test@gmail.com"));
+        System.out.println(bookRepository.findBooksByAuthorId(2L));
 
 
         Dispatcher.initApp(bookRepository, authorRepository, journalRepository);

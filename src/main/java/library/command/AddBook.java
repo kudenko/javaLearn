@@ -4,15 +4,15 @@ import library.author.Author;
 import library.author.AuthorService;
 import library.console.View;
 import library.model.Book;
-import library.model.Publication;
+import library.storage.AuthorRepositoryCustom;
 import library.storage.Repository;
 
 public class AddBook implements Command {
     Repository<Book> storage;
-    Repository<Author> authors;
+    AuthorRepositoryCustom<Author> authors;
     private final View view;
 
-    public AddBook(Repository<Book> storage, Repository<Author> authors, View view) {
+    public AddBook(Repository<Book> storage, AuthorRepositoryCustom<Author> authors, View view) {
         this.storage = storage;
         this.authors = authors;
         this.view = view;

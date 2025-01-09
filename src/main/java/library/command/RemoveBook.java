@@ -3,8 +3,8 @@ package library.command;
 import library.author.Author;
 import library.author.AuthorService;
 import library.console.View;
-import library.exceptions.AuthorRepositoryException;
 import library.model.Book;
+import library.storage.AuthorRepositoryCustom;
 import library.storage.Repository;
 
 import java.util.List;
@@ -12,10 +12,10 @@ import java.util.List;
 
 public class RemoveBook implements Command {
     Repository<Book> bookRepository;
-    Repository<Author> authors;
+    AuthorRepositoryCustom<Author> authors;
     private final View view;
 
-    public RemoveBook(Repository<Book> bookRepository, Repository<Author> authors, View view) {
+    public RemoveBook(Repository<Book> bookRepository, AuthorRepositoryCustom<Author> authors, View view) {
         this.bookRepository = bookRepository;
         this.authors = authors;
         this.view = view;
@@ -40,7 +40,6 @@ public class RemoveBook implements Command {
         List<Book> deletionPublication = bookRepository.findAll().stream().filter(book -> book.getAuthorId() == authorId).filter(book -> book.getName().equals(deleteName)).toList();
 
         if(deletionPublication.isEmpty()) {
-            //throw new AuthorRepositoryException(String.format("There is no book with name %s and author id %d", deleteName, authorId));
             view.write(String.format("There is no book with name %s and author id %d", deleteName, authorId));
             return;
         }
