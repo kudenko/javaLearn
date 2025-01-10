@@ -35,8 +35,6 @@ public class Main {
 //        System.out.println(authorRepository.findById(1L));
        // System.out.println(authorRepository.findByEmail("test@gmail.com"));
         System.out.println(bookRepository.findBooksByAuthorId(2L));
-
-
         Dispatcher.initApp(bookRepository, authorRepository, journalRepository);
     }
 }

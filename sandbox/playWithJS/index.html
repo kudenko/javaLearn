@@ -1,0 +1,129 @@
+<!doctype HTML>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" name="description" content="You can find my first web page here">
+	<title>First webpage</title>
+	<!--This styles could be added for all document
+		.someCLass is a class selector-->
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<!--style type="text/css">
+		#newId{
+			color: #667;
+		}
+		h2 {
+		color: green;
+			font-size: 10
+		}
+		.someCLass {
+			color: grey;
+		}
+		#someId{
+			color: blue;
+		}
+	</style-->
+
+	<script type="text/javascript">
+		function helloWorldPrint() {
+			document.getElementById("print").innerHTML = "Hello World!";
+		}
+		function helloWorldClear() {
+			document.getElementById("print").innerHTML = "";
+		}
+		//Добавил калькулятор, можно создать с ребятами!!!
+	function calculate() {
+		document.getElementById("result").innerHTML = ""
+
+		var operation = document.getElementById("operation");
+		var selected = operation.options[operation.selectedIndex].value;
+
+		var firstOperand = document.getElementById("firstOperand").value;
+		var secondOperand = document.getElementById("secondOperand").value;
+
+		if (firstOperand == null || firstOperand == "" || secondOperand == null || secondOperand == "") {
+			document.getElementById("result").innerHTML = "Please, type the correct value"
+		}
+
+
+		var result = ""
+
+		switch (selected) {
+			case "plus":
+				result = parseInt(firstOperand) + parseInt(secondOperand);
+				break;
+			case "minus":
+				result = parseInt(firstOperand) - parseInt(secondOperand);
+				break;
+			case "times":
+				result = parseInt(firstOperand) * parseInt(secondOperand);
+				break;
+			case "divided by":
+				result = parseInt(firstOperand) / parseInt(secondOperand);
+			break;		 	
+		}
+
+		document.getElementById("result").innerHTML = result;
+
+	}
+	</script>
+</head>
+<body>
+<p>	 -                -----  
+	 -----           |-----
+	||----|          ----||  
+	||-----         -----||  
+	||-----|       |-----||
+	|| -----       ------||
+	||- ----|     |------||
+	||---||--     -------||
+	||--|| --|   |-------||
+	|| -|| |--   --- - --||
+	|| -||  --|-|--| - ---|
+	|---||  |-----| |-----|
+	|---||   |----  |-----| 
+	|----|    ---   |-----|
+	|-----          ------| </p>
+
+<pre>	 -                -----  
+	 -----           |-----
+	||----|          ----||  
+	||-----         -----||  
+	||-----|       |-----||
+	|| -----       ------||
+	||- ----|     |------||
+	||---||--     -------||
+	||--|| --|   |-------||
+	|| -|| |--   --- - --||
+	|| -||  --|-|--| - ---|
+	|---||  |-----| |-----|
+	|---||   |----  |-----| 
+	|----|    ---   |-----|
+	|-----          ------| </pre>
+
+<p class="someCLass">This is my First web page!</p>
+<pre>I would like to show you how it's work</pre>
+<!--inline style is inside of the html element-->
+<h1 style="color:red;font-weight: normal;">Heading elements from h1 to h6</h1>
+<h2>New style</h2>
+<input type="input" name="input">
+<h1 class="someCLass">Adding some new test</h1>
+<p id="someId">Something with ID</p>
+<h3 id="someId">Something also with ID</h3>
+<button onclick="helloWorldPrint()">Print message</button>
+<button onclick="helloWorldClear()">Clear message</button>
+<p id="print"></p>
+
+<p>Calculator</p>
+<input type="number" id="firstOperand" name="firstOperand">
+<select id="operation">
+	<option value="plus" selected="selected">+</option>
+	<option value="minus">-</option>
+	<option value="times">*</option>
+	<option value="divided by">/</option>
+</select>
+<input type="number" id="secondOperand" name="secondOperand">
+
+<button onclick="calculate()">Show result</button> 
+<p id="result" style="display:inline"></p>
+</body>
+</html>
