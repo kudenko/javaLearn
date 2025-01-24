@@ -1,5 +1,7 @@
 package app.library.config;
 
+import jakarta.servlet.ServletContext;
+
 import java.util.Map;
 
 public class PropertyConfig {
@@ -11,12 +13,12 @@ public class PropertyConfig {
 
     private final String dbPassword;
 
-    public PropertyConfig() {
+    public PropertyConfig(ServletContext servletContext) {
         Map<String, String> environmentVariables = System.getenv();
-        dbHost = environmentVariables.get("dbHost");
-        dbName = environmentVariables.get("dbName");
-        dbUsername = environmentVariables.get("dbUsername");
-        dbPassword = environmentVariables.get("dbPassword");
+        dbHost = System.getProperty("application.db.host");
+        dbName = System.getProperty("application.db.name");
+        dbUsername = System.getProperty("application.db.username");
+        dbPassword = System.getProperty("application.db.password");
 
         if (dbHost == null || dbHost.isEmpty()) {
             throw new IllegalArgumentException("dbHost is null or empty. Pass variable dbHost for correct run");

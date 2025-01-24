@@ -15,7 +15,7 @@ public class InitServlet extends HttpServlet {
 
     @Override
     public void init(){
-        JavaLearnApp.initMyLearnApp();
+        JavaLearnApp.initMyLearnApp(getServletContext());
     }
 
     @Override
