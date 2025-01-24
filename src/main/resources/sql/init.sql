@@ -1,12 +1,12 @@
-CREATE SCHEMA IF NOT EXISTS library;
+CREATE SCHEMA IF NOT EXISTS app.library;
 
-SET SCHEMA 'library';
+SET SCHEMA 'app.library';
 
 CREATE USER librarian WITH encrypted password 'libra';
 
-GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA library TO librarian;
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA app.library TO librarian;
 
-GRANT ALL ON SCHEMA library TO librarian;
+GRANT ALL ON SCHEMA app.library TO librarian;
 
 GRANT ALL PRIVILEGES ON TABLE author TO librarian;
 
@@ -14,9 +14,9 @@ GRANT ALL PRIVILEGES ON TABLE book TO librarian;
 
 GRANT ALL PRIVILEGES ON TABLE journal TO librarian;
 
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA library to librarian;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA app.library to librarian;
 
-SET SCHEMA 'library';
+SET SCHEMA 'app.library';
 
 CREATE  TABLE author (
     id SERIAL PRIMARY KEY,
@@ -41,3 +41,7 @@ CREATE TABLE journal(
     number INT,
     publication_year INT
 );
+
+SET search_path TO app.library, public;
+
+ALTER ROLE librarian SET search_path TO app.library, public;
