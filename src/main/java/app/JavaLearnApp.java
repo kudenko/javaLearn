@@ -10,7 +10,7 @@ import jakarta.servlet.ServletContext;
 
 public class JavaLearnApp {
     public static void main(String[] args) {
-        PropertyConfig propertyConfig = new PropertyConfig(null);
+        PropertyConfig propertyConfig = new PropertyConfig();
         DatabaseConnectionManager connectionManager = new DatabaseConnectionManager(
                 propertyConfig.getDbHost(),
                 propertyConfig.getDbName(),
@@ -41,9 +41,9 @@ public class JavaLearnApp {
         Dispatcher.initApp(bookRepository, authorRepository, journalRepository);
     }
 
-    public static void initMyLearnApp(ServletContext servletContext) {
+    public static void initMyLearnApp() {
         System.out.println("I'm from init");
-        PropertyConfig propertyConfig = new PropertyConfig(servletContext);
+        PropertyConfig propertyConfig = new PropertyConfig();
         DatabaseConnectionManager connectionManager = new DatabaseConnectionManager(
                 propertyConfig.getDbHost(),
                 propertyConfig.getDbName(),
