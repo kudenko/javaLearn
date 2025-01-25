@@ -53,5 +53,6 @@ public class JavaLearnApp {
         BookRepositoryCustom<Book> bookRepository = new BookRepository(connectionManager);
         AuthorRepositoryCustom<Author> authorRepository = new AuthorRepository(connectionManager);
         JournalRepositoryCustom<Journal> journalRepository = new JournalRepository(connectionManager);
+        //Dispatcher.initApp(bookRepository, authorRepository, journalRepository);
     }
 }

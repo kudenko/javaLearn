@@ -3,22 +3,31 @@ package app.library.config;
 import jakarta.servlet.ServletContext;
 
 import java.util.Map;
+import java.util.Properties;
 
 public class PropertyConfig {
-    private final String dbHost;
+    private String dbHost;
 
-    private final String dbName;
+    private String dbName;
 
-    private final String dbUsername;
+    private String dbUsername;
 
-    private final String dbPassword;
+    private String dbPassword;
 
     public PropertyConfig(ServletContext servletContext) {
         Map<String, String> environmentVariables = System.getenv();
-        dbHost = System.getProperty("application.db.host");
-        dbName = System.getProperty("application.db.name");
-        dbUsername = System.getProperty("application.db.username");
-        dbPassword = System.getProperty("application.db.password");
+
+        dbHost = environmentVariables.get("application.db.host");
+        dbName = environmentVariables.get("application.db.name");
+        dbUsername = environmentVariables.get("application.db.username");
+        dbPassword = environmentVariables.get("application.db.password");
+
+        if (dbHost == null || dbHost.isEmpty()) {
+            dbHost = System.getProperty("application.db.host");
+            dbName = System.getProperty("application.db.name");
+            dbUsername = System.getProperty("application.db.username");
+            dbPassword = System.getProperty("application.db.password");
+        }
 
         if (dbHost == null || dbHost.isEmpty()) {
             throw new IllegalArgumentException("dbHost is null or empty. Pass variable dbHost for correct run");
