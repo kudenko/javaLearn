@@ -14,7 +14,7 @@ public class PropertyConfig {
 
     private String dbPassword;
 
-    public PropertyConfig(ServletContext servletContext) {
+    public PropertyConfig() {
         Map<String, String> environmentVariables = System.getenv();
 
         dbHost = environmentVariables.get("application.db.host");
