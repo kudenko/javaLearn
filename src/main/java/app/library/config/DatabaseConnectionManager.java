@@ -11,7 +11,12 @@ public class DatabaseConnectionManager {
 
     public DatabaseConnectionManager(String host, String dbName, String username, String password) {
         HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl(String.format("jdbc:postgresql://%s/%s?currentSchema=app.library", host, dbName));
+        hikariConfig.setJdbcUrl(String.format("jdbc:postgresql://%s/%s?currentSchema=library", host, dbName));
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException ex) {
+            throw new RuntimeException(ex);
+        }
         hikariConfig.setUsername(username);
         hikariConfig.setPassword(password);
         hikariConfig.setMaximumPoolSize(20);
