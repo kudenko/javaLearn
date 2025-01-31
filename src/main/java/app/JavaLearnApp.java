@@ -9,6 +9,9 @@ import app.library.storage.*;
 import jakarta.servlet.ServletContext;
 
 public class JavaLearnApp {
+
+    public static AuthorRepositoryCustom<Author> authorRepository;
+
     public static void main(String[] args) {
         PropertyConfig propertyConfig = new PropertyConfig();
         DatabaseConnectionManager connectionManager = new DatabaseConnectionManager(
@@ -51,8 +54,10 @@ public class JavaLearnApp {
                 propertyConfig.getDbPassword()
         );
         BookRepositoryCustom<Book> bookRepository = new BookRepository(connectionManager);
-        AuthorRepositoryCustom<Author> authorRepository = new AuthorRepository(connectionManager);
+        if(authorRepository == null) {
+            authorRepository = new AuthorRepository(connectionManager);
+        }
         JournalRepositoryCustom<Journal> journalRepository = new JournalRepository(connectionManager);
-        //Dispatcher.initApp(bookRepository, authorRepository, journalRepository);
+//        Dispatcher.initApp(bookRepository, authorRepository, journalRepository);
     }
 }

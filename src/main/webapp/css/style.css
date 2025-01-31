@@ -1,0 +1,63 @@
+body {
+    background-image: url('https://example.com/parchment-image.jpg'); /* Replace with parchment or wood background */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #f4e1d2; /* Soft cream color for text */
+    font-family: 'Garamond', serif;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+h1 {
+    text-align: center;
+    margin-top: 80px;
+    font-size: 4em;
+    font-family: 'Harry P', sans-serif; /* Harry Potter-like font */
+    color: #d4af37; /* Gold color */
+}
+
+.navbar {
+    background-color: rgba(0, 0, 0, 0.7) !important;
+    border-radius: 0;
+}
+
+.navbar-brand, .navbar-nav > li > a {
+    color: #f4e1d2 !important;
+    font-family: 'Garamond', serif;
+}
+
+.navbar-brand:hover, .navbar-nav > li > a:hover {
+    color: #d4af37 !important;
+}
+
+ul {
+    text-align: center;
+    list-style-type: none;
+    padding: 0;
+    font-size: 1.3em;
+}
+
+li {
+    margin: 20px 0;
+    font-family: 'Garamond', serif;
+    color: #f4e1d2;
+}
+
+.navbar-nav > li > a {
+    padding: 15px;
+    font-size: 1.2em;
+}
+
+.dropdown-menu {
+    background-color: #2f2f2f;
+    border: none;
+}
+
+.dropdown-menu > li > a {
+    color: #f4e1d2 !important;
+}
+
+.dropdown-menu > li > a:hover {
+    background-color: #d4af37;
+    color: #fff;
+}
