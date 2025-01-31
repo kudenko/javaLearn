@@ -72,8 +72,9 @@
             </div>
         </nav>
 
-        <h1>Welcome to Your Library</h1>
-        <p class="text-center">Explore our collection of books, journals, and authors!</p>
+        <h1>Search your book</h1>
+        <p class="text-center">Enter book info to the form</p>
+        <input class="form-control" type="text" placeholder="Book's name" aria-label="book's name">
 
         <ul>
             <c:forEach var="item" items="${items}">
