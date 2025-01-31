@@ -13,16 +13,16 @@ public class JavaLearnApp {
     public static AuthorRepositoryCustom<Author> authorRepository;
 
     public static void main(String[] args) {
-        PropertyConfig propertyConfig = new PropertyConfig();
-        DatabaseConnectionManager connectionManager = new DatabaseConnectionManager(
-                propertyConfig.getDbHost(),
-                propertyConfig.getDbName(),
-                propertyConfig.getDbUsername(),
-                propertyConfig.getDbPassword()
-        );
-        BookRepositoryCustom<Book> bookRepository = new BookRepository(connectionManager);
-        AuthorRepositoryCustom<Author> authorRepository = new AuthorRepository(connectionManager);
-        JournalRepositoryCustom<Journal> journalRepository = new JournalRepository(connectionManager);
+//        PropertyConfig propertyConfig = new PropertyConfig();
+//        DatabaseConnectionManager connectionManager = new DatabaseConnectionManager(
+//                propertyConfig.getDbHost(),
+//                propertyConfig.getDbName(),
+//                propertyConfig.getDbUsername(),
+//                propertyConfig.getDbPassword()
+//        );
+//        BookRepositoryCustom<Book> bookRepository = new BookRepository(connectionManager);
+//        AuthorRepositoryCustom<Author> authorRepository = new AuthorRepository(connectionManager);
+//        JournalRepositoryCustom<Journal> journalRepository = new JournalRepository(connectionManager);
         //System.out.println(journalRepository.findById(1l));
 //        journalRepository.save(new Journal(1, "test", 23, 33, 1456));
 //        System.out.println(journalRepository.update(new Journal(1, "UPDATED", 20, 2, 1999)));
@@ -41,18 +41,13 @@ public class JavaLearnApp {
 //        System.out.println(authorRepository.findById(1L));
         // System.out.println(authorRepository.findByEmail("test@gmail.com"));
         //System.out.println(bookRepository.findBooksByAuthorId(2L));
-        Dispatcher.initApp(bookRepository, authorRepository, journalRepository);
+//        Dispatcher.initApp(bookRepository, authorRepository, journalRepository);
     }
 
     public static void initMyLearnApp() {
         System.out.println("I'm from init");
         PropertyConfig propertyConfig = new PropertyConfig();
-        DatabaseConnectionManager connectionManager = new DatabaseConnectionManager(
-                propertyConfig.getDbHost(),
-                propertyConfig.getDbName(),
-                propertyConfig.getDbUsername(),
-                propertyConfig.getDbPassword()
-        );
+        DatabaseConnectionManager connectionManager = new DatabaseConnectionManager(propertyConfig);
         BookRepositoryCustom<Book> bookRepository = new BookRepository(connectionManager);
         if(authorRepository == null) {
             authorRepository = new AuthorRepository(connectionManager);

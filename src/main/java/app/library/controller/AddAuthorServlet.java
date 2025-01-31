@@ -2,6 +2,8 @@ package app.library.controller;
 
 import app.JavaLearnApp;
 import app.library.author.Author;
+import app.library.config.DatabaseConnectionManager;
+import app.library.config.PropertyConfig;
 import app.library.storage.AuthorRepository;
 import app.library.storage.AuthorRepositoryCustom;
 import app.library.storage.Repository;
@@ -15,7 +17,14 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = "/addAuthor")
 public class AddAuthorServlet extends HttpServlet {
+    AuthorRepositoryCustom<Author> authorRepository;
+    DatabaseConnectionManager connectionManager;
 
+    @Override
+    public void init() {
+        connectionManager = new DatabaseConnectionManager(new PropertyConfig());
+        authorRepository = new AuthorRepository(connectionManager);
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -29,7 +38,7 @@ public class AddAuthorServlet extends HttpServlet {
         String lastname = req.getParameter("lastname");
         String email = req.getParameter("email");
 
-        JavaLearnApp.authorRepository.save(new Author(name, lastname, email));
+        authorRepository.save(new Author(name, lastname, email));
 
         resp.sendRedirect("/javaLearnApp/success");
     }

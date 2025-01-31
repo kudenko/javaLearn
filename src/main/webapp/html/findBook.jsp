@@ -81,5 +81,8 @@
                 <li>${item}</li>
             </c:forEach>
         </ul>
+        <c:if test="errorMessage?">
+
+        </c:if>
     </body>
 </html>
