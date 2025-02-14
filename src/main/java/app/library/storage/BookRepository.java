@@ -26,6 +26,9 @@ public class BookRepository implements BookRepositoryCustom<Book> {
 
     private static final String SELECT_BY_AUTHOR_ID = "SELECT * FROM book WHERE author_id = ?;";
 
+    private static final String SELECT_BY_NAME = "SELECT * FROM book WHERE name = ?;";
+
+
 
     private final DatabaseConnectionManager connectionManager;
 
@@ -151,6 +154,29 @@ public class BookRepository implements BookRepositoryCustom<Book> {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new BookRepositoryException(String.format("Error in find book by author ID %d", authorId), e);
+        }
+        return books;
+    }
+
+    @Override
+    public List<Book> findBooksByName(String name) {
+        List<Book> books = new ArrayList<>();
+        try (Connection connection = connectionManager.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_NAME)) {
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                long id = resultSet.getLong("id");
+                name = resultSet.getString("name");
+                int pagesCount = resultSet.getInt("count_pages");
+                Long authorId = resultSet.getLong("author_id");
+                Book book = new Book(id, name, pagesCount, authorId);
+                books.add(book);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new BookRepositoryException(String.format("Error in find book by name %s", name), e);
         }
         return books;
     }

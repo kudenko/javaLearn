@@ -9,16 +9,16 @@ import java.sql.SQLException;
 public class DatabaseConnectionManager {
     private HikariDataSource ds;
 
-    public DatabaseConnectionManager(PropertyConfig property) {
+    public DatabaseConnectionManager(PropertyConfig propertyConfig) {
         HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl(String.format("jdbc:postgresql://%s/%s?currentSchema=library", property.getDbHost(), property.getDbName()));
+        hikariConfig.setJdbcUrl(String.format("jdbc:postgresql://%s/%s?currentSchema=library", propertyConfig.getDbHost(), propertyConfig.getDbName()));
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException ex) {
             throw new RuntimeException(ex);
         }
-        hikariConfig.setUsername(property.getDbUsername());
-        hikariConfig.setPassword(property.getDbPassword());
+        hikariConfig.setUsername(propertyConfig.getDbUsername());
+        hikariConfig.setPassword(propertyConfig.getDbPassword());
         hikariConfig.setMaximumPoolSize(20);
         ds = new HikariDataSource(hikariConfig);
     }

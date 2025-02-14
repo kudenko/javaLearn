@@ -1,9 +1,6 @@
 package app.library.config;
 
-import jakarta.servlet.ServletContext;
-
 import java.util.Map;
-import java.util.Properties;
 
 public class PropertyConfig {
     private String dbHost;
@@ -24,8 +21,17 @@ public class PropertyConfig {
 
         if (dbHost == null || dbHost.isEmpty()) {
             dbHost = System.getProperty("application.db.host");
+        }
+
+        if (dbName == null || dbName.isEmpty()) {
             dbName = System.getProperty("application.db.name");
+        }
+
+        if (dbUsername == null || dbUsername.isEmpty()) {
             dbUsername = System.getProperty("application.db.username");
+        }
+
+        if (dbPassword == null || dbPassword.isEmpty()) {
             dbPassword = System.getProperty("application.db.password");
         }
 
