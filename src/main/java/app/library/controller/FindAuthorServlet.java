@@ -18,9 +18,11 @@ import java.util.List;
 public class FindAuthorServlet extends HttpServlet {
 
     AuthorRepositoryCustom<Author> authorRepository;
+    DatabaseConnectionManager connectionManager;
 
-    public FindAuthorServlet() {
-        DatabaseConnectionManager connectionManager = new DatabaseConnectionManager(new PropertyConfig());
+    @Override
+    public void init() throws ServletException {
+        connectionManager = new DatabaseConnectionManager(new PropertyConfig());
         authorRepository = new AuthorRepository(connectionManager);
     }
 
@@ -36,5 +38,11 @@ public class FindAuthorServlet extends HttpServlet {
         List<Author> authors = authorRepository.findByEmail(email);
         req.setAttribute("authors", authors);
         req.getRequestDispatcher("/html/allAuthors.jsp").forward(req, resp);
+    }
+
+    @Override
+    public void destroy() {
+        connectionManager.close();
+        super.destroy();
     }
 }

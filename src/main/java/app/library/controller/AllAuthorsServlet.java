@@ -18,9 +18,11 @@ import java.util.List;
 public class AllAuthorsServlet extends HttpServlet {
 
     AuthorRepositoryCustom<Author> authorRepository;
+    DatabaseConnectionManager connectionManager;
 
-    public AllAuthorsServlet() {
-        DatabaseConnectionManager connectionManager = new DatabaseConnectionManager(new PropertyConfig());
+    @Override
+    public void init() throws ServletException {
+        connectionManager = new DatabaseConnectionManager(new PropertyConfig());
         authorRepository = new AuthorRepository(connectionManager);
     }
 
@@ -31,4 +33,9 @@ public class AllAuthorsServlet extends HttpServlet {
         req.getRequestDispatcher("/html/allAuthors.jsp").forward(req, resp);
     }
 
+    @Override
+    public void destroy() {
+        connectionManager.close();
+        super.destroy();
+    }
 }

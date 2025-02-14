@@ -18,9 +18,11 @@ import java.util.List;
 public class FindBookServlet extends HttpServlet {
 
     BookRepositoryCustom<Book> bookBookRepository;
+    DatabaseConnectionManager connectionManager;
 
-    public FindBookServlet() {
-        DatabaseConnectionManager connectionManager = new DatabaseConnectionManager(new PropertyConfig());
+    @Override
+    public void init() throws ServletException {
+        connectionManager = new DatabaseConnectionManager(new PropertyConfig());
         bookBookRepository = new BookRepository(connectionManager);
     }
 
@@ -39,6 +41,11 @@ public class FindBookServlet extends HttpServlet {
         List<Book> books = bookBookRepository.findBooksByName(name);
         req.setAttribute("books", books);
         req.getRequestDispatcher("/html/allBooks.jsp").forward(req, resp);
+    }
 
+    @Override
+    public void destroy() {
+        connectionManager.close();
+        super.destroy();
     }
 }

@@ -21,9 +21,11 @@ import java.util.List;
 public class AllBooksServlet extends HttpServlet {
 
     BookRepositoryCustom<Book> bookRepository;
+    DatabaseConnectionManager connectionManager;
 
-    public AllBooksServlet() {
-        DatabaseConnectionManager connectionManager = new DatabaseConnectionManager(new PropertyConfig());
+    @Override
+    public void init() throws ServletException {
+        connectionManager = new DatabaseConnectionManager(new PropertyConfig());
         bookRepository = new BookRepository(connectionManager);
     }
 
@@ -34,4 +36,9 @@ public class AllBooksServlet extends HttpServlet {
         req.getRequestDispatcher("/html/allBooks.jsp").forward(req, resp);
     }
 
+    @Override
+    public void destroy() {
+        connectionManager.close();
+        super.destroy();
+    }
 }

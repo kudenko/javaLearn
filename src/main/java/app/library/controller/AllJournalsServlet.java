@@ -21,11 +21,14 @@ import java.util.List;
 public class AllJournalsServlet extends HttpServlet {
 
     JournalRepositoryCustom<Journal> journalRepository;
+    DatabaseConnectionManager connectionManager;
 
-    public AllJournalsServlet() {
-        DatabaseConnectionManager connectionManager = new DatabaseConnectionManager(new PropertyConfig());
-         journalRepository = new JournalRepository(connectionManager);
+    @Override
+    public void init() throws ServletException {
+        connectionManager = new DatabaseConnectionManager(new PropertyConfig());
+        journalRepository = new JournalRepository(connectionManager);
     }
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,4 +37,9 @@ public class AllJournalsServlet extends HttpServlet {
         req.getRequestDispatcher("/html/allJournals.jsp").forward(req, resp);
     }
 
+    @Override
+    public void destroy() {
+        connectionManager.close();
+        super.destroy();
+    }
 }

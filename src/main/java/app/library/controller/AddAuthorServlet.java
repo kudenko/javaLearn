@@ -17,10 +17,12 @@ import java.io.IOException;
 
 @WebServlet(urlPatterns = "/addAuthor")
 public class AddAuthorServlet extends HttpServlet {
-    AuthorRepositoryCustom<Author> authorRepository;
+    private AuthorRepositoryCustom<Author> authorRepository;
+    private DatabaseConnectionManager connectionManager;
 
-    public AddAuthorServlet() {
-        DatabaseConnectionManager connectionManager = new DatabaseConnectionManager(new PropertyConfig());
+    @Override
+    public void init() throws ServletException {
+        connectionManager = new DatabaseConnectionManager(new PropertyConfig());
         authorRepository = new AuthorRepository(connectionManager);
     }
 
@@ -39,5 +41,11 @@ public class AddAuthorServlet extends HttpServlet {
         authorRepository.save(new Author(name, lastname, email));
 
         resp.sendRedirect("/javaLearnApp/success");
+    }
+
+    @Override
+    public void destroy() {
+        connectionManager.close();
+        super.destroy();
     }
 }
