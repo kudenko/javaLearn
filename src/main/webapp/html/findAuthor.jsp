@@ -3,14 +3,14 @@
 <html>
 <body>
     <%@ include file="navBar.jsp" %>
-        <h1>Search your book</h1>
-        <p class="text-center">Search Book</p>
+        <h1>Add your author</h1>
+        <p class="text-center">Search author by email</p>
         <div class="container">
-                    <h2>Search Book</h2>
-                    <form action="findBook" method="post">
+                    <h2>Search Author</h2>
+                    <form action="findAuthor" method="post">
                         <div class="form-group">
-                            <label for="name">Email:</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <label for="email">Email:</label>
+                            <input type="text" class="form-control" id="email" name="email" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>

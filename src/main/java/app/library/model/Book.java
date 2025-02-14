@@ -32,7 +32,7 @@ public class Book extends Publication {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book that = (Book) o;
-        return authorId == that.authorId && id == that.getPublicationId()
+        return authorId == that.authorId && id == that.getId()
                 && Objects.equals(getName(), that.getName());
     }
 
