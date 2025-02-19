@@ -2,6 +2,7 @@ package app.library.controller;
 
 import app.library.config.DatabaseConnectionManager;
 import app.library.config.PropertyConfig;
+import app.library.exceptions.JournalRepositoryException;
 import app.library.model.Journal;
 import app.library.storage.JournalRepository;
 import app.library.storage.JournalRepositoryCustom;
@@ -12,11 +13,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.List;
 
-@WebServlet(urlPatterns = "/findJournal")
-public class FindJournalServlet extends HttpServlet {
-
+@WebServlet(urlPatterns = "/addJournal")
+public class AddJournalServlet extends HttpServlet {
     private JournalRepositoryCustom<Journal> journalRepository;
     private DatabaseConnectionManager connectionManager;
 
@@ -26,23 +25,24 @@ public class FindJournalServlet extends HttpServlet {
         journalRepository = new JournalRepository(connectionManager);
     }
 
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/html/findJournal.jsp").forward(req, resp);
+        req.getRequestDispatcher("/html/addJournal.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
-        int year = Integer.parseInt(req.getParameter("year"));
+        int countPages = Integer.parseInt(req.getParameter("countPages"));
         int number = Integer.parseInt(req.getParameter("number"));
-
-        List<Journal> journals = journalRepository.findByNameYearNumber(name, year, number);
-
-        req.setAttribute("journals", journals);
-        req.getRequestDispatcher("/html/allJournals.jsp").forward(req, res);
+        int publicationYear = Integer.parseInt(req.getParameter("publicationYear"));
+        try {
+            journalRepository.save(new Journal(name, countPages, number, publicationYear));
+            req.setAttribute("success", "Journal Was Successfully Added!!! You can add another one.");
+        } catch (JournalRepositoryException e) {
+            req.setAttribute("error", "Error, while adding a journal. Please try again or contact administrator");
+        }
+        req.getRequestDispatcher("/html/addJournal.jsp").forward(req, resp);
     }
 
     @Override

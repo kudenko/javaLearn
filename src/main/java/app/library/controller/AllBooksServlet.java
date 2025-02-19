@@ -1,11 +1,8 @@
 package app.library.controller;
 
-import app.library.author.Author;
 import app.library.config.DatabaseConnectionManager;
 import app.library.config.PropertyConfig;
 import app.library.model.Book;
-import app.library.storage.AuthorRepository;
-import app.library.storage.AuthorRepositoryCustom;
 import app.library.storage.BookRepository;
 import app.library.storage.BookRepositoryCustom;
 import jakarta.servlet.ServletException;
@@ -20,8 +17,8 @@ import java.util.List;
 @WebServlet(urlPatterns = "/allBooks")
 public class AllBooksServlet extends HttpServlet {
 
-    BookRepositoryCustom<Book> bookRepository;
-    DatabaseConnectionManager connectionManager;
+    private BookRepositoryCustom<Book> bookRepository;
+    private DatabaseConnectionManager connectionManager;
 
     @Override
     public void init() throws ServletException {

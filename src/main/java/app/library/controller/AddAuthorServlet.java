@@ -1,12 +1,11 @@
 package app.library.controller;
 
-import app.JavaLearnApp;
 import app.library.author.Author;
 import app.library.config.DatabaseConnectionManager;
 import app.library.config.PropertyConfig;
+import app.library.exceptions.AuthorRepositoryException;
 import app.library.storage.AuthorRepository;
 import app.library.storage.AuthorRepositoryCustom;
-import app.library.storage.Repository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -28,7 +27,6 @@ public class AddAuthorServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         req.getRequestDispatcher("/html/addAuthor.jsp").forward(req, resp);
     }
 
@@ -37,10 +35,12 @@ public class AddAuthorServlet extends HttpServlet {
         String name = req.getParameter("name");
         String lastname = req.getParameter("lastname");
         String email = req.getParameter("email");
-
-        authorRepository.save(new Author(name, lastname, email));
-
-        resp.sendRedirect("/javaLearnApp/success");
+        try {
+            authorRepository.save(new Author(name, lastname, email));
+            req.setAttribute("success", "Author Was Successfully Added!!! You can add another one.");
+        } catch (AuthorRepositoryException e) {
+            req.setAttribute("error", "Error, while adding an Author. Please try again or contact administrator");
+        }
     }
 
     @Override
