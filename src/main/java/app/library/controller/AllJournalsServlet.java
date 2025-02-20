@@ -20,8 +20,8 @@ import java.util.List;
 @WebServlet(urlPatterns = "/allJournals")
 public class AllJournalsServlet extends HttpServlet {
 
-    JournalRepositoryCustom<Journal> journalRepository;
-    DatabaseConnectionManager connectionManager;
+   private JournalRepositoryCustom<Journal> journalRepository;
+   private DatabaseConnectionManager connectionManager;
 
     @Override
     public void init() throws ServletException {

@@ -3,7 +3,7 @@
 <html>
 <body>
     <%@ include file="navBar.jsp" %>
-        <h1>Add your author</h1>
+        <h1>Search author</h1>
         <p class="text-center">Search author by email</p>
         <div class="container">
                     <h2>Search Author</h2>

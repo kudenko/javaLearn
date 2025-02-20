@@ -1,5 +1,6 @@
 package app.library.storage;
 
+import app.library.author.Author;
 import app.library.config.DatabaseConnectionManager;
 import app.library.exceptions.AuthorRepositoryException;
 import app.library.exceptions.BookRepositoryException;
@@ -61,7 +62,8 @@ public class BookRepository implements BookRepositoryCustom<Book> {
                 String name = resultSet.getString("name");
                 int pagesCount = resultSet.getInt("count_pages");
                 long authorId = resultSet.getLong("author_id");
-                Book book = new Book(id, name, pagesCount, authorId);
+                Author author = new AuthorRepository(connectionManager).findById(authorId);
+                Book book = new Book(id, name, pagesCount, author);
                 books.add(book);
             }
 
@@ -88,7 +90,8 @@ public class BookRepository implements BookRepositoryCustom<Book> {
                 String name = resultSet.getString("name");
                 int pagesCount = resultSet.getInt("count_pages");
                 long authorId = resultSet.getLong("author_id");
-                book = new Book(id, name, pagesCount, authorId);
+                Author author = new AuthorRepository(connectionManager).findById(authorId);
+                book = new Book(id, name, pagesCount, author);
             }
 
         } catch (SQLException e) {
@@ -147,7 +150,8 @@ public class BookRepository implements BookRepositoryCustom<Book> {
                 long id = resultSet.getLong("id");
                 String name = resultSet.getString("name");
                 int pagesCount = resultSet.getInt("count_pages");
-                Book book = new Book(id, name, pagesCount, authorId);
+                Author author = new AuthorRepository(connectionManager).findById(authorId);
+                Book book = new Book(id, name, pagesCount, author);
                 books.add(book);
             }
 
@@ -170,7 +174,8 @@ public class BookRepository implements BookRepositoryCustom<Book> {
                 name = resultSet.getString("name");
                 int pagesCount = resultSet.getInt("count_pages");
                 Long authorId = resultSet.getLong("author_id");
-                Book book = new Book(id, name, pagesCount, authorId);
+                Author author = new AuthorRepository(connectionManager).findById(authorId);
+                Book book = new Book(id, name, pagesCount, author);
                 books.add(book);
             }
 

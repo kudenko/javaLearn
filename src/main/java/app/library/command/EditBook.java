@@ -41,12 +41,12 @@ public class EditBook implements Command {
         view.write("Enter count of pages.");
         int countOfPages = view.readInt();
 
-        long authorId = AuthorService.authorSelection(authors, view);
+        Author author = AuthorService.authorSelection(authors, view);
         try {
-            book = new Book(bookId, bookName, countOfPages, authorId);
+            book = new Book(bookId, bookName, countOfPages, author);
             storage.update(book);
             view.write(String.format("Book with name '%s' pages count '%d', " +
-                    "author ID '%d', was successfully edited%n", bookName, countOfPages, authorId));
+                    "author ID '%d', was successfully edited%n", bookName, countOfPages, author));
             view.write("You can enter new command.");
         } catch (BookRepositoryException e) {
             view.write("Error in book update. Please try again.");

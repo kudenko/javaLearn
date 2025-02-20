@@ -9,7 +9,7 @@
                     <h2>Search Book</h2>
                     <form action="findBook" method="post">
                         <div class="form-group">
-                            <label for="name">Email:</label>
+                            <label for="name">Book name:</label>
                             <input type="text" class="form-control" id="name" name="name" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>

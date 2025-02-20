@@ -17,8 +17,8 @@ import java.util.List;
 @WebServlet(urlPatterns = "/findBook")
 public class FindBookServlet extends HttpServlet {
 
-    BookRepositoryCustom<Book> bookBookRepository;
-    DatabaseConnectionManager connectionManager;
+    private BookRepositoryCustom<Book> bookBookRepository;
+    private DatabaseConnectionManager connectionManager;
 
     @Override
     public void init() throws ServletException {
@@ -28,10 +28,6 @@ public class FindBookServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //catch
-        //req.setAttribute("errorMessage", "ERROR");
-        //req.getRequestDispatcher("/findBookForm").forward(req, resp);
-        //add found books to findBook.jsp
         req.getRequestDispatcher("/html/findBook.jsp").forward(req, resp);
     }
 

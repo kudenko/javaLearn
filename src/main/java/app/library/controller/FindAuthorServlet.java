@@ -17,8 +17,8 @@ import java.util.List;
 @WebServlet(urlPatterns = "/findAuthor")
 public class FindAuthorServlet extends HttpServlet {
 
-    AuthorRepositoryCustom<Author> authorRepository;
-    DatabaseConnectionManager connectionManager;
+    private AuthorRepositoryCustom<Author> authorRepository;
+    private DatabaseConnectionManager connectionManager;
 
     @Override
     public void init() throws ServletException {

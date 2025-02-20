@@ -6,6 +6,13 @@
         <p class="text-center">Enter author info to the form</p>
         <div class="container">
                     <h2>Add New Author</h2>
+                    <c:if test="${not empty success}">
+                        <p class="text-center">${success}</p>
+                    </c:if>
+
+                    <c:if test="${not empty error}">
+                        <p class="text-center">${error}</p>
+                    </c:if>
                     <form action="addAuthor" method="post">
                         <div class="form-group">
                             <label for="name">First Name:</label>
@@ -22,10 +29,5 @@
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
-        <ul>
-            <c:forEach var="item" items="${items}">
-                <li>${item}</li>
-            </c:forEach>
-        </ul>
     </body>
 </html>
