@@ -41,6 +41,7 @@ public class AddAuthorServlet extends HttpServlet {
         } catch (AuthorRepositoryException e) {
             req.setAttribute("error", "Error, while adding an Author. Please try again or contact administrator");
         }
+        req.getRequestDispatcher("/html/addAuthor.jsp").forward(req, resp);
     }
 
     @Override

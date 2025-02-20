@@ -19,7 +19,10 @@ public class DatabaseConnectionManager {
         }
         hikariConfig.setUsername(propertyConfig.getDbUsername());
         hikariConfig.setPassword(propertyConfig.getDbPassword());
-        hikariConfig.setMaximumPoolSize(20);
+        hikariConfig.setMaximumPoolSize(10);
+        hikariConfig.setMinimumIdle(2);
+        hikariConfig.setIdleTimeout(10000);
+        hikariConfig.setMaxLifetime(600000);
         ds = new HikariDataSource(hikariConfig);
     }
 
