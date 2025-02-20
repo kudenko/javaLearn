@@ -32,11 +32,11 @@ public class AddBook implements Command {
         view.write("Enter count of pages.");
         int countOfPages = view.readInt();
 
-        long authorId = AuthorService.authorSelection(authors, view);
+        Author author = AuthorService.authorSelection(authors, view);
         try {
-            storage.save(new Book(bookName, countOfPages, authorId));
+            storage.save(new Book(bookName, countOfPages, author));
             view.write(String.format("Book with name '%s' pages count '%d', " +
-                    "author ID '%d', was successfully added%n", bookName, countOfPages, authorId));
+                    "author ID '%d', was successfully added%n", bookName, countOfPages, author.getId()));
             view.write("You can enter new command.");
         } catch (BookRepositoryException e) {
             view.write("Error in book save. Please try again.");

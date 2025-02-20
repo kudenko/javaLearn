@@ -36,12 +36,12 @@ public class RemoveBook implements Command {
 
         view.write("Enter Author by ID from the list. Enter 'p' for previous page and 'n' for next page");
 
-        long authorId = AuthorService.authorSelection(authors, view);
+        Author author = AuthorService.authorSelection(authors, view);
 
-        List<Book> deletionPublication = bookRepository.findAll().stream().filter(book -> book.getAuthorId() == authorId).filter(book -> book.getName().equals(deleteName)).toList();
+        List<Book> deletionPublication = bookRepository.findAll().stream().filter(book -> book.getAuthorId() == author.getId()).filter(book -> book.getName().equals(deleteName)).toList();
 
         if(deletionPublication.isEmpty()) {
-            view.write(String.format("There is no book with name %s and author id %d", deleteName, authorId));
+            view.write(String.format("There is no book with name %s and author id %d", deleteName, author.getId()));
             return;
         }
 

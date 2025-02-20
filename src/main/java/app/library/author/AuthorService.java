@@ -7,15 +7,15 @@ import app.library.storage.Repository;
 import app.library.utils.Pagination;
 
 public class AuthorService {
-    public static long authorSelection(AuthorRepositoryCustom<Author> authorsStorage, View view) {
+    public static Author authorSelection(AuthorRepositoryCustom<Author> authorsStorage, View view) {
         checkAuthorsStorage(authorsStorage, view);
 
         int startingPage = 1;
         int itemsPerPage = Math.min(authorsStorage.findAll().size(), 10);
         int pages = Pagination.getPagePaginationPageCount(authorsStorage.findAll(), itemsPerPage);
 
-        Long authorId = null;
-        while (authorId == null) {
+        Author author = null;
+        while (author == null) {
             Pagination.printPagination(authorsStorage.findAll(), itemsPerPage, startingPage, view);
             String enteredText = view.read();
             if (enteredText.equals("n") && startingPage <= pages) {
@@ -23,17 +23,17 @@ public class AuthorService {
             } else if (enteredText.equals("p") && startingPage > 0) {
                 startingPage--;
             } else {
-                authorId = selectAuthorIdFromTheList(enteredText, authorsStorage, view);
+                author = selectAuthorIdFromTheList(enteredText, authorsStorage, view);
             }
         }
-        return authorId;
+        return author;
     }
 
-    private static Long selectAuthorIdFromTheList(String enteredText, Repository<Author> authorsStorage, View view) {
+    private static Author selectAuthorIdFromTheList(String enteredText, Repository<Author> authorsStorage, View view) {
         try {
             long authorId = Long.parseLong(enteredText);
             if (authorsStorage.findById(authorId) != null) {
-                return authorId;
+                return authorsStorage.findById(authorId);
             } else {
                 view.write("The id " + authorId + " isn't in the system");
             }
