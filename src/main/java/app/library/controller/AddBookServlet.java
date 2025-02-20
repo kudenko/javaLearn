@@ -31,11 +31,6 @@ public class AddBookServlet extends HttpServlet {
         bookRepository = new BookRepository(connectionManager);
     }
 
-//    @Override
-//    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//        req.getRequestDispatcher("/html/addAuthor.jsp").forward(req, resp);
-//    }
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Author> authors = authorRepository.findAll();
