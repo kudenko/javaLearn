@@ -33,10 +33,5 @@
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
-        <ul>
-            <c:forEach var="item" items="${items}">
-                <li>${item}</li>
-            </c:forEach>
-        </ul>
     </body>
 </html>
