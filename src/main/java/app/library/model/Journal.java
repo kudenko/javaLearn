@@ -4,8 +4,20 @@ import java.util.Objects;
 
 public class Journal extends Publication{
     private long id;
-    private final int number;
-    private final int publicationYear;
+    private int number;
+    private int publicationYear;
+
+    protected Journal() {
+        super("defName", 0);
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public void setPublicationYear(int publicationYear) {
+        this.publicationYear = publicationYear;
+    }
 
     public Journal(String name, int countPages, int number, int publicationYear) {
         super(name, countPages);
@@ -24,6 +36,10 @@ public class Journal extends Publication{
     @Override
     public String print() {
         return String.format("Journal{%s, number=%d, year=%d}", super.print(), number, publicationYear);
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public int getNumber() {
@@ -46,6 +62,7 @@ public class Journal extends Publication{
         Journal journal = (Journal) o;
         return number == journal.number && publicationYear == journal.publicationYear && journal.getId() == getId();
     }
+
 
     @Override
     public int hashCode() {

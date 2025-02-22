@@ -1,12 +1,14 @@
 package app.library.model;
 
-import app.library.author.Author;
-
 import java.util.Objects;
 
 public class Book extends Publication {
     private Author author;
     private long id;
+
+    public Book() {
+        super("default", 0);
+    }
 
     public Book(String name, int countPages, Author author) {
         super(name, countPages);
@@ -64,5 +66,9 @@ public class Book extends Publication {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

@@ -1,4 +1,4 @@
-package app.library.author;
+package app.library.model;
 
 import java.util.Objects;
 
@@ -21,8 +21,9 @@ public class Author {
         this.email = email;
     }
 
+    public Author() {
 
-
+    }
 
     public long getId() {
         return id;
@@ -56,6 +57,19 @@ public class Author {
     public int hashCode() {
         return Objects.hash(id, email);
     }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
 
     @Override
     public String toString() {
