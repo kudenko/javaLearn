@@ -22,7 +22,7 @@ public class AddJournalServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         connectionManager = new DatabaseConnectionManager(new PropertyConfig());
-        journalRepository = new JournalRepository(connectionManager);
+        journalRepository = new JournalRepository();
     }
 
     @Override

@@ -3,7 +3,6 @@ package app.library.storage;
 import app.library.config.HibernateConnectionManager;
 import app.library.config.PropertyConfig;
 import app.library.model.Author;
-import app.library.config.DatabaseConnectionManager;
 import app.library.exceptions.AuthorRepositoryException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -21,6 +20,7 @@ public class AuthorRepository implements AuthorRepositoryCustom<Author> {
     static {
         HibernateConnectionManager.initialize(new PropertyConfig());
     }
+
     SessionFactory sessionFactory = HibernateConnectionManager.getSessionFactory();
 
     @Override
@@ -31,7 +31,7 @@ public class AuthorRepository implements AuthorRepositoryCustom<Author> {
             session.merge(entity);
             transaction.commit();
         } catch (HibernateException e) {
-            if(transaction != null) {
+            if (transaction != null) {
                 transaction.rollback();
             }
             throw new AuthorRepositoryException("Save didn't work. Please try again.", e);
@@ -42,7 +42,7 @@ public class AuthorRepository implements AuthorRepositoryCustom<Author> {
     @Override
     public List<Author> findAll() {
         List<Author> authors;
-        try (Session session = sessionFactory.openSession()){
+        try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
             authors = session.createQuery("from Author", Author.class).getResultList();
             transaction.commit();
@@ -94,7 +94,7 @@ public class AuthorRepository implements AuthorRepositoryCustom<Author> {
             session.remove(findById(id));
             transaction.commit();
         } catch (HibernateException e) {
-            if(transaction != null) {
+            if (transaction != null) {
                 transaction.rollback();
             }
             throw new AuthorRepositoryException(String.format("Cannot delete author's entity with id = %d", id), e);

@@ -1,48 +1,45 @@
 package app.library.storage;
 
-import app.library.config.DatabaseConnectionManager;
+import app.library.config.HibernateConnectionManager;
+import app.library.config.PropertyConfig;
 import app.library.exceptions.JournalRepositoryException;
 import app.library.exceptions.RepositoryException;
 import app.library.model.Journal;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Root;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class JournalRepository implements JournalRepositoryCustom<Journal> {
 
-    private final DatabaseConnectionManager connectionManager;
 
-    private static final String INSERT = "INSERT INTO journal(name, count_pages, number, publication_year) VALUES (?,?,?,?)";
-
-    private static final String FIND_ALL = "SELECT * FROM journal;";
-
-    private static final String DELETE = "DELETE FROM journal WHERE id = ?;";
-
-    private static final String SELECT = "SELECT * FROM journal WHERE id = ?;";
-
-    private static final String UPDATE = "UPDATE journal SET name = ?, count_pages = ?, number = ?, publication_year = ? WHERE id = ?";
-
-    private static final String FIND_BY_NAME_NUMBER_YEAR = "SELECT * FROM journal WHERE name = ? AND publication_year = ? AND number = ?;";
-
-    public JournalRepository(DatabaseConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
+    public JournalRepository() {
     }
+
+    static {
+        HibernateConnectionManager.initialize(new PropertyConfig());
+    }
+
+    SessionFactory sessionFactory = HibernateConnectionManager.getSessionFactory();
 
     @Override
     public void save(Journal entity) {
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(INSERT)){
-             preparedStatement.setString(1, entity.getName());
-             preparedStatement.setInt(2, entity.getCountPages());
-             preparedStatement.setLong(3, entity.getNumber());
-             preparedStatement.setInt(4, entity.getPublicationYear());
-             preparedStatement.execute();
-        } catch (SQLException e) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.merge(entity);
+            transaction.commit();
+        } catch (HibernateException e) {
             e.printStackTrace();
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new JournalRepositoryException("Error in Journal save", e);
         }
     }
@@ -50,20 +47,13 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
     @Override
     public List<Journal> findAll() {
         List<Journal> journals = new ArrayList<>();
-        try (Connection connection = connectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL)){
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                long id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                int countPages = resultSet.getInt("count_pages");
-                int number = resultSet.getInt("number");
-                int year = resultSet.getInt("publication_year");
-
-                Journal journal = new Journal(id, name, countPages, number, year);
-                journals.add(journal);
-            }
-        } catch (SQLException e) {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Journal> query = builder.createQuery(Journal.class);
+            Root<Journal> root = query.from(Journal.class);
+            query.select(root);
+            journals =  session.createQuery(query).getResultList();
+        } catch (HibernateException e) {
             e.printStackTrace();
             throw new RepositoryException("Error in find all journals", e);
         }
@@ -72,11 +62,15 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
 
     @Override
     public void delete(Journal entity) {
-        try(Connection connection = connectionManager.getConnection();
-         PreparedStatement preparedStatement = connection.prepareStatement(DELETE)) {
-            preparedStatement.setLong(1, entity.getId());
-            preparedStatement.execute();
-        } catch (SQLException e) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.remove(entity);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if(transaction != null) {
+                transaction.rollback();
+            }
             e.printStackTrace();
             throw new JournalRepositoryException("Error in journal deletion", e);
         }
@@ -85,19 +79,9 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
     @Override
     public Journal findById(long id) {
         Journal journal = null;
-        try (Connection connection = connectionManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(SELECT)) {
-            preparedStatement.setLong(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                String name = resultSet.getString("name");
-                int countPages = resultSet.getInt("count_pages");
-                int number = resultSet.getInt("number");
-                int year = resultSet.getInt("publication_year");
-                journal =  new Journal(id, name, countPages, number, year);
-            }
-
-        } catch (SQLException e) {
+        try (Session session = sessionFactory.openSession()) {
+            journal = session.get(Journal.class, id);
+        } catch (HibernateException e) {
             e.printStackTrace();
             throw new JournalRepositoryException(String.format("Error in find journal with id %d", id), e);
         }
@@ -116,30 +100,23 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
 
     @Override
     public Journal update(Journal entity) {
-        try(Connection connection = connectionManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(UPDATE)) {
-            preparedStatement.setString(1, entity.getName());
-            preparedStatement.setInt(2, entity.getCountPages());
-            preparedStatement.setLong(3, entity.getNumber());
-            preparedStatement.setInt(4, entity.getPublicationYear());
-            preparedStatement.setLong(5, entity.getId());
-            preparedStatement.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            throw new JournalRepositoryException("Error in Journal update", e);
-        }
-
+        save(entity);
         return findById(entity.getId());
     }
 
     @Override
     public void delete(Long id) {
-        try(Connection connection = connectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE)) {
-            preparedStatement.setLong(1, id);
-            preparedStatement.execute();
-        } catch (SQLException e) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+
+            transaction = session.beginTransaction();
+            session.remove(findById(id));
+            transaction.commit();
+        } catch (HibernateException e) {
             e.printStackTrace();
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new JournalRepositoryException(String.format("Error in journal deletion with id %d", id), e);
         }
     }
@@ -147,17 +124,19 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
     @Override
     public List<Journal> findByNameYearNumber(String name, int year, int number) {
         List<Journal> journals = new ArrayList<>();
-        try(Connection connection = connectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(FIND_BY_NAME_NUMBER_YEAR)) {
-            preparedStatement.setString(1, name);
-            preparedStatement.setInt(2, year);
-            preparedStatement.setInt(3, number);
-            ResultSet resultSet  = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                long id = resultSet.getLong("id");
-                journals.add(findById(id));
-            }
-        } catch (SQLException e) {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Journal> query = builder.createQuery(Journal.class);
+            Root<Journal> root = query.from(Journal.class);
+
+            query.select(root)
+                    .where(builder.and(
+                            builder.equal(root.get("name"), name),
+                            builder.equal(root.get("publicationYear"), year),
+                            builder.equal(root.get("number"), number)
+                    ));
+            journals = session.createQuery(query).getResultList();
+        } catch (HibernateException e) {
             e.printStackTrace();
             throw new JournalRepositoryException(String.format("Error in finding Journal with name %s, year %d and number %d", name, year, number), e);
         }
