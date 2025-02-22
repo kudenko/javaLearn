@@ -13,13 +13,12 @@ public class JavaLearnApp {
 
 
     public static void main(String[] args) {
-        SessionFactory sessionFactory = HibernateConnectionManager.getSessionFactoryWithDefault();
+        HibernateConnectionManager.initialize(new PropertyConfig());
+        SessionFactory sessionFactory = HibernateConnectionManager.getSessionFactory();
 
         // Open a session
         try (Session session = sessionFactory.openSession()) {
             System.out.println("Hibernate session successfully opened!");
-
-            HibernateConnectionManager.initialize(new PropertyConfig());
 
             Transaction transaction = session.beginTransaction();
             Long authorId = 1L;

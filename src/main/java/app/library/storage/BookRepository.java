@@ -62,7 +62,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
                 String name = resultSet.getString("name");
                 int pagesCount = resultSet.getInt("count_pages");
                 long authorId = resultSet.getLong("author_id");
-                Author author = new AuthorRepository(connectionManager).findById(authorId);
+                Author author = new AuthorRepository().findById(authorId);
                 Book book = new Book(id, name, pagesCount, author);
                 books.add(book);
             }
@@ -90,7 +90,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
                 String name = resultSet.getString("name");
                 int pagesCount = resultSet.getInt("count_pages");
                 long authorId = resultSet.getLong("author_id");
-                Author author = new AuthorRepository(connectionManager).findById(authorId);
+                Author author = new AuthorRepository().findById(authorId);
                 book = new Book(id, name, pagesCount, author);
             }
 
@@ -150,7 +150,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
                 long id = resultSet.getLong("id");
                 String name = resultSet.getString("name");
                 int pagesCount = resultSet.getInt("count_pages");
-                Author author = new AuthorRepository(connectionManager).findById(authorId);
+                Author author = new AuthorRepository().findById(authorId);
                 Book book = new Book(id, name, pagesCount, author);
                 books.add(book);
             }
@@ -174,7 +174,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
                 name = resultSet.getString("name");
                 int pagesCount = resultSet.getInt("count_pages");
                 Long authorId = resultSet.getLong("author_id");
-                Author author = new AuthorRepository(connectionManager).findById(authorId);
+                Author author = new AuthorRepository().findById(authorId);
                 Book book = new Book(id, name, pagesCount, author);
                 books.add(book);
             }

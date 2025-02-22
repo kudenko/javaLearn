@@ -22,7 +22,7 @@ public class AddAuthorServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         connectionManager = new DatabaseConnectionManager(new PropertyConfig());
-        authorRepository = new AuthorRepository(connectionManager);
+        authorRepository = new AuthorRepository();
     }
 
     @Override
