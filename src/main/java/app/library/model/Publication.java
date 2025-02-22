@@ -3,8 +3,8 @@ package app.library.model;
 import java.util.Objects;
 
 public class Publication {
-    private final String name;
-    private final int countPages;
+    private String name;
+    private int countPages;
     private long publicationId;
 
     public Publication(String name, int countPages) {
@@ -47,5 +47,13 @@ public class Publication {
 
     public int getCountPages() {
         return countPages;
+    }
+
+    public void setCountPages(int countPages) {
+        this.countPages = countPages;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

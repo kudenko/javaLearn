@@ -1,6 +1,6 @@
 package app.library.controller;
 
-import app.library.author.Author;
+import app.library.model.Author;
 import app.library.config.DatabaseConnectionManager;
 import app.library.config.PropertyConfig;
 import app.library.exceptions.AuthorRepositoryException;

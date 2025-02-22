@@ -1,6 +1,6 @@
 package app.library.storage;
 
-import app.library.author.Author;
+import app.library.model.Author;
 import app.library.config.DatabaseConnectionManager;
 import app.library.exceptions.AuthorRepositoryException;
 import app.library.exceptions.BookRepositoryException;
