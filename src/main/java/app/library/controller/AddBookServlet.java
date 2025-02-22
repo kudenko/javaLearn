@@ -4,6 +4,7 @@ import app.library.author.Author;
 import app.library.config.DatabaseConnectionManager;
 import app.library.config.PropertyConfig;
 import app.library.exceptions.AuthorRepositoryException;
+import app.library.exceptions.BookRepositoryException;
 import app.library.model.Book;
 import app.library.storage.AuthorRepository;
 import app.library.storage.AuthorRepositoryCustom;
@@ -36,7 +37,7 @@ public class AddBookServlet extends HttpServlet {
         List<Author> authors = authorRepository.findAll();
         req.setAttribute("authors", authors);
         if(authors.isEmpty()) {
-            req.getRequestDispatcher("/html/addAuthor.jsp").forward(req, resp);
+            req.getRequestDispatcher("/html/addEmptyAuthor.jsp").forward(req, resp);
         }
         req.getRequestDispatcher("/html/addBook.jsp").forward(req, resp);
     }
@@ -50,7 +51,7 @@ public class AddBookServlet extends HttpServlet {
         try {
             bookRepository.save(new Book(name, countPages, authorRepository.findById(authorId)));
             req.setAttribute("success", "Book Was Successfully Added!!! You can add another one.");
-        } catch (AuthorRepositoryException e) {
+        } catch (AuthorRepositoryException | BookRepositoryException e) {
             req.setAttribute("error", "Error, while adding a Book. Please try again or contact administrator");
         }
         req.getRequestDispatcher("/html/addBook.jsp").forward(req, resp);
