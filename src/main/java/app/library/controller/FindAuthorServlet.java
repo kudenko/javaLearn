@@ -1,8 +1,6 @@
 package app.library.controller;
 
 import app.library.model.Author;
-import app.library.config.DatabaseConnectionManager;
-import app.library.config.PropertyConfig;
 import app.library.storage.AuthorRepository;
 import app.library.storage.AuthorRepositoryCustom;
 import jakarta.servlet.ServletException;
@@ -18,11 +16,9 @@ import java.util.List;
 public class FindAuthorServlet extends HttpServlet {
 
     private AuthorRepositoryCustom<Author> authorRepository;
-    private DatabaseConnectionManager connectionManager;
 
     @Override
     public void init() throws ServletException {
-        connectionManager = new DatabaseConnectionManager(new PropertyConfig());
         authorRepository = new AuthorRepository();
     }
 
@@ -42,7 +38,6 @@ public class FindAuthorServlet extends HttpServlet {
 
     @Override
     public void destroy() {
-        connectionManager.close();
         super.destroy();
     }
 }

@@ -1,7 +1,5 @@
 package app.library.controller;
 
-import app.library.config.DatabaseConnectionManager;
-import app.library.config.PropertyConfig;
 import app.library.model.Journal;
 import app.library.storage.JournalRepository;
 import app.library.storage.JournalRepositoryCustom;
@@ -18,11 +16,9 @@ import java.util.List;
 public class FindJournalServlet extends HttpServlet {
 
     private JournalRepositoryCustom<Journal> journalRepository;
-    private DatabaseConnectionManager connectionManager;
 
     @Override
     public void init() throws ServletException {
-        connectionManager = new DatabaseConnectionManager(new PropertyConfig());
         journalRepository = new JournalRepository();
     }
 
@@ -47,7 +43,6 @@ public class FindJournalServlet extends HttpServlet {
 
     @Override
     public void destroy() {
-        connectionManager.close();
         super.destroy();
     }
 }

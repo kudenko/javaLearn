@@ -40,7 +40,7 @@ public class PropertyConfig {
         }
 
         if (dbName == null || dbName.isEmpty()) {
-            throw new IllegalArgumentException("dbHost is null or empty. Pass variable dbName for correct run");
+            throw new IllegalArgumentException("dbName is null or empty. Pass variable dbName for correct run");
         }
 
         if (dbUsername == null || dbUsername.isEmpty()) {

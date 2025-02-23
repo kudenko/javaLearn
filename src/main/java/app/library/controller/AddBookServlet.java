@@ -1,8 +1,6 @@
 package app.library.controller;
 
 import app.library.model.Author;
-import app.library.config.DatabaseConnectionManager;
-import app.library.config.PropertyConfig;
 import app.library.exceptions.AuthorRepositoryException;
 import app.library.exceptions.BookRepositoryException;
 import app.library.model.Book;
@@ -22,12 +20,10 @@ import java.util.List;
 @WebServlet(urlPatterns = "/addBook")
 public class AddBookServlet extends HttpServlet {
     private BookRepositoryCustom<Book> bookRepository;
-    private DatabaseConnectionManager connectionManager;
     private AuthorRepositoryCustom<Author> authorRepository;
 
     @Override
     public void init() throws ServletException {
-        connectionManager = new DatabaseConnectionManager(new PropertyConfig());
         authorRepository = new AuthorRepository();
         bookRepository = new BookRepository();
     }
@@ -59,7 +55,6 @@ public class AddBookServlet extends HttpServlet {
 
     @Override
     public void destroy() {
-        connectionManager.close();
         super.destroy();
     }
 }
