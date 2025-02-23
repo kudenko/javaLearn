@@ -26,13 +26,6 @@ public class HibernateConnectionManager {
         return sessionFactory;
     }
 
-    public static SessionFactory getSessionFactoryWithDefault() {
-        if (sessionFactory == null) {
-            initialize(new PropertyConfig());
-        }
-        return sessionFactory;
-    }
-
     public static void shutdown() {
         if (sessionFactory != null) {
             sessionFactory.close();

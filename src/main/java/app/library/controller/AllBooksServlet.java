@@ -1,7 +1,5 @@
 package app.library.controller;
 
-import app.library.config.DatabaseConnectionManager;
-import app.library.config.PropertyConfig;
 import app.library.model.Book;
 import app.library.storage.BookRepository;
 import app.library.storage.BookRepositoryCustom;
@@ -18,12 +16,10 @@ import java.util.List;
 public class AllBooksServlet extends HttpServlet {
 
     private BookRepositoryCustom<Book> bookRepository;
-    private DatabaseConnectionManager connectionManager;
 
     @Override
     public void init() throws ServletException {
-        connectionManager = new DatabaseConnectionManager(new PropertyConfig());
-        bookRepository = new BookRepository(connectionManager);
+        bookRepository = new BookRepository();
     }
 
     @Override
@@ -35,7 +31,6 @@ public class AllBooksServlet extends HttpServlet {
 
     @Override
     public void destroy() {
-        connectionManager.close();
         super.destroy();
     }
 }

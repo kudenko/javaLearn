@@ -16,11 +16,6 @@
 
   <dependencies>
       <dependency>
-          <groupId>com.zaxxer</groupId>
-          <artifactId>HikariCP</artifactId>
-          <version>6.2.1</version>
-      </dependency>
-      <dependency>
           <groupId>org.postgresql</groupId>
           <artifactId>postgresql</artifactId>
           <version>42.7.4</version>
@@ -48,7 +43,7 @@
           <scope>provided</scope>
       </dependency>
       <dependency>
-          <groupId>org.hibernate</groupId>
+          <groupId>org.hibernate.orm</groupId>
           <artifactId>hibernate-core</artifactId>
           <version>6.6.8.Final</version>
       </dependency>
