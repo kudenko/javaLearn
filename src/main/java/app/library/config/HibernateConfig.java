@@ -14,6 +14,7 @@ public class HibernateConfig {
         settings.put("hibernate.connection.username", propertyConfig.getDbUsername());
         settings.put("hibernate.connection.password", propertyConfig.getDbPassword());
         settings.put("hibernate.show_sql", "true");
+        settings.put("hibernate.enable_lazy_load_no_trans", "true");
 
         configuration.setProperties(settings);
 

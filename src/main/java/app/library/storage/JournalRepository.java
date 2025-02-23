@@ -52,7 +52,7 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
             CriteriaQuery<Journal> query = builder.createQuery(Journal.class);
             Root<Journal> root = query.from(Journal.class);
             query.select(root);
-            journals =  session.createQuery(query).getResultList();
+            journals = session.createQuery(query).getResultList();
         } catch (HibernateException e) {
             e.printStackTrace();
             throw new RepositoryException("Error in find all journals", e);
@@ -68,7 +68,7 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
             session.remove(entity);
             transaction.commit();
         } catch (HibernateException e) {
-            if(transaction != null) {
+            if (transaction != null) {
                 transaction.rollback();
             }
             e.printStackTrace();

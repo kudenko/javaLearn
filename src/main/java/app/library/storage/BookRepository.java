@@ -1,52 +1,42 @@
 package app.library.storage;
 
-import app.library.model.Author;
-import app.library.config.DatabaseConnectionManager;
+import app.library.config.HibernateConnectionManager;
+import app.library.config.PropertyConfig;
 import app.library.exceptions.AuthorRepositoryException;
 import app.library.exceptions.BookRepositoryException;
 import app.library.model.Book;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Root;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookRepository implements BookRepositoryCustom<Book> {
 
-    private static final String INSERT = "INSERT INTO book(name, count_pages, author_id) VALUES (?,?,?)";
-
-    private static final String FIND_ALL = "SELECT * FROM book;";
-
-    private static final String DELETE = "DELETE FROM book WHERE id = ?;";
-
-    private static final String SELECT = "SELECT * FROM book WHERE id = ?;";
-
-    private static final String UPDATE = "UPDATE book SET name = ?, count_pages = ?, author_id = ? WHERE id = ?";
-
-    private static final String SELECT_BY_AUTHOR_ID = "SELECT * FROM book WHERE author_id = ?;";
-
-    private static final String SELECT_BY_NAME = "SELECT * FROM book WHERE name = ?;";
-
-
-
-    private final DatabaseConnectionManager connectionManager;
-
-    public BookRepository(DatabaseConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
+    static {
+        HibernateConnectionManager.initialize(new PropertyConfig());
     }
+
+    SessionFactory sessionFactory = HibernateConnectionManager.getSessionFactory();
 
     @Override
     public void save(Book entity) {
-        try (Connection connection = connectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(INSERT)) {
-            preparedStatement.setString(1, entity.getName());
-            preparedStatement.setInt(2, entity.getCountPages());
-            preparedStatement.setLong(3, entity.getAuthorId());
-            preparedStatement.execute();
-        } catch (SQLException e) {
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.merge(entity);
+            transaction.commit();
+        } catch (HibernateException e) {
             e.printStackTrace();
+            if(transaction != null) {
+                transaction.rollback();
+            }
             throw new BookRepositoryException("Cannot save a book", e);
         }
     }
@@ -54,20 +44,13 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public List<Book> findAll() {
         List<Book> books = new ArrayList<>();
-        try (Connection connection = connectionManager.getConnection();
-        PreparedStatement preparedStatement = connection.prepareStatement(FIND_ALL)){
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                long id = resultSet.getLong("id");
-                String name = resultSet.getString("name");
-                int pagesCount = resultSet.getInt("count_pages");
-                long authorId = resultSet.getLong("author_id");
-                Author author = new AuthorRepository().findById(authorId);
-                Book book = new Book(id, name, pagesCount, author);
-                books.add(book);
-            }
-
-        } catch (SQLException e) {
+        try (Session session = sessionFactory.openSession()){
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Book> query = builder.createQuery(Book.class);
+            Root<Book> root = query.from(Book.class);
+            query.select(root);
+            books = session.createQuery(query).getResultList();
+        } catch (HibernateException e) {
             throw new BookRepositoryException("Cannot find all books", e);
         }
         return books;
@@ -81,20 +64,9 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public Book findById(long id) {
         Book book = null;
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT)){
-            preparedStatement.setLong(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                id = resultSet.getLong("id");
-                String name = resultSet.getString("name");
-                int pagesCount = resultSet.getInt("count_pages");
-                long authorId = resultSet.getLong("author_id");
-                Author author = new AuthorRepository().findById(authorId);
-                book = new Book(id, name, pagesCount, author);
-            }
-
-        } catch (SQLException e) {
+        try (Session session = sessionFactory.openSession()){
+            book = session.get(Book.class, id);
+        } catch (HibernateException e) {
             e.printStackTrace();
             throw new BookRepositoryException(String.format("Error in find author by id %d", id), e);
         }
@@ -113,14 +85,15 @@ public class BookRepository implements BookRepositoryCustom<Book> {
 
     @Override
     public Book update(Book entity) {
-        try(Connection connection = connectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(UPDATE)) {
-            preparedStatement.setString(1, entity.getName());
-            preparedStatement.setInt(2, entity.getCountPages());
-            preparedStatement.setLong(3, entity.getAuthorId());
-            preparedStatement.setLong(4, entity.getId());
-            preparedStatement.execute();
-        } catch (SQLException e) {
+        Transaction transaction = null;
+        try(Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.merge(entity);
+            transaction.commit();
+        } catch (HibernateException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             e.printStackTrace();
             throw new AuthorRepositoryException("Error in book update", e);
         }
@@ -129,12 +102,16 @@ public class BookRepository implements BookRepositoryCustom<Book> {
 
     @Override
     public void delete(Long id) {
-        try(Connection connection = connectionManager.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(DELETE)) {
-            preparedStatement.setLong(1, id);
-            preparedStatement.execute();
-        } catch (SQLException e) {
+        Transaction transaction = null;
+        try(Session session = sessionFactory.openSession()) {
+        transaction = session.beginTransaction();
+        session.remove(findById(id));
+        transaction.commit();
+        } catch (HibernateException e) {
             e.printStackTrace();
+            if (transaction != null) {
+                transaction.rollback();
+            }
             throw new BookRepositoryException("Error in book deletion", e);
         }
     }
@@ -142,20 +119,16 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public List<Book> findBooksByAuthorId(Long authorId) {
         List<Book> books = new ArrayList<>();
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_AUTHOR_ID)) {
-            preparedStatement.setLong(1, authorId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                long id = resultSet.getLong("id");
-                String name = resultSet.getString("name");
-                int pagesCount = resultSet.getInt("count_pages");
-                Author author = new AuthorRepository().findById(authorId);
-                Book book = new Book(id, name, pagesCount, author);
-                books.add(book);
-            }
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Book> query = builder.createQuery(Book.class);
+            Root<Book> root = query.from(Book.class);
 
-        } catch (SQLException e) {
+            query.select(root)
+                    .where(builder.equal(root.get("authorId"), authorId));
+
+            books = session.createQuery(query).getResultList();
+        } catch (HibernateException e) {
             e.printStackTrace();
             throw new BookRepositoryException(String.format("Error in find book by author ID %d", authorId), e);
         }
@@ -165,21 +138,15 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public List<Book> findBooksByName(String name) {
         List<Book> books = new ArrayList<>();
-        try (Connection connection = connectionManager.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BY_NAME)) {
-            preparedStatement.setString(1, name);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                long id = resultSet.getLong("id");
-                name = resultSet.getString("name");
-                int pagesCount = resultSet.getInt("count_pages");
-                Long authorId = resultSet.getLong("author_id");
-                Author author = new AuthorRepository().findById(authorId);
-                Book book = new Book(id, name, pagesCount, author);
-                books.add(book);
-            }
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder builder = session.getCriteriaBuilder();
+            CriteriaQuery<Book> query = builder.createQuery(Book.class);
+            Root<Book> root = query.from(Book.class);
+            query.select(root)
+                    .where(builder.equal(root.get("name"), name));
 
-        } catch (SQLException e) {
+            books = session.createQuery(query).getResultList();
+        } catch (HibernateException e) {
             e.printStackTrace();
             throw new BookRepositoryException(String.format("Error in find book by name %s", name), e);
         }

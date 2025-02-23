@@ -15,7 +15,7 @@
         <property name="countPages" type="java.lang.Integer">
             <column name="count_pages"/>
         </property>
-        <many-to-one name="author" class="app.library.model.Author" fetch="select"
+        <many-to-one name="author" class="app.library.model.Author" fetch="join"
         cascade="persist" not-null="true">
             <column name="author_id"/>
         </many-to-one>

@@ -29,7 +29,7 @@ public class AddBookServlet extends HttpServlet {
     public void init() throws ServletException {
         connectionManager = new DatabaseConnectionManager(new PropertyConfig());
         authorRepository = new AuthorRepository();
-        bookRepository = new BookRepository(connectionManager);
+        bookRepository = new BookRepository();
     }
 
     @Override

@@ -23,7 +23,7 @@ public class FindBookServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         connectionManager = new DatabaseConnectionManager(new PropertyConfig());
-        bookBookRepository = new BookRepository(connectionManager);
+        bookBookRepository = new BookRepository();
     }
 
     @Override
