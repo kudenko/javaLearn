@@ -15,7 +15,7 @@ import java.util.List;
 @WebServlet(urlPatterns = "/allJournals")
 public class AllJournalsServlet extends HttpServlet {
 
-   private JournalRepositoryCustom<Journal> journalRepository;
+    private JournalRepositoryCustom<Journal> journalRepository;
 
     @Override
     public void init() throws ServletException {

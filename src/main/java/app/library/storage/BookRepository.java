@@ -7,7 +7,6 @@ import app.library.exceptions.BookRepositoryException;
 import app.library.model.Book;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Root;
 import jakarta.transaction.Transactional;
 import org.hibernate.HibernateException;
@@ -35,8 +34,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
             session.merge(entity);
             transaction.commit();
         } catch (HibernateException e) {
-            e.printStackTrace();
-            if(transaction != null && transaction.isActive()) {
+            if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
             throw new BookRepositoryException("Cannot save a book", e);
@@ -46,7 +44,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public List<Book> findAll() {
         List<Book> books = new ArrayList<>();
-        try (Session session = sessionFactory.openSession()){
+        try (Session session = sessionFactory.openSession()) {
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Book> query = builder.createQuery(Book.class);
             Root<Book> root = query.from(Book.class);
@@ -66,10 +64,9 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public Book findById(long id) {
         Book book = null;
-        try (Session session = sessionFactory.openSession()){
+        try (Session session = sessionFactory.openSession()) {
             book = session.get(Book.class, id);
         } catch (HibernateException e) {
-            e.printStackTrace();
             throw new BookRepositoryException(String.format("Error in find author by id %d", id), e);
         }
         return book;
@@ -88,7 +85,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public Book update(Book entity) {
         Transaction transaction = null;
-        try(Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             session.merge(entity);
             transaction.commit();
@@ -96,7 +93,6 @@ public class BookRepository implements BookRepositoryCustom<Book> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            e.printStackTrace();
             throw new AuthorRepositoryException("Error in book update", e);
         }
         return findById(entity.getId());
@@ -105,12 +101,11 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public void delete(Long id) {
         Transaction transaction = null;
-        try(Session session = sessionFactory.openSession()) {
-        transaction = session.beginTransaction();
-        session.remove(findById(id));
-        transaction.commit();
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.remove(findById(id));
+            transaction.commit();
         } catch (HibernateException e) {
-            e.printStackTrace();
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -131,7 +126,6 @@ public class BookRepository implements BookRepositoryCustom<Book> {
 
             books = session.createQuery(query).getResultList();
         } catch (HibernateException e) {
-            e.printStackTrace();
             throw new BookRepositoryException(String.format("Error in find book by author ID %d", authorId), e);
         }
         return books;
@@ -149,7 +143,6 @@ public class BookRepository implements BookRepositoryCustom<Book> {
 
             books = session.createQuery(query).getResultList();
         } catch (HibernateException e) {
-            e.printStackTrace();
             throw new BookRepositoryException(String.format("Error in find book by name %s", name), e);
         }
         return books;

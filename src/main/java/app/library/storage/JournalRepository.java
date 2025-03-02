@@ -38,7 +38,6 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
             session.merge(entity);
             transaction.commit();
         } catch (HibernateException e) {
-            e.printStackTrace();
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
@@ -56,7 +55,6 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
             query.select(root);
             journals = session.createQuery(query).getResultList();
         } catch (HibernateException e) {
-            e.printStackTrace();
             throw new RepositoryException("Error in find all journals", e);
         }
         return journals;
@@ -73,7 +71,6 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
             if (transaction != null) {
                 transaction.rollback();
             }
-            e.printStackTrace();
             throw new JournalRepositoryException("Error in journal deletion", e);
         }
     }
@@ -84,7 +81,6 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
         try (Session session = sessionFactory.openSession()) {
             journal = session.get(Journal.class, id);
         } catch (HibernateException e) {
-            e.printStackTrace();
             throw new JournalRepositoryException(String.format("Error in find journal with id %d", id), e);
         }
         return journal;
@@ -115,7 +111,6 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
             session.remove(findById(id));
             transaction.commit();
         } catch (HibernateException e) {
-            e.printStackTrace();
             if (transaction != null) {
                 transaction.rollback();
             }
@@ -139,7 +134,6 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
                     ));
             journals = session.createQuery(query).getResultList();
         } catch (HibernateException e) {
-            e.printStackTrace();
             throw new JournalRepositoryException(String.format("Error in finding Journal with name %s, year %d and number %d", name, year, number), e);
         }
         return journals;

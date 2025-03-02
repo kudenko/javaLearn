@@ -32,7 +32,7 @@ public class AddBookServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<Author> authors = authorRepository.findAll();
         req.setAttribute("authors", authors);
-        if(authors.isEmpty()) {
+        if (authors.isEmpty()) {
             req.getRequestDispatcher("/html/addEmptyAuthor.jsp").forward(req, resp);
         }
         req.getRequestDispatcher("/html/addBook.jsp").forward(req, resp);

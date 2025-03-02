@@ -33,7 +33,6 @@ public class AuthorRepository implements AuthorRepositoryCustom<Author> {
             session.merge(entity);
             transaction.commit();
         } catch (HibernateException e) {
-            e.printStackTrace();
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }

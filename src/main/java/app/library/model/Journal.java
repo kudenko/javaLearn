@@ -7,6 +7,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "journal", schema = "library")
 public class Journal extends Publication {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "journal_seq")
     @SequenceGenerator(name = "journal_seq", sequenceName = "journal_id_seq", allocationSize = 1)
