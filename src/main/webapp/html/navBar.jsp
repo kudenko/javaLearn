@@ -32,9 +32,9 @@
                     </li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Authors <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/javaLearnApp/allAuthors">All Authors</a></li>
-                            <li><a href="/javaLearnApp/findAuthor">Find</a></li>
-                            <li><a href="/javaLearnApp/addAuthor">Create</a></li>
+                            <li><a href="/javaLearnApp/authors">All Authors</a></li>
+                            <li><a href="/javaLearnApp/authors/search/form">Find</a></li>
+                            <li><a href="/javaLearnApp/authors/creation/form">Create</a></li>
                         </ul>
                     </li>
                 </ul>

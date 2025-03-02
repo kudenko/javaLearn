@@ -7,7 +7,7 @@
         <p class="text-center">Search author by email</p>
         <div class="container">
                     <h2>Search Author</h2>
-                    <form action="findAuthor" method="post">
+                    <form action="/javaLearnApp/authors" method="get">
                         <div class="form-group">
                             <label for="email">Email:</label>
                             <input type="text" class="form-control" id="email" name="email" required>

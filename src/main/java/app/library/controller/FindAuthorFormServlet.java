@@ -10,10 +10,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.List;
 
-@WebServlet(urlPatterns = "/authors")
-public class AllAuthorsServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/authors/search/form")
+public class FindAuthorFormServlet extends HttpServlet {
 
     private AuthorRepositoryCustom<Author> authorRepository;
 
@@ -24,16 +23,7 @@ public class AllAuthorsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Author> authors;
-
-        String email = req.getParameter("email");
-        if(email != null && !email.isEmpty()) {
-            authors = authorRepository.findByEmail(email);
-        } else {
-            authors = authorRepository.findAll();
-        }
-        req.setAttribute("authors", authors);
-        req.getRequestDispatcher("/html/allAuthors.jsp").forward(req, resp);
+        req.getRequestDispatcher("/html/findAuthor.jsp").forward(req, resp);
     }
 
     @Override

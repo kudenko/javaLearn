@@ -12,18 +12,13 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/addAuthor")
+@WebServlet(urlPatterns = "/authors/creation")
 public class AddAuthorServlet extends HttpServlet {
     private AuthorRepositoryCustom<Author> authorRepository;
 
     @Override
     public void init() throws ServletException {
         authorRepository = new AuthorRepository();
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/html/addAuthor.jsp").forward(req, resp);
     }
 
     @Override
