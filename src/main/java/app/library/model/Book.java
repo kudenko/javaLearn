@@ -1,10 +1,21 @@
 package app.library.model;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
+@Table(name = "book", schema = "library")
 public class Book extends Publication {
-    private Author author;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
+    @SequenceGenerator(name = "book_seq", sequenceName = "book_id_seq", allocationSize = 1)
     private long id;
+
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @JoinColumn(name = "author_id", nullable = false)
+    private Author author;
 
     public Book() {
         super("default", 0);

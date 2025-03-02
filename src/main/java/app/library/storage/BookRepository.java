@@ -9,6 +9,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Root;
+import jakarta.transaction.Transactional;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -26,6 +27,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     SessionFactory sessionFactory = HibernateConnectionManager.getSessionFactory();
 
     @Override
+    @Transactional
     public void save(Book entity) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
@@ -34,7 +36,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
             transaction.commit();
         } catch (HibernateException e) {
             e.printStackTrace();
-            if(transaction != null) {
+            if(transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
             throw new BookRepositoryException("Cannot save a book", e);

@@ -7,6 +7,7 @@ import app.library.exceptions.AuthorRepositoryException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
+import jakarta.transaction.Transactional;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -24,6 +25,7 @@ public class AuthorRepository implements AuthorRepositoryCustom<Author> {
     SessionFactory sessionFactory = HibernateConnectionManager.getSessionFactory();
 
     @Override
+    @Transactional
     public void save(Author entity) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
@@ -31,7 +33,8 @@ public class AuthorRepository implements AuthorRepositoryCustom<Author> {
             session.merge(entity);
             transaction.commit();
         } catch (HibernateException e) {
-            if (transaction != null) {
+            e.printStackTrace();
+            if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
             throw new AuthorRepositoryException("Save didn't work. Please try again.", e);

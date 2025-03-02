@@ -1,10 +1,21 @@
 package app.library.model;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
-public class Journal extends Publication{
+@Entity
+@Table(name = "journal", schema = "library")
+public class Journal extends Publication {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "journal_seq")
+    @SequenceGenerator(name = "journal_seq", sequenceName = "journal_id_seq", allocationSize = 1)
     private long id;
+
+    @Column(name = "number")
     private int number;
+
+    @Column(name = "publication_year")
     private int publicationYear;
 
     protected Journal() {
@@ -66,7 +77,7 @@ public class Journal extends Publication{
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), number, publicationYear, super.getPublicationId());
+        return Objects.hash(super.hashCode(), number, publicationYear, id);
     }
 
     @Override
