@@ -13,7 +13,7 @@
                     <c:if test="${not empty error}">
                         <p class="text-center">${error}</p>
                     </c:if>
-                    <form action="addBook" method="post">
+                    <form action="/javaLearnApp/books/creation" method="post">
                         <div class="form-group">
                             <label for="name">Book Name:</label>
                             <input type="text" class="form-control" id="name" name="name" required>

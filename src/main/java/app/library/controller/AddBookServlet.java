@@ -15,9 +15,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.List;
 
-@WebServlet(urlPatterns = "/addBook")
+@WebServlet(urlPatterns = "/books/creation")
 public class AddBookServlet extends HttpServlet {
     private BookRepositoryCustom<Book> bookRepository;
     private AuthorRepositoryCustom<Author> authorRepository;
@@ -26,16 +25,6 @@ public class AddBookServlet extends HttpServlet {
     public void init() throws ServletException {
         authorRepository = new AuthorRepository();
         bookRepository = new BookRepository();
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Author> authors = authorRepository.findAll();
-        req.setAttribute("authors", authors);
-        if (authors.isEmpty()) {
-            req.getRequestDispatcher("/html/addEmptyAuthor.jsp").forward(req, resp);
-        }
-        req.getRequestDispatcher("/html/addBook.jsp").forward(req, resp);
     }
 
     @Override

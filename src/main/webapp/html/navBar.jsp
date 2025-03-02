@@ -18,9 +18,9 @@
                     <li><a href="/javaLearnApp/index">Home</a></li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Books <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/javaLearnApp/allBooks">All Books</a></li>
-                            <li><a href="/javaLearnApp/findBook">Find</a></li>
-                            <li><a href="/javaLearnApp/addBook">Create</a></li>
+                            <li><a href="/javaLearnApp/books">All Books</a></li>
+                            <li><a href="/javaLearnApp/books/search/form">Find</a></li>
+                            <li><a href="/javaLearnApp/books/creation/form">Create</a></li>
                         </ul>
                     </li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Journals <span class="caret"></span></a>
