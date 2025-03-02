@@ -13,7 +13,7 @@
         </c:if>
         <div class="container">
                     <h2>Add New Journal</h2>
-                    <form action="addJournal" method="post">
+                    <form action="/javaLearnApp/journals/creation" method="post">
                         <div class="form-group">
                             <label for="name">Journal Name:</label>
                             <input type="text" class="form-control" id="name" name="name" required>

@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/allJournals")
+@WebServlet(urlPatterns = "/journals")
 public class AllJournalsServlet extends HttpServlet {
 
     private JournalRepositoryCustom<Journal> journalRepository;
@@ -25,7 +25,18 @@ public class AllJournalsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Journal> journals = journalRepository.findAll();
+
+        String name = req.getParameter("name");
+
+        List<Journal> journals;
+        if (name != null && !name.isEmpty()) {
+            int year = Integer.parseInt(req.getParameter("year"));
+            int number = Integer.parseInt(req.getParameter("number"));
+            journals = journalRepository.findByNameYearNumber(name, year, number);
+        } else {
+            journals = journalRepository.findAll();
+        }
+
         req.setAttribute("journals", journals);
         req.getRequestDispatcher("/html/allJournals.jsp").forward(req, resp);
     }

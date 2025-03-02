@@ -10,10 +10,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.util.List;
 
-@WebServlet(urlPatterns = "/findJournal")
-public class FindJournalServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/journals/search/form")
+public class FindJournalFormServlet extends HttpServlet {
 
     private JournalRepositoryCustom<Journal> journalRepository;
 
@@ -22,23 +21,9 @@ public class FindJournalServlet extends HttpServlet {
         journalRepository = new JournalRepository();
     }
 
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.getRequestDispatcher("/html/findJournal.jsp").forward(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
-        String name = req.getParameter("name");
-        int year = Integer.parseInt(req.getParameter("year"));
-        int number = Integer.parseInt(req.getParameter("number"));
-
-        List<Journal> journals = journalRepository.findByNameYearNumber(name, year, number);
-
-        req.setAttribute("journals", journals);
-        req.getRequestDispatcher("/html/allJournals.jsp").forward(req, res);
     }
 
     @Override

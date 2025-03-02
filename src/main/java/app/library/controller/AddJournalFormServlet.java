@@ -12,8 +12,8 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/journals/creation")
-public class AddJournalServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/journals/creation/form")
+public class AddJournalFormServlet extends HttpServlet {
     private JournalRepositoryCustom<Journal> journalRepository;
 
     @Override

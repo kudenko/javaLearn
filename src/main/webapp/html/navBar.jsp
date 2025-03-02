@@ -25,9 +25,9 @@
                     </li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Journals <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/javaLearnApp/allJournals">All Journals</a></li>
-                            <li><a href="/javaLearnApp/findJournal">Find</a></li>
-                            <li><a href="/javaLearnApp/addJournal">Create</a></li>
+                            <li><a href="/javaLearnApp/journals">All Journals</a></li>
+                            <li><a href="/javaLearnApp/journals/search/form">Find</a></li>
+                            <li><a href="/javaLearnApp/journals/creation/form">Create</a></li>
                         </ul>
                     </li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Authors <span class="caret"></span></a>
