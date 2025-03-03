@@ -9,21 +9,22 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/addJournal")
+@WebServlet(urlPatterns = "/journals/creation")
 public class AddJournalServlet extends HttpServlet {
     private JournalRepositoryCustom<Journal> journalRepository;
 
-    @Override
-    public void init() throws ServletException {
-        journalRepository = new JournalRepository();
-    }
+    private final Logger logger = LoggerFactory.getLogger(AddJournalServlet.class);
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/html/addJournal.jsp").forward(req, resp);
+    public void init() throws ServletException {
+        logger.info("Journal repository initialization");
+        journalRepository = new JournalRepository();
+        logger.info("Journal repository initialization successful");
     }
 
     @Override
@@ -32,17 +33,25 @@ public class AddJournalServlet extends HttpServlet {
         int countPages = Integer.parseInt(req.getParameter("countPages"));
         int number = Integer.parseInt(req.getParameter("number"));
         int publicationYear = Integer.parseInt(req.getParameter("publicationYear"));
+        logger.info("Parameters of request. name: {}, countPages: {}, number: {}, pubYear: {}", name, countPages, number, publicationYear);
         try {
+            logger.info("Saving a journal");
             journalRepository.save(new Journal(name, countPages, number, publicationYear));
-            req.setAttribute("success", "Journal Was Successfully Added!!! You can add another one.");
+            req.setAttribute("success", "Journal Was successfully Added!!! You can add another one.");
+            logger.info("Saving successful");
         } catch (JournalRepositoryException e) {
+            logger.error("Saving a journal with an error: {} ", e.toString());
             req.setAttribute("error", "Error, while adding a journal. Please try again or contact administrator");
         }
+        logger.info("Redirecting to addJournal jsp");
         req.getRequestDispatcher("/html/addJournal.jsp").forward(req, resp);
+        logger.info("Redirecting to addJournal jsp successful");
     }
 
     @Override
     public void destroy() {
+        logger.info("Destroy started.");
         super.destroy();
+        logger.info("Destroy completed.");
     }
 }

@@ -1,11 +1,17 @@
 package app.library.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.MappedSuperclass;
+
 import java.util.Objects;
 
+@MappedSuperclass
 public class Publication {
+    @Column(name = "name", length = 500)
     private String name;
+
+    @Column(name = "count_pages")
     private int countPages;
-    private long publicationId;
 
     public Publication(String name, int countPages) {
         this.name = name;
@@ -25,21 +31,14 @@ public class Publication {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Publication that = (Publication) o;
-        return countPages == that.countPages && publicationId == that.publicationId && Objects.equals(name, that.name);
+        return countPages == that.countPages && Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, countPages, publicationId);
+        return Objects.hash(name, countPages);
     }
 
-    public long getPublicationId() {
-        return publicationId;
-    }
-
-    public void setPublicationId(long publicationId) {
-        this.publicationId = publicationId;
-    }
 
     public Long getAuthorId() {
         return null;

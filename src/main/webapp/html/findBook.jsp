@@ -7,7 +7,7 @@
         <p class="text-center">Search Book</p>
         <div class="container">
                     <h2>Search Book</h2>
-                    <form action="findBook" method="post">
+                    <form action="/javaLearnApp/books" method="get">
                         <div class="form-group">
                             <label for="name">Book name:</label>
                             <input type="text" class="form-control" id="name" name="name" required>

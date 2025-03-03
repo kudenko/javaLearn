@@ -14,37 +14,32 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/authors")
-public class AllAuthorsServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/books/creation/form")
+public class AddBookFormServlet extends HttpServlet {
+
+    private final Logger logger = LoggerFactory.getLogger(AddBookFormServlet.class);
 
     private AuthorRepositoryCustom<Author> authorRepository;
-    private final Logger logger = LoggerFactory.getLogger(AllAuthorsServlet.class);
 
     @Override
     public void init() throws ServletException {
-        logger.info("Author repository initialization");
+        logger.info("Authors and books repositories initialization");
         authorRepository = new AuthorRepository();
-        logger.info("Author repository initialization successful");
+        logger.info("Authors and books repositories initialization completed");
     }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Author> authors;
-        
-        String email = req.getParameter("email");
-        if(email != null && !email.isEmpty()) {
-            logger.info("Getting info for email: {}", email);
-            authors = authorRepository.findByEmail(email);
-            logger.info("Getting info for email: {} successful", email);
-        } else {
-            logger.info("Getting all authors");
-            authors = authorRepository.findAll();
-            logger.info("Getting all authors successful");
-        }
+        logger.info("Get list of authors");
+        List<Author> authors = authorRepository.findAll();
         req.setAttribute("authors", authors);
-        logger.info("Redirect to all authors");
-        req.getRequestDispatcher("/html/allAuthors.jsp").forward(req, resp);
-        logger.info("Redirect to all authors successful");
+        if (authors.isEmpty()) {
+            logger.info("Authors are empty. Redirecting for creation.");
+            req.getRequestDispatcher("/html/addEmptyAuthor.jsp").forward(req, resp);
+        }
+        logger.info("Redirecting for books displaying");
+        req.getRequestDispatcher("/html/addBook.jsp").forward(req, resp);
+        logger.info("Redirecting for books displaying completed");
     }
 
     @Override

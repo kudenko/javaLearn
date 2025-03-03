@@ -1,11 +1,24 @@
 package app.library.model;
 
+import jakarta.persistence.*;
+
 import java.util.Objects;
 
+@Entity
+@Table(name = "author", schema = "library")
 public class Author {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_seq")
+    @SequenceGenerator(name = "author_seq", sequenceName = "author_id_seq", allocationSize = 1)
     private long id;
+
+    @Column(name = "first_name", length = 500)
     private String firstName;
+
+    @Column(name = "last_name", length = 500)
     private String lastName;
+
+    @Column(name = "email", length = 500)
     private String email;
 
     public Author(String firstName, String lastName, String email) {

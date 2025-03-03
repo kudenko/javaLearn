@@ -10,15 +10,15 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/books/search/form")
-public class FindBookServlet extends HttpServlet {
+@WebServlet(urlPatterns = "/authors/creation/form")
+public class AddAuthorFormServlet extends HttpServlet {
 
-    private final Logger logger = LoggerFactory.getLogger(FindAuthorFormServlet.class);
+    private final Logger logger = LoggerFactory.getLogger(AddAuthorFormServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.info("Redirecting to find books page");
-        req.getRequestDispatcher("/html/findBook.jsp").forward(req, resp);
-        logger.info("Redirecting to find books page successful");
+        logger.info("Request for author creation started.");
+        req.getRequestDispatcher("/html/addAuthor.jsp").forward(req, resp);
+        logger.info("Request for author creation completed.");
     }
 }

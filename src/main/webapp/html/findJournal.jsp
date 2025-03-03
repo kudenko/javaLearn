@@ -7,7 +7,7 @@
         <p class="text-center">Find your journal</p>
         <div class="container">
                     <h2>Search Journal</h2>
-                    <form action="findJournal" method="post">
+                    <form action="/javaLearnApp/journals" method="get">
                         <div class="form-group">
                             <label for="name">Name:</label>
                             <input type="text" class="form-control" id="name" name="name" required>

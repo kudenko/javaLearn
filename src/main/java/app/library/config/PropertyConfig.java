@@ -1,5 +1,8 @@
 package app.library.config;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.Map;
 
 public class PropertyConfig {
@@ -11,9 +14,11 @@ public class PropertyConfig {
 
     private String dbPassword;
 
+    private static final Logger logger = LoggerFactory.getLogger(PropertyConfig.class);
+
     public PropertyConfig() {
         Map<String, String> environmentVariables = System.getenv();
-
+        logger.info("DB connection initialization");
         dbHost = environmentVariables.get("application.db.host");
         dbName = environmentVariables.get("application.db.name");
         dbUsername = environmentVariables.get("application.db.username");
@@ -50,6 +55,7 @@ public class PropertyConfig {
         if (dbPassword == null || dbPassword.isEmpty()) {
             throw new IllegalArgumentException("dbPassword is null or empty. Pass variable dbPassword for correct run");
         }
+        logger.info("Connection ro DB host: {} and DB name: {}", dbHost, dbName);
     }
 
     public String getDbHost() {
