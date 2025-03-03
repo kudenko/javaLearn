@@ -8,6 +8,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,6 +18,7 @@ import java.util.List;
 public class AllAuthorsServlet extends HttpServlet {
 
     private AuthorRepositoryCustom<Author> authorRepository;
+    Logger logger = LoggerFactory.getLogger(AllAuthorsServlet.class);
 
     @Override
     public void init() throws ServletException {
@@ -38,6 +41,8 @@ public class AllAuthorsServlet extends HttpServlet {
 
     @Override
     public void destroy() {
+        logger.info("Destroy started.");
         super.destroy();
+        logger.info("Destroy completed.");
     }
 }

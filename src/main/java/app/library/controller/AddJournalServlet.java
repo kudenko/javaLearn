@@ -9,6 +9,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
@@ -16,14 +18,11 @@ import java.io.IOException;
 public class AddJournalServlet extends HttpServlet {
     private JournalRepositoryCustom<Journal> journalRepository;
 
+    Logger logger = LoggerFactory.getLogger(AddJournalServlet.class);
+
     @Override
     public void init() throws ServletException {
         journalRepository = new JournalRepository();
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/html/addJournal.jsp").forward(req, resp);
     }
 
     @Override
@@ -43,6 +42,8 @@ public class AddJournalServlet extends HttpServlet {
 
     @Override
     public void destroy() {
+        logger.info("Destroy started.");
         super.destroy();
+        logger.info("Destroy completed.");
     }
 }

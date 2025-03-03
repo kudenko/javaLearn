@@ -1,6 +1,5 @@
 package app.library.controller;
 
-import app.library.exceptions.JournalRepositoryException;
 import app.library.model.Journal;
 import app.library.storage.JournalRepository;
 import app.library.storage.JournalRepositoryCustom;
@@ -9,40 +8,20 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 @WebServlet(urlPatterns = "/journals/creation/form")
 public class AddJournalFormServlet extends HttpServlet {
-    private JournalRepositoryCustom<Journal> journalRepository;
 
-    @Override
-    public void init() throws ServletException {
-        journalRepository = new JournalRepository();
-    }
+    Logger logger = LoggerFactory.getLogger(AddJournalFormServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        logger.info("GET request to addJournal form");
         req.getRequestDispatcher("/html/addJournal.jsp").forward(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String name = req.getParameter("name");
-        int countPages = Integer.parseInt(req.getParameter("countPages"));
-        int number = Integer.parseInt(req.getParameter("number"));
-        int publicationYear = Integer.parseInt(req.getParameter("publicationYear"));
-        try {
-            journalRepository.save(new Journal(name, countPages, number, publicationYear));
-            req.setAttribute("success", "Journal Was Successfully Added!!! You can add another one.");
-        } catch (JournalRepositoryException e) {
-            req.setAttribute("error", "Error, while adding a journal. Please try again or contact administrator");
-        }
-        req.getRequestDispatcher("/html/addJournal.jsp").forward(req, resp);
-    }
-
-    @Override
-    public void destroy() {
-        super.destroy();
+        logger.info("GET request to addJournal form successful.");
     }
 }
