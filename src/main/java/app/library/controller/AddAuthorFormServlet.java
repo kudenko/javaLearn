@@ -13,7 +13,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/authors/creation/form")
 public class AddAuthorFormServlet extends HttpServlet {
 
-    Logger logger = LoggerFactory.getLogger(AddAuthorFormServlet.class);
+    private final Logger logger = LoggerFactory.getLogger(AddAuthorFormServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

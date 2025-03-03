@@ -23,7 +23,7 @@ public class AddBookServlet extends HttpServlet {
     private BookRepositoryCustom<Book> bookRepository;
     private AuthorRepositoryCustom<Author> authorRepository;
 
-    Logger logger = LoggerFactory.getLogger(AddBookServlet.class);
+    private final Logger logger = LoggerFactory.getLogger(AddBookServlet.class);
 
     @Override
     public void init() throws ServletException {
@@ -43,7 +43,7 @@ public class AddBookServlet extends HttpServlet {
         try {
             logger.info("Saving a book.");
             bookRepository.save(new Book(name, countPages, authorRepository.findById(authorId)));
-            req.setAttribute("success", "Book Was Successfully Added!!! You can add another one.");
+            req.setAttribute("success", "Book Was successfully Added!!! You can add another one.");
             logger.info("Saving successful.");
         } catch (AuthorRepositoryException | BookRepositoryException e) {
             logger.info("error {}", e.toString());

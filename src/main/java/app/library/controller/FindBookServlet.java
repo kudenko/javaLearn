@@ -1,8 +1,5 @@
 package app.library.controller;
 
-import app.library.model.Book;
-import app.library.storage.BookRepository;
-import app.library.storage.BookRepositoryCustom;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,30 +9,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.List;
 
 @WebServlet(urlPatterns = "/books/search/form")
 public class FindBookServlet extends HttpServlet {
 
-    private BookRepositoryCustom<Book> bookBookRepository;
-
-    Logger logger = LoggerFactory.getLogger(FindAuthorFormServlet.class);
-
-
-    @Override
-    public void init() throws ServletException {
-        bookBookRepository = new BookRepository();
-    }
+    private final Logger logger = LoggerFactory.getLogger(FindAuthorFormServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        logger.info("Redirecting to find books page");
         req.getRequestDispatcher("/html/findBook.jsp").forward(req, resp);
-    }
-
-    @Override
-    public void destroy() {
-        logger.info("Destroy started.");
-        super.destroy();
-        logger.info("Destroy completed.");
+        logger.info("Redirecting to find books page successful");
     }
 }

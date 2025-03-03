@@ -1,8 +1,5 @@
 package app.library.controller;
 
-import app.library.model.Journal;
-import app.library.storage.JournalRepository;
-import app.library.storage.JournalRepositoryCustom;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -16,7 +13,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/journals/creation/form")
 public class AddJournalFormServlet extends HttpServlet {
 
-    Logger logger = LoggerFactory.getLogger(AddJournalFormServlet.class);
+    private final Logger logger = LoggerFactory.getLogger(AddJournalFormServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

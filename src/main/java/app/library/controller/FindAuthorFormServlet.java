@@ -13,10 +13,12 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/authors/search/form")
 public class FindAuthorFormServlet extends HttpServlet {
 
-    Logger logger = LoggerFactory.getLogger(FindBookServlet.class);
+    private final Logger logger = LoggerFactory.getLogger(FindBookServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        logger.info("Redirecting to find author page");
         req.getRequestDispatcher("/html/findAuthor.jsp").forward(req, resp);
+        logger.info("Redirecting to find author page successful");
     }
 }

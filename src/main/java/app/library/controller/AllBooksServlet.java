@@ -18,12 +18,14 @@ import java.util.List;
 public class AllBooksServlet extends HttpServlet {
 
     private BookRepositoryCustom<Book> bookRepository;
-    Logger logger = LoggerFactory.getLogger(AllBooksServlet.class);
+    private final Logger logger = LoggerFactory.getLogger(AllBooksServlet.class);
 
 
     @Override
     public void init() throws ServletException {
+        logger.info("Book repository initialization");
         bookRepository = new BookRepository();
+        logger.info("Book repository initialization successful");
     }
 
     @Override
@@ -31,12 +33,18 @@ public class AllBooksServlet extends HttpServlet {
         String name = req.getParameter("name");
         List<Book> books;
         if (name != null && !name.isEmpty()) {
+            logger.info("Getting books by name {} parameter", name);
             books = bookRepository.findBooksByName(name);
+            logger.info("Getting books by name {} parameter successful", name);
         } else {
+            logger.info("Getting all books");
             books = bookRepository.findAll();
+            logger.info("Getting all books successful");
         }
         req.setAttribute("books", books);
+        logger.info("Redirecting to all books");
         req.getRequestDispatcher("/html/allBooks.jsp").forward(req, resp);
+        logger.info("Redirecting to all books successful");
     }
 
     @Override

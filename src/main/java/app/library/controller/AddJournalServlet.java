@@ -18,11 +18,13 @@ import java.io.IOException;
 public class AddJournalServlet extends HttpServlet {
     private JournalRepositoryCustom<Journal> journalRepository;
 
-    Logger logger = LoggerFactory.getLogger(AddJournalServlet.class);
+    private final Logger logger = LoggerFactory.getLogger(AddJournalServlet.class);
 
     @Override
     public void init() throws ServletException {
+        logger.info("Journal repository initialization");
         journalRepository = new JournalRepository();
+        logger.info("Journal repository initialization successful");
     }
 
     @Override
@@ -31,13 +33,19 @@ public class AddJournalServlet extends HttpServlet {
         int countPages = Integer.parseInt(req.getParameter("countPages"));
         int number = Integer.parseInt(req.getParameter("number"));
         int publicationYear = Integer.parseInt(req.getParameter("publicationYear"));
+        logger.info("Parameters of request. name: {}, countPages: {}, number: {}, pubYear: {}", name, countPages, number, publicationYear);
         try {
+            logger.info("Saving a journal");
             journalRepository.save(new Journal(name, countPages, number, publicationYear));
-            req.setAttribute("success", "Journal Was Successfully Added!!! You can add another one.");
+            req.setAttribute("success", "Journal Was successfully Added!!! You can add another one.");
+            logger.info("Saving successful");
         } catch (JournalRepositoryException e) {
+            logger.error("Saving a journal with an error: {} ", e.toString());
             req.setAttribute("error", "Error, while adding a journal. Please try again or contact administrator");
         }
+        logger.info("Redirecting to addJournal jsp");
         req.getRequestDispatcher("/html/addJournal.jsp").forward(req, resp);
+        logger.info("Redirecting to addJournal jsp successful");
     }
 
     @Override

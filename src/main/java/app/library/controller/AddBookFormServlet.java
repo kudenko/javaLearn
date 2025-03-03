@@ -1,11 +1,8 @@
 package app.library.controller;
 
 import app.library.model.Author;
-import app.library.model.Book;
 import app.library.storage.AuthorRepository;
 import app.library.storage.AuthorRepositoryCustom;
-import app.library.storage.BookRepository;
-import app.library.storage.BookRepositoryCustom;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,7 +17,7 @@ import java.util.List;
 @WebServlet(urlPatterns = "/books/creation/form")
 public class AddBookFormServlet extends HttpServlet {
 
-    Logger logger = LoggerFactory.getLogger(AddBookFormServlet.class);
+    private final Logger logger = LoggerFactory.getLogger(AddBookFormServlet.class);
 
     private AuthorRepositoryCustom<Author> authorRepository;
 

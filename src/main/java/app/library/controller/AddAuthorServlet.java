@@ -17,7 +17,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/authors/creation")
 public class AddAuthorServlet extends HttpServlet {
     private AuthorRepositoryCustom<Author> authorRepository;
-    Logger logger = LoggerFactory.getLogger(AddAuthorServlet.class);
+    private final Logger logger = LoggerFactory.getLogger(AddAuthorServlet.class);
 
     @Override
     public void init() throws ServletException {
@@ -36,7 +36,7 @@ public class AddAuthorServlet extends HttpServlet {
             logger.info("Saving entity");
             authorRepository.save(new Author(name, lastname, email));
             logger.info("Entity saved");
-            req.setAttribute("success", "Author Was Successfully Added!!! You can add another one.");
+            req.setAttribute("success", "Author Was successfully Added!!! You can add another one.");
         } catch (AuthorRepositoryException e) {
             logger.error(e.toString());
             req.setAttribute("error", "Error, while adding an Author. Please try again or contact administrator");
