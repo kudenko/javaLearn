@@ -2,9 +2,13 @@ package app.library.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
+@Data
+@NoArgsConstructor
 @MappedSuperclass
 public class Publication {
     @Column(name = "name", length = 500)
