@@ -39,7 +39,6 @@ public class AddBookFormServlet extends HttpServlet {
         }
         logger.info("Redirecting for books displaying");
         req.getRequestDispatcher("/html/addBook.jsp").forward(req, resp);
-        logger.info("Redirecting for books displaying completed");
     }
 
     @Override

@@ -33,9 +33,7 @@ public class AddAuthorServlet extends HttpServlet {
         String email = req.getParameter("email");
         logger.info("Request with parameters name: {}, lastName: {}, email {}", name, lastname, email);
         try {
-            logger.info("Saving entity");
             authorRepository.save(new Author(name, lastname, email));
-            logger.info("Entity saved");
             req.setAttribute("success", "Author Was successfully Added!!! You can add another one.");
         } catch (AuthorRepositoryException e) {
             logger.error(e.toString());

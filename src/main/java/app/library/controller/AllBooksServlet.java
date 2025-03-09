@@ -37,7 +37,6 @@ public class AllBooksServlet extends HttpServlet {
         req.setAttribute("books", books);
         logger.info("Redirecting to all books");
         req.getRequestDispatcher("/html/allBooks.jsp").forward(req, resp);
-        logger.info("Redirecting to all books successful");
     }
 
     @Override
