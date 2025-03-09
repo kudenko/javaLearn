@@ -33,7 +33,6 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
     private static final Logger logger = LoggerFactory.getLogger(JournalRepository.class);
 
     @Override
-    @Transactional
     public void save(Journal entity) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {

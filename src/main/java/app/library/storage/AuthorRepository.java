@@ -27,7 +27,6 @@ public class AuthorRepository implements AuthorRepositoryCustom<Author> {
     private static final SessionFactory sessionFactory = HibernateConnectionManager.getSessionFactory();
 
     @Override
-    @Transactional
     public void save(Author entity) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {

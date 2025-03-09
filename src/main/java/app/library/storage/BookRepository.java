@@ -28,7 +28,6 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     private static final SessionFactory sessionFactory = HibernateConnectionManager.getSessionFactory();
 
     @Override
-    @Transactional
     public void save(Book entity) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {

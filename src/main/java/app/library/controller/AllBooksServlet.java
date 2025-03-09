@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @WebServlet(urlPatterns = "/books")
 public class AllBooksServlet extends HttpServlet {
@@ -30,17 +31,9 @@ public class AllBooksServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String name = req.getParameter("name");
-        List<Book> books;
-        if (name != null && !name.isEmpty()) {
-            logger.info("Getting books by name {} parameter", name);
-            books = bookRepository.findBooksByName(name);
-            logger.info("Getting books by name {} parameter successful", name);
-        } else {
-            logger.info("Getting all books");
-            books = bookRepository.findAll();
-            logger.info("Getting all books successful");
-        }
+        List<Book> books = Optional.ofNullable(req.getParameter("name"))
+                .map(bookRepository::findBooksByName)
+                .orElseGet(() -> bookRepository.findAll());
         req.setAttribute("books", books);
         logger.info("Redirecting to all books");
         req.getRequestDispatcher("/html/allBooks.jsp").forward(req, resp);
