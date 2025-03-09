@@ -35,17 +35,14 @@ public class AddJournalServlet extends HttpServlet {
         int publicationYear = Integer.parseInt(req.getParameter("publicationYear"));
         logger.info("Parameters of request. name: {}, countPages: {}, number: {}, pubYear: {}", name, countPages, number, publicationYear);
         try {
-            logger.info("Saving a journal");
             journalRepository.save(new Journal(name, countPages, number, publicationYear));
             req.setAttribute("success", "Journal Was successfully Added!!! You can add another one.");
-            logger.info("Saving successful");
         } catch (JournalRepositoryException e) {
             logger.error("Saving a journal with an error: {} ", e.toString());
             req.setAttribute("error", "Error, while adding a journal. Please try again or contact administrator");
         }
         logger.info("Redirecting to addJournal jsp");
         req.getRequestDispatcher("/html/addJournal.jsp").forward(req, resp);
-        logger.info("Redirecting to addJournal jsp successful");
     }
 
     @Override

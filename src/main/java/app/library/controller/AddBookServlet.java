@@ -41,17 +41,14 @@ public class AddBookServlet extends HttpServlet {
         logger.info("Request parameters: name: {}, countPages: {}", name, countPages);
 
         try {
-            logger.info("Saving a book.");
             bookRepository.save(new Book(name, countPages, authorRepository.findById(authorId)));
             req.setAttribute("success", "Book Was successfully Added!!! You can add another one.");
-            logger.info("Saving successful.");
         } catch (AuthorRepositoryException | BookRepositoryException e) {
             logger.info("error {}", e.toString());
             req.setAttribute("error", "Error, while adding a Book. Please try again or contact administrator");
         }
         logger.info("Redirecting to form");
         req.getRequestDispatcher("/html/addBook.jsp").forward(req, resp);
-        logger.info("Redirecting successful");
     }
 
     @Override

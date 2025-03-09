@@ -17,8 +17,7 @@ public class AddAuthorFormServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        logger.info("Request for author creation started.");
+        logger.info("Request for author creation started from servlet.");
         req.getRequestDispatcher("/html/addAuthor.jsp").forward(req, resp);
-        logger.info("Request for author creation completed.");
     }
 }

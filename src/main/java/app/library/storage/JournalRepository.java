@@ -8,7 +8,6 @@ import app.library.model.Journal;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
-import jakarta.transaction.Transactional;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -33,7 +32,6 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
     private static final Logger logger = LoggerFactory.getLogger(JournalRepository.class);
 
     @Override
-    @Transactional
     public void save(Journal entity) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {

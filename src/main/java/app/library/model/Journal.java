@@ -1,9 +1,13 @@
 package app.library.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "journal", schema = "library")
 public class Journal extends Publication {
@@ -19,51 +23,15 @@ public class Journal extends Publication {
     @Column(name = "publication_year")
     private int publicationYear;
 
-    protected Journal() {
-        super("defName", 0);
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
-    }
-
-    public void setPublicationYear(int publicationYear) {
-        this.publicationYear = publicationYear;
-    }
-
     public Journal(String name, int countPages, int number, int publicationYear) {
         super(name, countPages);
         this.number = number;
         this.publicationYear = publicationYear;
     }
 
-    public Journal(long id, String name, int countPages, int number, int publicationYear) {
-        super(name, countPages);
-        this.number = number;
-        this.publicationYear = publicationYear;
-        this.id = id;
-    }
-
-
     @Override
     public String print() {
         return String.format("Journal{%s, number=%d, year=%d}", super.print(), number, publicationYear);
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public int getPublicationYear() {
-        return publicationYear;
-    }
-
-    public long getId() {
-        return id;
     }
 
     @Override
@@ -74,7 +42,6 @@ public class Journal extends Publication {
         Journal journal = (Journal) o;
         return number == journal.number && publicationYear == journal.publicationYear && journal.getId() == getId();
     }
-
 
     @Override
     public int hashCode() {

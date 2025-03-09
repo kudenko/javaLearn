@@ -7,7 +7,6 @@ import app.library.exceptions.AuthorRepositoryException;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
-import jakarta.transaction.Transactional;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -27,7 +26,6 @@ public class AuthorRepository implements AuthorRepositoryCustom<Author> {
     private static final SessionFactory sessionFactory = HibernateConnectionManager.getSessionFactory();
 
     @Override
-    @Transactional
     public void save(Author entity) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {

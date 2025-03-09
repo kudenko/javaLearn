@@ -8,7 +8,6 @@ import app.library.model.Book;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
-import jakarta.transaction.Transactional;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -28,7 +27,6 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     private static final SessionFactory sessionFactory = HibernateConnectionManager.getSessionFactory();
 
     @Override
-    @Transactional
     public void save(Book entity) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {

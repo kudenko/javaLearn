@@ -19,6 +19,5 @@ public class AddJournalFormServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("GET request to addJournal form");
         req.getRequestDispatcher("/html/addJournal.jsp").forward(req, resp);
-        logger.info("GET request to addJournal form successful.");
     }
 }

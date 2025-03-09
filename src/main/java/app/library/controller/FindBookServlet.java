@@ -19,6 +19,5 @@ public class FindBookServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("Redirecting to find books page");
         req.getRequestDispatcher("/html/findBook.jsp").forward(req, resp);
-        logger.info("Redirecting to find books page successful");
     }
 }

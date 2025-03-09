@@ -19,6 +19,5 @@ public class FindAuthorFormServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("Redirecting to find author page");
         req.getRequestDispatcher("/html/findAuthor.jsp").forward(req, resp);
-        logger.info("Redirecting to find author page successful");
     }
 }

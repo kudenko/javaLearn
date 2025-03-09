@@ -19,6 +19,5 @@ public class IndexServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         logger.info("Redirecting to index successful");
         req.getRequestDispatcher("/html/index.jsp").forward(req, resp);
-        logger.info("Redirecting to index successful");
     }
 }

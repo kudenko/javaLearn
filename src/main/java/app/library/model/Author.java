@@ -1,9 +1,13 @@
 package app.library.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Objects;
 
+@Data
+@NoArgsConstructor
 @Entity
 @Table(name = "author", schema = "library")
 public class Author {
@@ -27,37 +31,6 @@ public class Author {
         this.email = email;
     }
 
-    public Author(long id, String firstName, String lastName, String email) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-    }
-
-    public Author() {
-
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -71,26 +44,4 @@ public class Author {
         return Objects.hash(id, email);
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-
-    @Override
-    public String toString() {
-        return "Author{" +
-                "firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", id='" + id + '\'' +
-                '}';
-    }
 }

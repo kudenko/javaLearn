@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @WebServlet(urlPatterns = "/authors")
 public class AllAuthorsServlet extends HttpServlet {
@@ -29,22 +30,15 @@ public class AllAuthorsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<Author> authors;
+        logger.info("Author repository getting authors from Servlet");
         
-        String email = req.getParameter("email");
-        if(email != null && !email.isEmpty()) {
-            logger.info("Getting info for email: {}", email);
-            authors = authorRepository.findByEmail(email);
-            logger.info("Getting info for email: {} successful", email);
-        } else {
-            logger.info("Getting all authors");
-            authors = authorRepository.findAll();
-            logger.info("Getting all authors successful");
-        }
+        List<Author> authors = Optional.ofNullable(req.getParameter("email"))
+                .map(authorRepository::findByEmail)
+                .orElseGet(authorRepository::findAll);
+
         req.setAttribute("authors", authors);
         logger.info("Redirect to all authors");
         req.getRequestDispatcher("/html/allAuthors.jsp").forward(req, resp);
-        logger.info("Redirect to all authors successful");
     }
 
     @Override

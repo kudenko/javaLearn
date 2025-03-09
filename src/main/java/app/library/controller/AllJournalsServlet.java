@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 @WebServlet(urlPatterns = "/journals")
 public class AllJournalsServlet extends HttpServlet {
@@ -31,26 +32,21 @@ public class AllJournalsServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        logger.info("Request for all journals from servlet");
 
-        String name = req.getParameter("name");
-
-        List<Journal> journals;
-        if (name != null && !name.isEmpty()) {
-            int year = Integer.parseInt(req.getParameter("year"));
-            int number = Integer.parseInt(req.getParameter("number"));
-            logger.info("Request with parameters: name: {}, year: {}, number:{}", name, year, number);
-            journals = journalRepository.findByNameYearNumber(name, year, number);
-            logger.info("Request successful");
-        } else {
-            logger.info("Request for all journals");
-            journals = journalRepository.findAll();
-            logger.info("Request for all journals successful");
-        }
+        List<Journal> journals = Optional.ofNullable(req.getParameter("name"))
+                .filter(journalName -> !journalName.isEmpty())
+                .map(journalName -> {
+                    int year = Integer.parseInt(req.getParameter("year"));
+                    int number = Integer.parseInt(req.getParameter("number"));
+                    List<Journal> foundJournals = journalRepository.findByNameYearNumber(journalName, year, number);
+                    return foundJournals;
+                })
+                .orElseGet(() -> journalRepository.findAll());
 
         req.setAttribute("journals", journals);
         logger.info("Redirecting to all journals page");
         req.getRequestDispatcher("/html/allJournals.jsp").forward(req, resp);
-        logger.info("Redirecting to all journals page successful");
     }
 
     @Override
