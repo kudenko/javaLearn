@@ -1,4 +1,4 @@
-package app.library.storage;
+package app.library.repository;
 
 import app.library.config.HibernateConnectionManager;
 import app.library.config.PropertyConfig;
@@ -20,21 +20,18 @@ import java.util.List;
 
 public class JournalRepository implements JournalRepositoryCustom<Journal> {
 
+    private final HibernateConnectionManager connectionManager;
 
-    public JournalRepository() {
+    public JournalRepository(HibernateConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
     }
 
-    static {
-        HibernateConnectionManager.initialize(new PropertyConfig());
-    }
-
-    private static final SessionFactory sessionFactory = HibernateConnectionManager.getSessionFactory();
     private static final Logger logger = LoggerFactory.getLogger(JournalRepository.class);
 
     @Override
     public void save(Journal entity) {
         Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = connectionManager.getSessionFactory().openSession()) {
             logger.info("Journal save transaction start");
             transaction = session.beginTransaction();
             session.merge(entity);
@@ -52,7 +49,7 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
     @Override
     public List<Journal> findAll() {
         List<Journal> journals = new ArrayList<>();
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = connectionManager.getSessionFactory().openSession()) {
             logger.info("Journal find all transaction start");
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Journal> query = builder.createQuery(Journal.class);
@@ -70,7 +67,7 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
     @Override
     public void delete(Journal entity) {
         Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = connectionManager.getSessionFactory().openSession()) {
             logger.info("Journal delete transaction start");
             transaction = session.beginTransaction();
             session.remove(entity);
@@ -88,7 +85,7 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
     @Override
     public Journal findById(long id) {
         Journal journal = null;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = connectionManager.getSessionFactory().openSession()) {
             logger.info("Journal find by id {} transaction start", id);
             journal = session.get(Journal.class, id);
             logger.info("Journal find by id {} transaction successful", id);
@@ -118,7 +115,7 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
     @Override
     public void delete(Long id) {
         Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = connectionManager.getSessionFactory().openSession()) {
             logger.info("Journal delete by id {} transaction start", id);
             transaction = session.beginTransaction();
             session.remove(findById(id));
@@ -136,7 +133,7 @@ public class JournalRepository implements JournalRepositoryCustom<Journal> {
     @Override
     public List<Journal> findByNameYearNumber(String name, int year, int number) {
         List<Journal> journals = new ArrayList<>();
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = connectionManager.getSessionFactory().openSession()) {
             logger.info("Journal find by name {}, year {}, number {} transaction start", name, year, number);
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Journal> query = builder.createQuery(Journal.class);

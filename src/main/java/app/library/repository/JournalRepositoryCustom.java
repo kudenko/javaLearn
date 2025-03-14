@@ -1,4 +1,4 @@
-package app.library.storage;
+package app.library.repository;
 
 import app.library.model.Journal;
 

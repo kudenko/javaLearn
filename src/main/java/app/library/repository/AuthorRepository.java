@@ -1,4 +1,4 @@
-package app.library.storage;
+package app.library.repository;
 
 import app.library.config.HibernateConnectionManager;
 import app.library.config.PropertyConfig;
@@ -19,16 +19,19 @@ import java.util.List;
 
 public class AuthorRepository implements AuthorRepositoryCustom<Author> {
 
-    static {
-        HibernateConnectionManager.initialize(new PropertyConfig());
+    private final HibernateConnectionManager connectionManager;
+
+    public AuthorRepository(HibernateConnectionManager hibernateConnectionManager) {
+        this.connectionManager = hibernateConnectionManager;
     }
+
+
     private static final Logger logger = LoggerFactory.getLogger(AuthorRepository.class);
-    private static final SessionFactory sessionFactory = HibernateConnectionManager.getSessionFactory();
 
     @Override
     public void save(Author entity) {
         Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = connectionManager.getSessionFactory().openSession()) {
             logger.info("Author save transaction start");
             transaction = session.beginTransaction();
             session.merge(entity);
@@ -47,7 +50,7 @@ public class AuthorRepository implements AuthorRepositoryCustom<Author> {
     @Override
     public List<Author> findAll() {
         List<Author> authors;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = connectionManager.getSessionFactory().openSession()) {
             logger.info("Author find all transaction start");
             Transaction transaction = session.beginTransaction();
             authors = session.createQuery("from Author", Author.class).getResultList();
@@ -68,7 +71,7 @@ public class AuthorRepository implements AuthorRepositoryCustom<Author> {
     @Override
     public Author findById(long id) {
         Author author = null;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = connectionManager.getSessionFactory().openSession()) {
             logger.info("Author find by id {} transaction start", id);
             Transaction transaction = session.beginTransaction();
             author = session.get(Author.class, id);
@@ -100,7 +103,7 @@ public class AuthorRepository implements AuthorRepositoryCustom<Author> {
     @Override
     public void delete(Long id) {
         Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = connectionManager.getSessionFactory().openSession()) {
             logger.info("Author delete by id {} transaction start", id);
             transaction = session.beginTransaction();
             session.remove(findById(id));
@@ -118,7 +121,7 @@ public class AuthorRepository implements AuthorRepositoryCustom<Author> {
     @Override
     public List<Author> findByEmail(String email) {
         List<Author> authors = new ArrayList<>();
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = connectionManager.getSessionFactory().openSession()) {
             logger.info("Author find by email {} transaction start", email);
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Author> query = builder.createQuery(Author.class);

@@ -2,8 +2,8 @@ package app.library.controller;
 
 import app.library.model.Author;
 import app.library.exceptions.AuthorRepositoryException;
-import app.library.storage.AuthorRepository;
-import app.library.storage.AuthorRepositoryCustom;
+import app.library.repository.AuthorRepository;
+import app.library.repository.AuthorRepositoryCustom;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,19 +11,26 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import java.io.IOException;
 
+@Configurable
 @WebServlet(urlPatterns = "/authors/creation")
 public class AddAuthorServlet extends HttpServlet {
-    private AuthorRepositoryCustom<Author> authorRepository;
+
+    private AuthorRepository authorRepository;
     private final Logger logger = LoggerFactory.getLogger(AddAuthorServlet.class);
+
+    public AddAuthorServlet() {
+
+    }
 
     @Override
     public void init() throws ServletException {
-        logger.info("Initialization of authorsRepository");
-        authorRepository = new AuthorRepository();
-        logger.info("Successful Initialization of authorsRepository");
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
     @Override
@@ -48,5 +55,10 @@ public class AddAuthorServlet extends HttpServlet {
         logger.info("Destroy started.");
         super.destroy();
         logger.info("Destroy completed.");
+    }
+
+    @Autowired
+    public void setAuthorRepository(AuthorRepository authorRepository) {
+        this.authorRepository = authorRepository;
     }
 }

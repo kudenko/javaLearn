@@ -10,4 +10,17 @@
         <welcome-file>html/index.jsp</welcome-file>
     </welcome-file-list>
 
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>    
+    
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>classpath:application-context.xml</param-value>
+    </context-param>
+    
+    <context-param>
+        <param-name>contextClass</param-name>
+        <param-value>org.springframework.web.context.support.XmlWebApplicationContext</param-value>
+    </context-param>
 </web-app>

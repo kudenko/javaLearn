@@ -7,25 +7,22 @@ import org.slf4j.LoggerFactory;
 
 public class HibernateConnectionManager {
 
-    private static HibernateConnectionManager connectionManager;
     private static SessionFactory sessionFactory;
     private static final Logger logger = LoggerFactory.getLogger(HibernateConnectionManager.class);
 
-    private HibernateConnectionManager() {}
-
-    public static synchronized HibernateConnectionManager initialize(PropertyConfig propertyConfig) {
-
-        logger.info("Hibernate connection initialization start");
-        if(connectionManager == null) {
-            Configuration configuration = HibernateConfig.createConfiguration(propertyConfig);
-            sessionFactory = SessionFactoryProvider.buildSessionFactory(configuration);
-            connectionManager =  new HibernateConnectionManager();
-        }
-        logger.info("Hibernate connection initialization successful");
-        return connectionManager;
+    private HibernateConnectionManager(PropertyConfig propertyConfig) {
+        initialize(propertyConfig);
     }
 
-    public static SessionFactory getSessionFactory() {
+    public void initialize(PropertyConfig propertyConfig) {
+
+        logger.info("Hibernate connection initialization start");
+        Configuration configuration = HibernateConfig.createConfiguration(propertyConfig);
+        sessionFactory = SessionFactoryProvider.buildSessionFactory(configuration);
+        logger.info("Hibernate connection initialization successful");
+    }
+
+    public SessionFactory getSessionFactory() {
         logger.info("Hibernate session factory initialization start");
         if (sessionFactory == null) {
             logger.error("Hibernate session factory initialization error. SessionFactory is null");
@@ -35,7 +32,7 @@ public class HibernateConnectionManager {
         return sessionFactory;
     }
 
-    public static void shutdown() {
+    public void shutdown() {
         if (sessionFactory != null) {
             logger.info("Hibernate session factory shutting down");
             sessionFactory.close();

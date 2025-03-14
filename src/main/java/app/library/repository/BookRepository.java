@@ -1,4 +1,4 @@
-package app.library.storage;
+package app.library.repository;
 
 import app.library.config.HibernateConnectionManager;
 import app.library.config.PropertyConfig;
@@ -20,16 +20,18 @@ import java.util.List;
 
 public class BookRepository implements BookRepositoryCustom<Book> {
 
-    static {
-        HibernateConnectionManager.initialize(new PropertyConfig());
+    private final HibernateConnectionManager connectionManager;
+
+    public BookRepository(HibernateConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
     }
+
     private static final Logger logger = LoggerFactory.getLogger(BookRepository.class);
-    private static final SessionFactory sessionFactory = HibernateConnectionManager.getSessionFactory();
 
     @Override
     public void save(Book entity) {
         Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = connectionManager.getSessionFactory().openSession()) {
             logger.info("Book save transaction start");
             transaction = session.beginTransaction();
             session.merge(entity);
@@ -47,7 +49,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public List<Book> findAll() {
         List<Book> books = new ArrayList<>();
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = connectionManager.getSessionFactory().openSession()) {
             logger.info("Book find all transaction start");
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Book> query = builder.createQuery(Book.class);
@@ -70,7 +72,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public Book findById(long id) {
         Book book = null;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = connectionManager.getSessionFactory().openSession()) {
             logger.info("Book find by id {} transaction start", id);
             book = session.get(Book.class, id);
             logger.info("Book find by id {} transaction successful", id);
@@ -94,7 +96,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public Book update(Book entity) {
         Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = connectionManager.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.merge(entity);
             transaction.commit();
@@ -110,7 +112,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public void delete(Long id) {
         Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = connectionManager.getSessionFactory().openSession()) {
             logger.info("Book delete by id {} transaction start", id);
             transaction = session.beginTransaction();
             session.remove(findById(id));
@@ -128,7 +130,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public List<Book> findBooksByAuthorId(Long authorId) {
         List<Book> books = new ArrayList<>();
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = connectionManager.getSessionFactory().openSession()) {
             logger.info("Book find by author id {} transaction start", authorId);
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Book> query = builder.createQuery(Book.class);
@@ -149,7 +151,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public List<Book> findBooksByName(String name) {
         List<Book> books = new ArrayList<>();
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = connectionManager.getSessionFactory().openSession()) {
             logger.info("Book find by name {} transaction start", name);
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Book> query = builder.createQuery(Book.class);

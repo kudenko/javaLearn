@@ -1,8 +1,8 @@
 package app.library.controller;
 
 import app.library.model.Journal;
-import app.library.storage.JournalRepository;
-import app.library.storage.JournalRepositoryCustom;
+import app.library.repository.JournalRepository;
+import app.library.repository.JournalRepositoryCustom;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,23 +10,25 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+@Configurable
 @WebServlet(urlPatterns = "/journals")
 public class AllJournalsServlet extends HttpServlet {
 
-    private JournalRepositoryCustom<Journal> journalRepository;
+    private JournalRepository journalRepository;
 
     private final Logger logger = LoggerFactory.getLogger(AllJournalsServlet.class);
 
     @Override
     public void init() throws ServletException {
-        logger.info("Journal repository initialization");
-        journalRepository = new JournalRepository();
-        logger.info("Journal repository initialization successful");
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
 
@@ -54,5 +56,10 @@ public class AllJournalsServlet extends HttpServlet {
         logger.info("Destroy started.");
         super.destroy();
         logger.info("Destroy completed.");
+    }
+
+    @Autowired
+    public void setJournalRepository(JournalRepository journalRepository) {
+        this.journalRepository = journalRepository;
     }
 }

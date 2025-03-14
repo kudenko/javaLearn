@@ -1,8 +1,8 @@
 package app.library.controller;
 
 import app.library.model.Author;
-import app.library.storage.AuthorRepository;
-import app.library.storage.AuthorRepositoryCustom;
+import app.library.repository.AuthorRepository;
+import app.library.repository.AuthorRepositoryCustom;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,22 +10,24 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import java.io.IOException;
 import java.util.List;
 
+@Configurable
 @WebServlet(urlPatterns = "/books/creation/form")
 public class AddBookFormServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(AddBookFormServlet.class);
 
-    private AuthorRepositoryCustom<Author> authorRepository;
+    private AuthorRepository authorRepository;
 
     @Override
     public void init() throws ServletException {
-        logger.info("Authors and books repositories initialization");
-        authorRepository = new AuthorRepository();
-        logger.info("Authors and books repositories initialization completed");
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
     @Override
@@ -46,5 +48,10 @@ public class AddBookFormServlet extends HttpServlet {
         logger.info("Destroy started.");
         super.destroy();
         logger.info("Destroy completed.");
+    }
+
+    @Autowired
+    public void setAuthorRepository(AuthorRepository authorRepository) {
+        this.authorRepository = authorRepository;
     }
 }

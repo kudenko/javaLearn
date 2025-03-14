@@ -1,8 +1,8 @@
 package app.library.controller;
 
 import app.library.model.Book;
-import app.library.storage.BookRepository;
-import app.library.storage.BookRepositoryCustom;
+import app.library.repository.BookRepository;
+import app.library.repository.BookRepositoryCustom;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -10,23 +10,25 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+@Configurable
 @WebServlet(urlPatterns = "/books")
 public class AllBooksServlet extends HttpServlet {
 
-    private BookRepositoryCustom<Book> bookRepository;
+    private BookRepository bookRepository;
     private final Logger logger = LoggerFactory.getLogger(AllBooksServlet.class);
 
 
     @Override
     public void init() throws ServletException {
-        logger.info("Book repository initialization");
-        bookRepository = new BookRepository();
-        logger.info("Book repository initialization successful");
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
     @Override
@@ -44,5 +46,10 @@ public class AllBooksServlet extends HttpServlet {
         logger.info("Destroy started.");
         super.destroy();
         logger.info("Destroy completed.");
+    }
+
+    @Autowired
+    public void setBookRepository(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
 }

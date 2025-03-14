@@ -4,10 +4,10 @@ import app.library.model.Author;
 import app.library.exceptions.AuthorRepositoryException;
 import app.library.exceptions.BookRepositoryException;
 import app.library.model.Book;
-import app.library.storage.AuthorRepository;
-import app.library.storage.AuthorRepositoryCustom;
-import app.library.storage.BookRepository;
-import app.library.storage.BookRepositoryCustom;
+import app.library.repository.AuthorRepository;
+import app.library.repository.AuthorRepositoryCustom;
+import app.library.repository.BookRepository;
+import app.library.repository.BookRepositoryCustom;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,22 +15,23 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import java.io.IOException;
 
+@Configurable
 @WebServlet(urlPatterns = "/books/creation")
 public class AddBookServlet extends HttpServlet {
-    private BookRepositoryCustom<Book> bookRepository;
-    private AuthorRepositoryCustom<Author> authorRepository;
+    private BookRepository bookRepository;
+    private AuthorRepository authorRepository;
 
     private final Logger logger = LoggerFactory.getLogger(AddBookServlet.class);
 
     @Override
     public void init() throws ServletException {
-        logger.info("Authors and books repositories initialization");
-        authorRepository = new AuthorRepository();
-        bookRepository = new BookRepository();
-        logger.info("Authors and books repositories initialization completed");
+        SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
 
     @Override
@@ -56,5 +57,15 @@ public class AddBookServlet extends HttpServlet {
         logger.info("Destroy started.");
         super.destroy();
         logger.info("Destroy completed.");
+    }
+
+    @Autowired
+    public void setAuthorRepository(AuthorRepository authorRepository) {
+        this.authorRepository = authorRepository;
+    }
+
+    @Autowired
+    public void setBookRepository(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
 }
