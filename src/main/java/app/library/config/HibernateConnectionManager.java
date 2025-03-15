@@ -15,11 +15,8 @@ public class HibernateConnectionManager {
     }
 
     public void initialize(PropertyConfig propertyConfig) {
-
-        logger.info("Hibernate connection initialization start");
         Configuration configuration = HibernateConfig.createConfiguration(propertyConfig);
         sessionFactory = SessionFactoryProvider.buildSessionFactory(configuration);
-        logger.info("Hibernate connection initialization successful");
     }
 
     public SessionFactory getSessionFactory() {
