@@ -2,7 +2,6 @@ package app.library.controller;
 
 import app.library.model.Journal;
 import app.library.repository.JournalRepository;
-import app.library.repository.JournalRepositoryCustom;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -22,7 +21,7 @@ import java.util.Optional;
 @WebServlet(urlPatterns = "/journals")
 public class AllJournalsServlet extends HttpServlet {
 
-    private JournalRepositoryCustom<Journal> journalRepository;
+    private JournalRepository journalRepository;
 
     private final Logger logger = LoggerFactory.getLogger(AllJournalsServlet.class);
 
@@ -58,7 +57,7 @@ public class AllJournalsServlet extends HttpServlet {
     }
 
     @Autowired
-    public void setJournalRepository(JournalRepositoryCustom<Journal> journalRepository) {
+    public void setJournalRepository(JournalRepository journalRepository) {
         this.journalRepository = journalRepository;
     }
 }
