@@ -22,7 +22,7 @@ import java.util.Optional;
 @WebServlet(urlPatterns = "/books")
 public class AllBooksServlet extends HttpServlet {
 
-    private BookRepository bookRepository;
+    private BookRepositoryCustom<Book> bookRepository;
     private final Logger logger = LoggerFactory.getLogger(AllBooksServlet.class);
 
 
@@ -49,7 +49,7 @@ public class AllBooksServlet extends HttpServlet {
     }
 
     @Autowired
-    public void setBookRepository(BookRepository bookRepository) {
+    public void setBookRepository(BookRepositoryCustom<Book> bookRepository) {
         this.bookRepository = bookRepository;
     }
 }

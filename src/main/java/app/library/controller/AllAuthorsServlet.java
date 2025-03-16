@@ -22,7 +22,7 @@ import java.util.Optional;
 @WebServlet(urlPatterns = "/authors")
 public class AllAuthorsServlet extends HttpServlet {
 
-    private AuthorRepository authorRepository;
+    private AuthorRepositoryCustom<Author> authorRepository;
     private final Logger logger = LoggerFactory.getLogger(AllAuthorsServlet.class);
 
     @Override
@@ -51,7 +51,7 @@ public class AllAuthorsServlet extends HttpServlet {
     }
 
     @Autowired
-    public void setAuthorRepository(AuthorRepository authorRepository) {
+    public void setAuthorRepository(AuthorRepositoryCustom<Author> authorRepository) {
         this.authorRepository = authorRepository;
     }
 }

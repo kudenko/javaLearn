@@ -24,8 +24,8 @@ import java.io.IOException;
 @Configurable
 @WebServlet(urlPatterns = "/books/creation")
 public class AddBookServlet extends HttpServlet {
-    private BookRepository bookRepository;
-    private AuthorRepository authorRepository;
+    private BookRepositoryCustom<Book> bookRepository;
+    private AuthorRepositoryCustom<Author> authorRepository;
 
     private final Logger logger = LoggerFactory.getLogger(AddBookServlet.class);
 
@@ -60,12 +60,12 @@ public class AddBookServlet extends HttpServlet {
     }
 
     @Autowired
-    public void setAuthorRepository(AuthorRepository authorRepository) {
+    public void setAuthorRepository(AuthorRepositoryCustom<Author> authorRepository) {
         this.authorRepository = authorRepository;
     }
 
     @Autowired
-    public void setBookRepository(BookRepository bookRepository) {
+    public void setBookRepository(BookRepositoryCustom<Book> bookRepository) {
         this.bookRepository = bookRepository;
     }
 }
