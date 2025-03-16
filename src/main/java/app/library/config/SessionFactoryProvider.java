@@ -14,7 +14,7 @@ public class SessionFactoryProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(SessionFactoryProvider.class);
 
-    public static SessionFactory buildSessionFactory(Configuration configuration) {
+    public SessionFactory buildSessionFactory(Configuration configuration) {
         logger.info("Session factory configuration initialization");
         configuration.addAnnotatedClass(Author.class);
         configuration.addAnnotatedClass(Journal.class);

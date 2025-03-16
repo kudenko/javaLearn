@@ -15,7 +15,7 @@ public class Publication {
     private String name;
 
     @Column(name = "count_pages")
-    private int countPages;
+    private Integer countPages;
 
     public Publication(String name, int countPages) {
         this.name = name;
@@ -26,16 +26,12 @@ public class Publication {
         return String.format("name=%s, countPages=%d", name, countPages);
     }
 
-    public String getName() {
-        return name;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Publication that = (Publication) o;
-        return countPages == that.countPages && Objects.equals(name, that.name);
+        return countPages.equals(that.countPages) && Objects.equals(name, that.name);
     }
 
     @Override
@@ -43,20 +39,4 @@ public class Publication {
         return Objects.hash(name, countPages);
     }
 
-
-    public Long getAuthorId() {
-        return null;
-    }
-
-    public int getCountPages() {
-        return countPages;
-    }
-
-    public void setCountPages(int countPages) {
-        this.countPages = countPages;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

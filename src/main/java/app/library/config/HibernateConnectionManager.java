@@ -8,18 +8,19 @@ import org.slf4j.LoggerFactory;
 public class HibernateConnectionManager {
 
     private static SessionFactory sessionFactory;
+    private final SessionFactoryProvider sessionFactoryProvider;
+    private final HibernateConfig hibernateConfig;
     private static final Logger logger = LoggerFactory.getLogger(HibernateConnectionManager.class);
 
-    private HibernateConnectionManager(PropertyConfig propertyConfig) {
+    private HibernateConnectionManager(PropertyConfig propertyConfig, HibernateConfig hibernateConfig, SessionFactoryProvider sessionFactoryProvider) {
+        this.hibernateConfig = hibernateConfig;
+        this.sessionFactoryProvider = sessionFactoryProvider;
         initialize(propertyConfig);
     }
 
     public void initialize(PropertyConfig propertyConfig) {
-
-        logger.info("Hibernate connection initialization start");
-        Configuration configuration = HibernateConfig.createConfiguration(propertyConfig);
-        sessionFactory = SessionFactoryProvider.buildSessionFactory(configuration);
-        logger.info("Hibernate connection initialization successful");
+        Configuration configuration = hibernateConfig.createConfiguration(propertyConfig);
+        sessionFactory = sessionFactoryProvider.buildSessionFactory(configuration);
     }
 
     public SessionFactory getSessionFactory() {

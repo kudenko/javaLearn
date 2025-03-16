@@ -13,7 +13,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/books/search/form")
 public class FindBookServlet extends HttpServlet {
 
-    private final Logger logger = LoggerFactory.getLogger(FindAuthorFormServlet.class);
+    private final Logger logger = LoggerFactory.getLogger(FindBookServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

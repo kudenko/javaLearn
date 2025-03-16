@@ -15,7 +15,7 @@ public class Journal extends Publication {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "journal_seq")
     @SequenceGenerator(name = "journal_seq", sequenceName = "journal_id_seq", allocationSize = 1)
-    private long id;
+    private Long id;
 
     @Column(name = "number")
     private int number;

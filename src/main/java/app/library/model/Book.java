@@ -15,7 +15,7 @@ public class Book extends Publication {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
     @SequenceGenerator(name = "book_seq", sequenceName = "book_id_seq", allocationSize = 1)
-    private long id;
+    private Long id;
 
     @ManyToOne(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id", nullable = false)

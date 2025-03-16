@@ -1,7 +1,6 @@
 package app.library.controller;
 
 import app.library.model.Author;
-import app.library.repository.AuthorRepository;
 import app.library.repository.AuthorRepositoryCustom;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,7 +22,7 @@ public class AddBookFormServlet extends HttpServlet {
 
     private final Logger logger = LoggerFactory.getLogger(AddBookFormServlet.class);
 
-    private AuthorRepository authorRepository;
+    private AuthorRepositoryCustom<Author> authorRepository;
 
     @Override
     public void init() throws ServletException {
@@ -51,7 +50,7 @@ public class AddBookFormServlet extends HttpServlet {
     }
 
     @Autowired
-    public void setAuthorRepository(AuthorRepository authorRepository) {
+    public void setAuthorRepository(AuthorRepositoryCustom<Author> authorRepository) {
         this.authorRepository = authorRepository;
     }
 }

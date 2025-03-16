@@ -20,7 +20,7 @@ import java.io.IOException;
 @Configurable
 @WebServlet(urlPatterns = "/journals/creation")
 public class AddJournalServlet extends HttpServlet {
-    private JournalRepository journalRepository;
+    private JournalRepositoryCustom<Journal> journalRepository;
 
     private final Logger logger = LoggerFactory.getLogger(AddJournalServlet.class);
 
@@ -55,7 +55,7 @@ public class AddJournalServlet extends HttpServlet {
     }
 
     @Autowired
-    public void setJournalRepository(JournalRepository journalRepository) {
+    public void setJournalRepository(JournalRepositoryCustom<Journal> journalRepository) {
         this.journalRepository = journalRepository;
     }
 }

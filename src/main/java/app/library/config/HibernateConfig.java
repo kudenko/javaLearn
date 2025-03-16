@@ -10,7 +10,7 @@ public class HibernateConfig {
 
     private static final Logger logger = LoggerFactory.getLogger(HibernateConfig.class);
 
-    public static Configuration createConfiguration(PropertyConfig propertyConfig) {
+    public Configuration createConfiguration(PropertyConfig propertyConfig) {
         Configuration configuration = new Configuration();
 
 

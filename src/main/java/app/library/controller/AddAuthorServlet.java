@@ -2,7 +2,6 @@ package app.library.controller;
 
 import app.library.model.Author;
 import app.library.exceptions.AuthorRepositoryException;
-import app.library.repository.AuthorRepository;
 import app.library.repository.AuthorRepositoryCustom;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -21,7 +20,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/authors/creation")
 public class AddAuthorServlet extends HttpServlet {
 
-    private AuthorRepository authorRepository;
+    private AuthorRepositoryCustom<Author> authorRepository;
     private final Logger logger = LoggerFactory.getLogger(AddAuthorServlet.class);
 
     public AddAuthorServlet() {
@@ -58,7 +57,7 @@ public class AddAuthorServlet extends HttpServlet {
     }
 
     @Autowired
-    public void setAuthorRepository(AuthorRepository authorRepository) {
+    public void setAuthorRepository(AuthorRepositoryCustom<Author> authorRepository) {
         this.authorRepository = authorRepository;
     }
 }

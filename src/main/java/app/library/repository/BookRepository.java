@@ -1,7 +1,6 @@
 package app.library.repository;
 
 import app.library.config.HibernateConnectionManager;
-import app.library.config.PropertyConfig;
 import app.library.exceptions.AuthorRepositoryException;
 import app.library.exceptions.BookRepositoryException;
 import app.library.model.Book;
@@ -10,7 +9,6 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookRepository implements BookRepositoryCustom<Book> {
+    private final HibernateConnectionManager hibernateConnectionManager;
 
-    private final HibernateConnectionManager connectionManager;
-
-    public BookRepository(HibernateConnectionManager connectionManager) {
-        this.connectionManager = connectionManager;
+    public BookRepository(HibernateConnectionManager hibernateConnectionManager) {
+        this.hibernateConnectionManager = hibernateConnectionManager;
     }
 
     private static final Logger logger = LoggerFactory.getLogger(BookRepository.class);
@@ -31,7 +28,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public void save(Book entity) {
         Transaction transaction = null;
-        try (Session session = connectionManager.getSessionFactory().openSession()) {
+        try (Session session = hibernateConnectionManager.getSessionFactory().openSession()) {
             logger.info("Book save transaction start");
             transaction = session.beginTransaction();
             session.merge(entity);
@@ -49,7 +46,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public List<Book> findAll() {
         List<Book> books = new ArrayList<>();
-        try (Session session = connectionManager.getSessionFactory().openSession()) {
+        try (Session session = hibernateConnectionManager.getSessionFactory().openSession()) {
             logger.info("Book find all transaction start");
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Book> query = builder.createQuery(Book.class);
@@ -72,7 +69,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public Book findById(long id) {
         Book book = null;
-        try (Session session = connectionManager.getSessionFactory().openSession()) {
+        try (Session session = hibernateConnectionManager.getSessionFactory().openSession()) {
             logger.info("Book find by id {} transaction start", id);
             book = session.get(Book.class, id);
             logger.info("Book find by id {} transaction successful", id);
@@ -96,7 +93,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public Book update(Book entity) {
         Transaction transaction = null;
-        try (Session session = connectionManager.getSessionFactory().openSession()) {
+        try (Session session = hibernateConnectionManager.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
             session.merge(entity);
             transaction.commit();
@@ -112,7 +109,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public void delete(Long id) {
         Transaction transaction = null;
-        try (Session session = connectionManager.getSessionFactory().openSession()) {
+        try (Session session = hibernateConnectionManager.getSessionFactory().openSession()) {
             logger.info("Book delete by id {} transaction start", id);
             transaction = session.beginTransaction();
             session.remove(findById(id));
@@ -130,7 +127,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public List<Book> findBooksByAuthorId(Long authorId) {
         List<Book> books = new ArrayList<>();
-        try (Session session = connectionManager.getSessionFactory().openSession()) {
+        try (Session session = hibernateConnectionManager.getSessionFactory().openSession()) {
             logger.info("Book find by author id {} transaction start", authorId);
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Book> query = builder.createQuery(Book.class);
@@ -151,7 +148,7 @@ public class BookRepository implements BookRepositoryCustom<Book> {
     @Override
     public List<Book> findBooksByName(String name) {
         List<Book> books = new ArrayList<>();
-        try (Session session = connectionManager.getSessionFactory().openSession()) {
+        try (Session session = hibernateConnectionManager.getSessionFactory().openSession()) {
             logger.info("Book find by name {} transaction start", name);
             CriteriaBuilder builder = session.getCriteriaBuilder();
             CriteriaQuery<Book> query = builder.createQuery(Book.class);

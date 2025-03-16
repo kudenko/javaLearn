@@ -22,7 +22,7 @@ import java.util.Optional;
 @WebServlet(urlPatterns = "/journals")
 public class AllJournalsServlet extends HttpServlet {
 
-    private JournalRepository journalRepository;
+    private JournalRepositoryCustom<Journal> journalRepository;
 
     private final Logger logger = LoggerFactory.getLogger(AllJournalsServlet.class);
 
@@ -30,7 +30,6 @@ public class AllJournalsServlet extends HttpServlet {
     public void init() throws ServletException {
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
-
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -59,7 +58,7 @@ public class AllJournalsServlet extends HttpServlet {
     }
 
     @Autowired
-    public void setJournalRepository(JournalRepository journalRepository) {
+    public void setJournalRepository(JournalRepositoryCustom<Journal> journalRepository) {
         this.journalRepository = journalRepository;
     }
 }
