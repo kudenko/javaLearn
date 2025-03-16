@@ -2,7 +2,6 @@ package app.library.controller;
 
 import app.library.model.Journal;
 import app.library.repository.JournalRepository;
-import app.library.repository.JournalRepositoryCustom;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -30,7 +29,6 @@ public class AllJournalsServlet extends HttpServlet {
     public void init() throws ServletException {
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
     }
-
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
