@@ -5,7 +5,6 @@ import app.library.exceptions.AuthorRepositoryException;
 import app.library.exceptions.BookRepositoryException;
 import app.library.model.Book;
 import app.library.repository.AuthorRepository;
-import app.library.repository.AuthorRepositoryCustom;
 import app.library.repository.BookRepository;
 import app.library.repository.BookRepositoryCustom;
 import jakarta.servlet.ServletException;
@@ -25,7 +24,7 @@ import java.io.IOException;
 @WebServlet(urlPatterns = "/books/creation")
 public class AddBookServlet extends HttpServlet {
     private BookRepositoryCustom<Book> bookRepository;
-    private AuthorRepositoryCustom<Author> authorRepository;
+    private AuthorRepository authorRepository;
 
     private final Logger logger = LoggerFactory.getLogger(AddBookServlet.class);
 
@@ -42,7 +41,7 @@ public class AddBookServlet extends HttpServlet {
         logger.info("Request parameters: name: {}, countPages: {}", name, countPages);
 
         try {
-            bookRepository.save(new Book(name, countPages, authorRepository.findById(authorId)));
+            bookRepository.save(new Book(name, countPages, authorRepository.getReferenceById(authorId)));
             req.setAttribute("success", "Book Was successfully Added!!! You can add another one.");
         } catch (AuthorRepositoryException | BookRepositoryException e) {
             logger.info("error {}", e.toString());
@@ -60,7 +59,7 @@ public class AddBookServlet extends HttpServlet {
     }
 
     @Autowired
-    public void setAuthorRepository(AuthorRepositoryCustom<Author> authorRepository) {
+    public void setAuthorRepository(AuthorRepository authorRepository) {
         this.authorRepository = authorRepository;
     }
 
