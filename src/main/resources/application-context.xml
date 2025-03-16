@@ -47,20 +47,4 @@
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
-    <bean id="propertiesConfig" class="app.library.config.PropertyConfig"/>
-
-    <bean id="hibernateConfig" class="app.library.config.HibernateConfig"/>
-
-    <bean id="sessionFactoryProvider" class="app.library.config.SessionFactoryProvider"/>
-
-    <bean id="hibernateConnectionManager" class="app.library.config.HibernateConnectionManager">
-        <constructor-arg ref="propertiesConfig"/>
-        <constructor-arg ref="hibernateConfig"/>
-        <constructor-arg ref="sessionFactoryProvider"/>
-    </bean>
-
-    <bean id="bookRepository" class="app.library.repository.BookRepository">
-        <constructor-arg ref="hibernateConnectionManager"/>
-    </bean>
-
 </beans>

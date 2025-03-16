@@ -1,12 +1,8 @@
 package app.library.controller;
 
-import app.library.model.Author;
 import app.library.exceptions.AuthorRepositoryException;
 import app.library.exceptions.BookRepositoryException;
-import app.library.model.Book;
-import app.library.repository.AuthorRepository;
-import app.library.repository.BookRepository;
-import app.library.repository.BookRepositoryCustom;
+import app.library.service.BookService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -23,8 +19,8 @@ import java.io.IOException;
 @Configurable
 @WebServlet(urlPatterns = "/books/creation")
 public class AddBookServlet extends HttpServlet {
-    private BookRepositoryCustom<Book> bookRepository;
-    private AuthorRepository authorRepository;
+
+    private BookService bookService;
 
     private final Logger logger = LoggerFactory.getLogger(AddBookServlet.class);
 
@@ -39,9 +35,8 @@ public class AddBookServlet extends HttpServlet {
         int countPages = Integer.parseInt(req.getParameter("countPages"));
         long authorId = Long.parseLong(req.getParameter("authorId"));
         logger.info("Request parameters: name: {}, countPages: {}", name, countPages);
-
         try {
-            bookRepository.save(new Book(name, countPages, authorRepository.getReferenceById(authorId)));
+            bookService.addBook(name, countPages, authorId);
             req.setAttribute("success", "Book Was successfully Added!!! You can add another one.");
         } catch (AuthorRepositoryException | BookRepositoryException e) {
             logger.info("error {}", e.toString());
@@ -59,12 +54,7 @@ public class AddBookServlet extends HttpServlet {
     }
 
     @Autowired
-    public void setAuthorRepository(AuthorRepository authorRepository) {
-        this.authorRepository = authorRepository;
-    }
-
-    @Autowired
-    public void setBookRepository(BookRepositoryCustom<Book> bookRepository) {
-        this.bookRepository = bookRepository;
+    public void setBookService(BookService bookService) {
+        this.bookService = bookService;
     }
 }

@@ -2,7 +2,6 @@ package app.library.controller;
 
 import app.library.model.Book;
 import app.library.repository.BookRepository;
-import app.library.repository.BookRepositoryCustom;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -22,7 +21,7 @@ import java.util.Optional;
 @WebServlet(urlPatterns = "/books")
 public class AllBooksServlet extends HttpServlet {
 
-    private BookRepositoryCustom<Book> bookRepository;
+    private BookRepository bookRepository;
     private final Logger logger = LoggerFactory.getLogger(AllBooksServlet.class);
 
 
@@ -49,7 +48,7 @@ public class AllBooksServlet extends HttpServlet {
     }
 
     @Autowired
-    public void setBookRepository(BookRepositoryCustom<Book> bookRepository) {
+    public void setBookRepository(BookRepository bookRepository) {
         this.bookRepository = bookRepository;
     }
 }

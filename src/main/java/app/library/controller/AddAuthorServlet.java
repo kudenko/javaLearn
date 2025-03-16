@@ -23,10 +23,6 @@ public class AddAuthorServlet extends HttpServlet {
     private AuthorRepository authorRepository;
     private final Logger logger = LoggerFactory.getLogger(AddAuthorServlet.class);
 
-    public AddAuthorServlet() {
-
-    }
-
     @Override
     public void init() throws ServletException {
         SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
