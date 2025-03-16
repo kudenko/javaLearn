@@ -3,7 +3,6 @@ package app.library.controller;
 import app.library.exceptions.JournalRepositoryException;
 import app.library.model.Journal;
 import app.library.repository.JournalRepository;
-import app.library.repository.JournalRepositoryCustom;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -20,7 +19,7 @@ import java.io.IOException;
 @Configurable
 @WebServlet(urlPatterns = "/journals/creation")
 public class AddJournalServlet extends HttpServlet {
-    private JournalRepositoryCustom<Journal> journalRepository;
+    private JournalRepository journalRepository;
 
     private final Logger logger = LoggerFactory.getLogger(AddJournalServlet.class);
 
@@ -55,7 +54,7 @@ public class AddJournalServlet extends HttpServlet {
     }
 
     @Autowired
-    public void setJournalRepository(JournalRepositoryCustom<Journal> journalRepository) {
+    public void setJournalRepository(JournalRepository journalRepository) {
         this.journalRepository = journalRepository;
     }
 }

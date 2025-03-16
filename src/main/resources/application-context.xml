@@ -2,36 +2,49 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans
-  		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
-  		http://www.springframework.org/schema/context
-  		http://www.springframework.org/schema/context/spring-context-3.2.xsd ">
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+       http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <context:property-placeholder location="classpath:application.properties"/>
 
     <context:spring-configured/>
     <context:annotation-config/>
     <context:component-scan base-package="app.library"/>
+    <jpa:repositories base-package="app.library.repository"/>
 
-    <bean id="propertiesConfig" class="app.library.config.PropertyConfig"/>
-
-    <bean id="hibernateConfig" class="app.library.config.HibernateConfig"/>
-
-    <bean id="sessionFactoryProvider" class="app.library.config.SessionFactoryProvider"/>
-
-    <bean id="hibernateConnectionManager" class="app.library.config.HibernateConnectionManager">
-        <constructor-arg ref="propertiesConfig"/>
-        <constructor-arg ref="hibernateConfig"/>
-        <constructor-arg ref="sessionFactoryProvider"/>
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://${application.db.host}/${application.db.name}"/>
+        <property name="username" value="${application.db.username}"/>
+        <property name="password" value="${application.db.password}"/>
     </bean>
 
-    <bean id="authorRepository" class="app.library.repository.AuthorRepository">
-        <constructor-arg ref="hibernateConnectionManager"/>
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="packagesToScan" value="app.library.model"/>
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter"/>
+        </property>
+        <property name="jpaProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.enable_lazy_load_no_trans">true</prop>
+            </props>
+        </property>
     </bean>
 
-    <bean id="bookRepository" class="app.library.repository.BookRepository">
-        <constructor-arg ref="hibernateConnectionManager"/>
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
-    <bean id="journalRepository" class="app.library.repository.JournalRepository">
-        <constructor-arg ref="hibernateConnectionManager"/>
-    </bean>
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
 </beans>
