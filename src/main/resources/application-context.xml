@@ -45,6 +45,11 @@
         <property name="entityManagerFactory" ref="entityManagerFactory"/>
     </bean>
 
+    <bean id="bookService" class="app.library.service.BookService">
+        <constructor-arg ref="bookRepository"/>
+        <constructor-arg ref="authorRepository"/>
+    </bean>
+
     <tx:annotation-driven transaction-manager="transactionManager"/>
 
 </beans>

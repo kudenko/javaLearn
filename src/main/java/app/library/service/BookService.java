@@ -5,25 +5,17 @@ import app.library.model.Author;
 import app.library.model.Book;
 import app.library.repository.AuthorRepository;
 import app.library.repository.BookRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
 public class BookService {
 
     private BookRepository bookRepository;
     private AuthorRepository authorRepository;
 
-    @Autowired
-    public void setAuthorRepository(AuthorRepository authorRepository) {
-        this.authorRepository = authorRepository;
-    }
-
-    @Autowired
-    public void setBookRepository(BookRepository bookRepository) {
-        this.bookRepository = bookRepository;
-    }
+   public BookService(BookRepository bookRepository, AuthorRepository authorRepository) {
+       this.bookRepository = bookRepository;
+       this.authorRepository = authorRepository;
+   }
 
     @Transactional
     public void addBook(String name, int countPages, long authorId) throws AuthorRepositoryException {
