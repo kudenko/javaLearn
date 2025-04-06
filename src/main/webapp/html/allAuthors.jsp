@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <title>All Authors</title>
-    <link rel="stylesheet" type="text/css" href="/javaLearnApp/css/table.css">
+        <link rel="stylesheet" href="<c:url value='/javaLearnApp/css/table.css' />" />
 <%@ include file="navBar.jsp" %>
         <h1>All Authors</h1>
                        <c:choose>

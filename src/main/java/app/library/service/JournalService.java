@@ -1,27 +1,30 @@
-package app.library.controller;
+package app.library.service;
 
 import app.library.model.Journal;
 import app.library.repository.JournalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
 
-@Controller
-@RequestMapping("/journals")
-public class AllJournalsController {
+public class JournalService {
 
     @Autowired
     private JournalRepository journalRepository;
 
-    @GetMapping
-    protected String getAllJournals(@RequestParam(required = false) String name, String year, String number, Model model) {
+    JournalService(JournalRepository journalRepository) {
+        this.journalRepository = journalRepository;
+    }
 
+    public void addJournal(String name, String countPages, String number, String publicationYear) {
+        int intCountPages = Integer.parseInt(countPages);
+        int intNumber = Integer.parseInt(number);
+        int intPublicationYear = Integer.parseInt(publicationYear);
+
+        journalRepository.save(new Journal(name, intCountPages, intNumber, intPublicationYear));
+    }
+
+    public List<Journal> getJournals(String name, String year, String number) {
         List<Journal> journals = Optional.ofNullable(name)
                 .filter(journalName -> !journalName.isEmpty())
                 .map(journalName -> {
@@ -32,7 +35,7 @@ public class AllJournalsController {
                 })
                 .orElseGet(() -> journalRepository.findAll());
 
-        model.addAttribute("journals", journals);
-        return "allJournals";
+        return journals;
+
     }
 }
