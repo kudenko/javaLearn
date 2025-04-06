@@ -28,12 +28,15 @@ public class AuthorService {
 
     public List<Author> getAuthors(String email) {
         try {
-
-        return Optional.ofNullable(email)
-                .map(authorRepository::findByEmail)
-                .orElseGet(authorRepository::findAll);
+            return Optional.ofNullable(email)
+                    .map(authorRepository::findByEmail)
+                    .orElseGet(authorRepository::findAll);
         } catch (AuthorRepositoryException e) {
             return new ArrayList<>();
         }
+    }
+
+    public List<Author> getAuthors() {
+        return authorRepository.findAll();
     }
 }

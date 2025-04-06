@@ -7,6 +7,9 @@ import app.library.repository.AuthorRepository;
 import app.library.repository.BookRepository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+
 public class BookService {
 
     private BookRepository bookRepository;
@@ -24,5 +27,15 @@ public class BookService {
 
         Book book = new Book(name, countPages, author);
         bookRepository.save(book);
+    }
+
+    public List<Book> getBooks(String name) {
+        return Optional.ofNullable(name)
+                .map(bookRepository::findBooksByName)
+                .orElseGet(() -> bookRepository.findAll());
+    }
+
+    public List<Book> getBooks() {
+        return bookRepository.findAll();
     }
 }
