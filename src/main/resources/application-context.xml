@@ -50,6 +50,10 @@
         <constructor-arg ref="authorRepository"/>
     </bean>
 
+    <bean id="authorService" class="app.library.service.AuthorService">
+        <constructor-arg ref="authorRepository"/>
+    </bean>
+
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/html/" />
         <property name="suffix" value=".jsp" />
