@@ -7,11 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -25,33 +25,35 @@ public class AuthorController {
     private final Logger logger = LoggerFactory.getLogger(AuthorController.class);
 
     @GetMapping("/creation/form")
-    protected String getAuthorsCreationForm() {
-        return "addAuthor";
+    protected ModelAndView getAuthorsCreationForm() {
+        return new ModelAndView("addAuthor");
     }
 
     @GetMapping
-    protected String getAuthors(@RequestParam(required = false) String email, Model model) {
+    protected ModelAndView getAuthors(@RequestParam(required = false) String email) {
         List<Author> authors = authorService.getAuthors(email);
-        model.addAttribute("authors", authors);
-        return ("allAuthors");
+        ModelAndView mav = new ModelAndView("allAuthors");
+        mav.addObject("authors", authors);
+        return mav;
     }
 
     @GetMapping("/search/form")
-    protected String getFindAuthorForm() {
-        return "findAuthor";
+    protected ModelAndView getFindAuthorForm() {
+        return new ModelAndView("findAuthor");
     }
 
     @PostMapping("/creation")
-    protected String createAuthor(@RequestParam String name, @RequestParam String lastname, @RequestParam String email, Model model) {
+    protected ModelAndView createAuthor(@RequestParam String name, @RequestParam String lastname, @RequestParam String email) {
+        ModelAndView mav = new ModelAndView("addAuthor");
         logger.info("Request with parameters name: {}, lastName: {}, email {}", name, lastname, email);
         try {
             authorService.addAuthor(name, lastname, email);
-            model.addAttribute("success", "Author Was successfully Added!!! You can add another one.");
+            mav.addObject("success", "Author Was successfully Added!!! You can add another one.");
         } catch (AuthorRepositoryException e) {
             logger.error(e.toString());
-            model.addAttribute("error", "Error, while adding an Author. Please try again or contact administrator");
+            mav.addObject("error", "Error, while adding an Author. Please try again or contact administrator");
         }
         logger.info("Redirecting");
-        return "addAuthor";
+        return mav;
     }
 }
