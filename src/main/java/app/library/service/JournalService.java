@@ -30,7 +30,7 @@ public class JournalService {
                 .map(journalName -> {
                     int intYear = Integer.parseInt(year);
                     int intNumber = Integer.parseInt(number);
-                    List<Journal> foundJournals = journalRepository.findByNameYearNumber(journalName, intYear, intNumber);
+                    List<Journal> foundJournals = journalRepository.findByNameAndPublicationYearAndNumber(journalName, intYear, intNumber);
                     return foundJournals;
                 })
                 .orElseGet(() -> journalRepository.findAll());
