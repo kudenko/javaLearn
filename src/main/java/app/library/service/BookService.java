@@ -21,11 +21,7 @@ public class BookService {
    }
 
     @Transactional
-    public void addBook(String name, int countPages, long authorId) throws AuthorRepositoryException {
-        Author author = authorRepository.findById(authorId)
-                .orElseThrow(() -> new AuthorRepositoryException("Author not found"));
-
-        Book book = new Book(name, countPages, author);
+    public void addBook(Book book) throws AuthorRepositoryException {
         bookRepository.save(book);
     }
 

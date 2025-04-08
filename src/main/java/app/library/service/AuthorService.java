@@ -39,4 +39,8 @@ public class AuthorService {
     public List<Author> getAuthors() {
         return authorRepository.findAll();
     }
+
+    public Author getAuthorById(Long authorId) {
+        return authorRepository.getReferenceById(authorId);
+    }
 }
