@@ -18,9 +18,9 @@ public class AuthorService {
         this.authorRepository = authorRepository;
     }
 
-    public void addAuthor(String name, String lastname, String email) {
+    public void addAuthor(Author author) {
         try {
-            authorRepository.save(new Author(name, lastname, email));
+            authorRepository.save(author);
         } catch (AuthorRepositoryException e) {
 
         }

@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <%@ include file="navBar.jsp" %>
@@ -13,21 +15,24 @@
                     <c:if test="${not empty error}">
                         <p class="text-center">${error}</p>
                     </c:if>
-                    <form action="/javaLearnApp/authors/creation" method="post">
+                    <form:form action="/javaLearnApp/authors/creation" modelAttribute="author" method="post">
                         <div class="form-group">
-                            <label for="name">First Name:</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <form:label path="firstName">First Name:</form:label>
+                            <form:input path="firstName" cssClass="form-control" />
+                            <form:errors path="firstName" cssClass="text-danger" />
                         </div>
                         <div class="form-group">
-                            <label for="lastname">Last Name:</label>
-                            <input type="text" class="form-control" id="lastname" name="lastname" required>
+                            <form:label path="lastName">Last Name:</form:label>
+                            <form:input path="lastName" cssClass="form-control" />
+                            <form:errors path="lastName" cssClass="text-danger" />
                         </div>
                         <div class="form-group">
-                            <label for="email">Email:</label>
-                            <input type="email" class="form-control" id="email" name="email" required>
+                            <form:label path="email">Email:</form:label>
+                            <form:input path="email" cssClass="form-control" />
+                            <form:errors path="email" cssClass="text-danger" />
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
+                    </form:form>
                 </div>
     </body>
 </html>
