@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
 <%@ include file="navBar.jsp" %>
@@ -13,25 +15,29 @@
         </c:if>
         <div class="container">
                     <h2>Add New Journal</h2>
-                    <form action="/javaLearnApp/journals/creation" method="post">
+                    <form:form action="/javaLearnApp/journals/creation" modelAttribute="journal" method="post">
                         <div class="form-group">
-                            <label for="name">Journal Name:</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <form:label path="name">Journal Name:</form:label>
+                            <form:input path="name" cssClass="form-control" />
+                            <form:errors path="name" cssClass="text-danger" />
                         </div>
                         <div class="form-group">
-                            <label for="countPages">Count of Pages:</label>
-                            <input type="number" class="form-control" id="countPages" name="countPages" required>
+                            <form:label path="countPages">Count of Pages:</form:label>
+                            <form:input path="countPages" cssClass="form-control" />
+                            <form:errors path="countPages" cssClass="text-danger" />
                         </div>
                         <div class="form-group">
-                            <label for="number">Number:</label>
-                            <input type="number" class="form-control" id="number" name="number" required>
+                            <form:label path="number">Number:</form:label>
+                            <form:input path="number" cssClass="form-control" />
+                            <form:errors path="number" cssClass="text-danger" />
                         </div>
                         <div class="form-group">
-                            <label for="number">Publication Year:</label>
-                            <input type="number" class="form-control" id="publicationYear" name="publicationYear" required>
+                            <form:label path="publicationYear">Publication Year:</form:label>
+                            <form:input path="publicationYear" cssClass="form-control" />
+                            <form:errors path="publicationYear" cssClass="text-danger" />
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
+                    </form:form>
                 </div>
     </body>
 </html>

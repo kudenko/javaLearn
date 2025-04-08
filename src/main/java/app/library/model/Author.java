@@ -14,6 +14,7 @@ import java.util.Objects;
 @Entity
 @Table(name = "author", schema = "library")
 public class Author {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "author_seq")
     @SequenceGenerator(name = "author_seq", sequenceName = "author_id_seq", allocationSize = 1)
