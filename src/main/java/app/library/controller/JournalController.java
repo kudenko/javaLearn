@@ -1,17 +1,16 @@
 package app.library.controller;
 
-import app.library.exceptions.JournalRepositoryException;
 import app.library.model.Journal;
 import app.library.service.JournalService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,39 +24,39 @@ public class JournalController {
     private final Logger logger = LoggerFactory.getLogger(JournalController.class);
 
     @GetMapping("/creation/form")
-    protected String getJournalForm() {
+    protected String getJournalForm(Model model, HttpServletRequest request) {
+        model.addAttribute("journal", new Journal());
+        request.setAttribute("viewName", "addJournal");
         return "addJournal";
     }
 
     @GetMapping("/search/form")
-    protected String getJournalFindForm() {
+    protected String getJournalFindForm(HttpServletRequest request) {
+        request.setAttribute("viewName", "findJournal");
         return "findJournal";
     }
 
     @PostMapping("/creation")
-    protected String createJournal(@RequestParam String name,
-                                   @RequestParam String countPages,
-                                   @RequestParam String number,
-                                   @RequestParam String publicationYear,
-                                   Model model) {
-        logger.info("Parameters of request. name: {}, countPages: {}, number: {}, pubYear: {}", name, countPages, number, publicationYear);
-        try {
-            journalService.addJournal(name, countPages, number, publicationYear);
-            model.addAttribute("success", "Journal Was successfully Added!!! You can add another one.");
-        } catch (JournalRepositoryException e) {
-            logger.error("Saving a journal with an error: {} ", e.toString());
-            model.addAttribute("error", "Error, while adding a journal. Please try again or contact administrator");
+    protected String createJournal(@ModelAttribute("journal") @Valid Journal journal, BindingResult result,
+                                   Model model, HttpServletRequest request) {
+        if (result.hasErrors()) {
+            return "addJournal";
         }
+
+        request.setAttribute("viewName", "addJournal");
+
+        logger.info("Parameters of request. name: {}, countPages: {}, number: {}, pubYear: {}", journal.getName(), journal.getCountPages(), journal.getNumber(), journal.getPublicationYear());
+        journalService.addJournal(journal);
+        model.addAttribute("success", "Journal Was successfully Added!!! You can add another one.");
         logger.info("Redirecting to addJournal jsp");
         return "addJournal";
     }
 
     @GetMapping
-    protected String getAllJournals(@RequestParam(required = false) String name, String year, String number, Model model) {
+    protected String getAllJournals(@RequestParam(required = false) String name, String year, String number, Model model, HttpServletRequest request) {
         List<Journal> journals = journalService.getJournals(name, year, number);
         model.addAttribute("journals", journals);
+        request.setAttribute("viewName", "allJournals");
         return "allJournals";
     }
-
-
 }

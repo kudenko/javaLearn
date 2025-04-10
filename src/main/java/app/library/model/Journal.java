@@ -1,6 +1,9 @@
 package app.library.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -17,11 +20,15 @@ public class Journal extends Publication {
     @SequenceGenerator(name = "journal_seq", sequenceName = "journal_id_seq", allocationSize = 1)
     private Long id;
 
+    @NotNull(message = "Number is required")
+    @Min(value = 1, message = "Min value number is 1")
     @Column(name = "number")
-    private int number;
+    private Integer number;
 
+    @NotNull(message = "Publication year is required")
+    @Max(value = 2030, message = "Publication year is too high")
     @Column(name = "publication_year")
-    private int publicationYear;
+    private Integer publicationYear;
 
     public Journal(String name, int countPages, int number, int publicationYear) {
         super(name, countPages);

@@ -16,12 +16,8 @@ public class JournalService {
         this.journalRepository = journalRepository;
     }
 
-    public void addJournal(String name, String countPages, String number, String publicationYear) {
-        int intCountPages = Integer.parseInt(countPages);
-        int intNumber = Integer.parseInt(number);
-        int intPublicationYear = Integer.parseInt(publicationYear);
-
-        journalRepository.save(new Journal(name, intCountPages, intNumber, intPublicationYear));
+    public void addJournal(Journal journal) {
+        journalRepository.save(journal);
     }
 
     public List<Journal> getJournals(String name, String year, String number) {
@@ -30,12 +26,11 @@ public class JournalService {
                 .map(journalName -> {
                     int intYear = Integer.parseInt(year);
                     int intNumber = Integer.parseInt(number);
-                    List<Journal> foundJournals = journalRepository.findByNameYearNumber(journalName, intYear, intNumber);
+                    List<Journal> foundJournals = journalRepository.findByNameAndPublicationYearAndNumber(journalName, intYear, intNumber);
                     return foundJournals;
                 })
                 .orElseGet(() -> journalRepository.findAll());
 
         return journals;
-
     }
 }

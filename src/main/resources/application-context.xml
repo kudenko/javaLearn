@@ -22,6 +22,9 @@
     <context:component-scan base-package="app.library"/>
     <jpa:repositories base-package="app.library.repository"/>
 
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"/>
+
+
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="org.postgresql.Driver"/>
         <property name="url" value="jdbc:postgresql://${application.db.host}/${application.db.name}"/>
@@ -65,7 +68,6 @@
         <property name="prefix" value="/html/" />
         <property name="suffix" value=".jsp" />
     </bean>
-
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
 

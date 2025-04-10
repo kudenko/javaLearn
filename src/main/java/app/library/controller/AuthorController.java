@@ -1,17 +1,16 @@
 package app.library.controller;
 
-import app.library.exceptions.AuthorRepositoryException;
 import app.library.model.Author;
 import app.library.service.AuthorService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -25,33 +24,42 @@ public class AuthorController {
     private final Logger logger = LoggerFactory.getLogger(AuthorController.class);
 
     @GetMapping("/creation/form")
-    protected String getAuthorsCreationForm() {
-        return "addAuthor";
+    protected ModelAndView getAuthorsCreationForm(HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("addAuthor");
+        request.setAttribute("viewName", "addAuthor");
+        mav.addObject("author", new Author());
+        return mav;
     }
 
     @GetMapping
-    protected String getAuthors(@RequestParam(required = false) String email, Model model) {
+    protected ModelAndView getAuthors(@RequestParam(required = false) String email, HttpServletRequest request) {
         List<Author> authors = authorService.getAuthors(email);
-        model.addAttribute("authors", authors);
-        return ("allAuthors");
+        ModelAndView mav = new ModelAndView("allAuthors");
+        request.setAttribute("viewName", "allAuthors");
+        mav.addObject("authors", authors);
+        return mav;
     }
 
     @GetMapping("/search/form")
-    protected String getFindAuthorForm() {
-        return "findAuthor";
+    protected ModelAndView getFindAuthorForm(HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("findAuthor");
+        request.setAttribute("viewName", "findAuthor");
+        mav.addObject("author", new Author());
+        return mav;
     }
 
     @PostMapping("/creation")
-    protected String createAuthor(@RequestParam String name, @RequestParam String lastname, @RequestParam String email, Model model) {
-        logger.info("Request with parameters name: {}, lastName: {}, email {}", name, lastname, email);
-        try {
-            authorService.addAuthor(name, lastname, email);
-            model.addAttribute("success", "Author Was successfully Added!!! You can add another one.");
-        } catch (AuthorRepositoryException e) {
-            logger.error(e.toString());
-            model.addAttribute("error", "Error, while adding an Author. Please try again or contact administrator");
+    protected ModelAndView createAuthor(@ModelAttribute("author") @Valid Author author, BindingResult result, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("addAuthor");
+        request.setAttribute("viewName", "addAuthor");
+        if (result.hasErrors()) {
+            return mav;
         }
+
+        logger.info("Request with parameters name: {}, lastName: {}, email {}", author.getFirstName(), author.getLastName(), author.getEmail());
+        authorService.addAuthor(author);
+        mav.addObject("success", "Author Was successfully Added!!! You can add another one.");
         logger.info("Redirecting");
-        return "addAuthor";
+        return mav;
     }
 }

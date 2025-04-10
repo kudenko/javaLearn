@@ -26,6 +26,9 @@
         <spring.version>6.2.4</spring.version>
         <spring-data-jpa.version>3.4.4</spring-data-jpa.version>
         <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+        <jakarta.validation-api.version>3.1.1</jakarta.validation-api.version>
+        <hibernate-validator.version>8.0.2.Final</hibernate-validator.version>
+        <akarta.el-api.version>6.0.1</akarta.el-api.version>
     </properties>
 
     <dependencies>
@@ -106,6 +109,22 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
             <version>${spring-data-jpa.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>${jakarta.validation-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-validator</artifactId>
+            <version>${hibernate-validator.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>jakarta.el</groupId>
+            <artifactId>jakarta.el-api</artifactId>
+            <version>${akarta.el-api.version}</version>
         </dependency>
 
         <!-- Testing -->
