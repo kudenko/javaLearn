@@ -18,22 +18,22 @@
                     <form:form action="/javaLearnApp/journals/creation" modelAttribute="journal" method="post">
                         <div class="form-group">
                             <form:label path="name">Journal Name:</form:label>
-                            <form:input path="name" cssClass="form-control" />
+                            <form:input path="name" cssClass="form-control" required="true"/>
                             <form:errors path="name" cssClass="text-danger" />
                         </div>
                         <div class="form-group">
                             <form:label path="countPages">Count of Pages:</form:label>
-                            <form:input path="countPages" cssClass="form-control" />
+                            <form:input path="countPages" cssClass="form-control" required="true" type="number" min="1"/>
                             <form:errors path="countPages" cssClass="text-danger" />
                         </div>
                         <div class="form-group">
                             <form:label path="number">Number:</form:label>
-                            <form:input path="number" cssClass="form-control" />
+                            <form:input path="number" cssClass="form-control" required="true" type="number" min="1"/>
                             <form:errors path="number" cssClass="text-danger" />
                         </div>
                         <div class="form-group">
                             <form:label path="publicationYear">Publication Year:</form:label>
-                            <form:input path="publicationYear" cssClass="form-control" />
+                            <form:input path="publicationYear" cssClass="form-control" required="true" type="number" min="1" max="3000"/>
                             <form:errors path="publicationYear" cssClass="text-danger" />
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>

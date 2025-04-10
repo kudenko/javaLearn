@@ -10,15 +10,15 @@
                     <form action="/javaLearnApp/journals" method="get">
                         <div class="form-group">
                             <label for="name">Name:</label>
-                            <input type="text" class="form-control" id="name" name="name" required>
+                            <input type="text" class="form-control" id="name" name="name" required="true"/>
                         </div>
                         <div class="form-group">
                             <label for="year">Year:</label>
-                            <input type="text" class="form-control" id="year" name="year" required>
+                            <input type="number" class="form-control" id="year" name="year" required="true"/>
                         </div>
                         <div class="form-group">
                             <label for="number">Number:</label>
-                            <input type="text" class="form-control" id="number" name="number" required>
+                            <input type="number" class="form-control" id="number" name="number" required="true"/>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>

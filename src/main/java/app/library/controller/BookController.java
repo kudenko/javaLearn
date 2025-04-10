@@ -1,11 +1,10 @@
 package app.library.controller;
 
-import app.library.exceptions.AuthorRepositoryException;
-import app.library.exceptions.BookRepositoryException;
 import app.library.model.Author;
 import app.library.model.Book;
 import app.library.service.AuthorService;
 import app.library.service.BookService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,39 +29,30 @@ public class BookController {
     private final Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @PostMapping("/creation")
-    protected String createBook(@ModelAttribute("book") @Valid Book book, @RequestParam("authorId") Long authorId,  BindingResult result,
-                                Model model) {
+    protected String createBook(@ModelAttribute("book") @Valid Book book, @RequestParam("authorId") Long authorId, BindingResult result,
+                                Model model, HttpServletRequest request) {
 
-        Author checkedAuthor = authorService.getAuthorById(authorId);
+        request.setAttribute("viewName", "addBook");
 
-        if (checkedAuthor == null) {
-            result.rejectValue("author", "error.author", "Invalid Author ID");
-            return "addBook";
-        }
-
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             model.addAttribute("error", result.getAllErrors());
             return "addBook";
         }
 
         logger.info("Request parameters: name: {}, countPages: {}", book.getName(), book.getCountPages());
-        try {
-            bookService.addBook(book);
-            model.addAttribute("success", "Book Was successfully Added!!! You can add another one.");
-            List<Author> authors = authorService.getAuthors();
-            model.addAttribute("authors", authors);
-        } catch (AuthorRepositoryException | BookRepositoryException e) {
-            logger.info("error {}", e.toString());
-            model.addAttribute("error", "Error, while adding a Book. Please try again or contact administrator");
-        }
+        bookService.addBook(book, authorId);
+        model.addAttribute("success", "Book Was successfully Added!!! You can add another one.");
+        List<Author> authors = authorService.getAuthors();
+        model.addAttribute("authors", authors);
         logger.info("Redirecting to form");
         return "addBook";
     }
 
     @GetMapping("/creation/form")
-    protected String getAuthors(Model model) {
+    protected String getAuthors(Model model, HttpServletRequest request) {
         logger.info("Get list of authors");
         List<Author> authors = authorService.getAuthors();
+        request.setAttribute("viewName", "addBook");
         model.addAttribute("authors", authors);
         model.addAttribute("book", new Book());
         if (authors.isEmpty()) {
@@ -74,14 +64,16 @@ public class BookController {
     }
 
     @GetMapping
-    protected String getAllBooks(@RequestParam(required = false) String name, Model model) {
+    protected String getAllBooks(@RequestParam(required = false) String name, Model model, HttpServletRequest request) {
         List<Book> books = bookService.getBooks(name);
+        request.setAttribute("viewName", "allBooks");
         model.addAttribute("books", books);
         return "allBooks";
     }
 
     @GetMapping("/search/form")
-    protected String getBookFindForm() {
+    protected String getBookFindForm(HttpServletRequest request) {
+        request.setAttribute("viewName", "findBook");
         return "findBook";
     }
 }

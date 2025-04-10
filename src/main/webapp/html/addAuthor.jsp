@@ -18,17 +18,17 @@
                     <form:form action="/javaLearnApp/authors/creation" modelAttribute="author" method="post">
                         <div class="form-group">
                             <form:label path="firstName">First Name:</form:label>
-                            <form:input path="firstName" cssClass="form-control" />
+                            <form:input path="firstName" cssClass="form-control" required="true"/>
                             <form:errors path="firstName" cssClass="text-danger" />
                         </div>
                         <div class="form-group">
                             <form:label path="lastName">Last Name:</form:label>
-                            <form:input path="lastName" cssClass="form-control" />
+                            <form:input path="lastName" cssClass="form-control" required="true"/>
                             <form:errors path="lastName" cssClass="text-danger" />
                         </div>
                         <div class="form-group">
                             <form:label path="email">Email:</form:label>
-                            <form:input path="email" cssClass="form-control" />
+                            <form:input path="email" cssClass="form-control" type="email" required="true"/>
                             <form:errors path="email" cssClass="text-danger" />
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>

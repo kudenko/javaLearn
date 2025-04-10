@@ -18,12 +18,12 @@
                     <form:form action="/javaLearnApp/books/creation" modelAttribute="book" method="post">
                         <div class="form-group">
                             <form:label path="name">Book Name:</form:label>
-                            <form:input path="name" cssClass="form-control" />
+                            <form:input path="name" cssClass="form-control" required="true"/>
                             <form:errors path="name" cssClass="text-danger" />
                         </div>
                         <div class="form-group">
                             <form:label path="countPages">Count of Pages:</form:label>
-                            <form:input path="countPages" cssClass="form-control" />
+                            <form:input path="countPages" cssClass="form-control" type="number" min="1" required="true"/>
                             <form:errors path="countPages" cssClass="text-danger" />
                         </div>
                         <div class="form-group">

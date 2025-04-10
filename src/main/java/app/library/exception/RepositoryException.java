@@ -1,4 +1,4 @@
-package app.library.exceptions;
+package app.library.exception;
 
 public class RepositoryException extends RuntimeException {
     public RepositoryException(String message) {

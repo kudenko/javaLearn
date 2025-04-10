@@ -32,6 +32,5 @@ public class JournalService {
                 .orElseGet(() -> journalRepository.findAll());
 
         return journals;
-
     }
 }
