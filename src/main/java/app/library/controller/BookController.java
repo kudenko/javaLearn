@@ -1,6 +1,5 @@
 package app.library.controller;
 
-import app.library.editor.CustomIntegerEditor;
 import app.library.model.Author;
 import app.library.model.Book;
 import app.library.service.AuthorService;
@@ -10,11 +9,9 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,11 +26,6 @@ public class BookController {
     @Autowired
     private AuthorService authorService;
 
-    @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(Integer.class, new CustomIntegerEditor());
-    }
-
     private final Logger logger = LoggerFactory.getLogger(BookController.class);
 
     @PostMapping("/creation")
@@ -41,10 +33,6 @@ public class BookController {
                                 Model model, HttpServletRequest request) {
 
         request.setAttribute("viewName", "addBook");
-
-        if (book.getCountPages() == null) {
-            result.rejectValue("countPages", "error.countPages", "Invalid page count. Please enter a valid number.");
-        }
 
         if (result.hasErrors()) {
             model.addAttribute("error", result.getAllErrors());

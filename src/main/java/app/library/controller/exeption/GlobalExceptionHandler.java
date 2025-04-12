@@ -9,12 +9,9 @@ import app.library.model.Journal;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.validation.BindException;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.ModelAndView;
 
 @ControllerAdvice
@@ -51,33 +48,33 @@ public class GlobalExceptionHandler {
         return mav;
     }
 
-//    @ExceptionHandler(RuntimeException.class)
-//    public ModelAndView handleRuntimeExceptions(RuntimeException e, HttpServletRequest request) {
-//        ModelAndView mav = new ModelAndView(getView(request));
-//        logger.error("Unexpected Error happened", e);
-//        mav.addObject("error", "Unexpected Error happened. Please try again.");
-//        return mav;
-//    }
-//
-//    @ExceptionHandler(Exception.class)
-//    public ModelAndView handleExceptions(Exception e, HttpServletRequest request) {
-//        ModelAndView mav = new ModelAndView(getView(request));
-//        logger.error("Unexpected Error happened", e);
-//        mav.addObject("error", "Unexpected Error happened. Please try again.");
-//        return mav;
-//    }
+    @ExceptionHandler(RuntimeException.class)
+    public ModelAndView handleRuntimeExceptions(RuntimeException e, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView(getView(request));
+        logger.error("Unexpected Error happened", e);
+        mav.addObject("error", "Unexpected Error happened. Please try again.");
+        return mav;
+    }
 
-//    @ExceptionHandler(BindException.class)
-//    public ModelAndView handleTypeMismatchException(BindException e, HttpServletRequest request) {
-//        String view = getView(request);
-//        ModelAndView mav = new ModelAndView(view);
-//        logger.error("Mismatch error happened", e);
-//        mav.addObject("book", new Book());
-//        mav.addObject("author", new Author());
-//        mav.addObject("journal", new Journal());
-//        mav.addObject("error", "Mismatch Error happened. You entered wrong value to the field. Please try again with correct number.");
-//        return mav;
-//    }
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleExceptions(Exception e, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView(getView(request));
+        logger.error("Unexpected Error happened", e);
+        mav.addObject("error", "Unexpected Error happened. Please try again.");
+        return mav;
+    }
+
+    @ExceptionHandler(BindException.class)
+    public ModelAndView handleTypeMismatchException(BindException e, HttpServletRequest request) {
+        String view = getView(request);
+        ModelAndView mav = new ModelAndView(view);
+        logger.error("Mismatch error happened", e);
+        mav.addObject("book", new Book());
+        mav.addObject("author", new Author());
+        mav.addObject("journal", new Journal());
+        mav.addObject("error", "Mismatch Error happened. You entered wrong value to the field. Please try again with correct number.");
+        return mav;
+    }
 
     private String getView(HttpServletRequest request) {
         String view = (String) request.getAttribute("viewName");
