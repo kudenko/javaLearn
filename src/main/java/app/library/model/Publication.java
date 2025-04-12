@@ -21,8 +21,6 @@ public class Publication {
     @Column(name = "name", length = 500)
     private String name;
 
-    @NotNull(message = "Count Pages is required")
-    @Min(value = 1, message = "Page count should be more 1")
     @Column(name = "count_pages")
     private Integer countPages;
 
