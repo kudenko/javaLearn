@@ -1,5 +1,8 @@
-package app.library.exception;
+package app.library.controller.exeption;
 
+import app.library.exception.AuthorRepositoryException;
+import app.library.exception.BookRepositoryException;
+import app.library.exception.JournalRepositoryException;
 import app.library.model.Author;
 import app.library.model.Book;
 import app.library.model.Journal;
@@ -15,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class GlobalExceptionHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
 
     @ExceptionHandler(AuthorRepositoryException.class)
     public ModelAndView handleAuthorException(AuthorRepositoryException e, HttpServletRequest request) {
@@ -46,6 +50,14 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ModelAndView handleRuntimeExceptions(RuntimeException e, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView(getView(request));
+        logger.error("Unexpected Error happened", e);
+        mav.addObject("error", "Unexpected Error happened. Please try again.");
+        return mav;
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ModelAndView handleExceptions(Exception e, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView(getView(request));
         logger.error("Unexpected Error happened", e);
         mav.addObject("error", "Unexpected Error happened. Please try again.");

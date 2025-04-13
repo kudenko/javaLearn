@@ -29,3 +29,10 @@
                 font-size: 1.2em;
                 margin: 10px 0;
             }
+            .navbar-right li a {
+                color: white !important;
+                padding: 15px;
+            }
+            .navbar-right li a:hover {
+                color: #f8f8f8 !important;
+            }

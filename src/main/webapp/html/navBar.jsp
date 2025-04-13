@@ -37,6 +37,9 @@
                         </ul>
                     </li>
                 </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/javaLearnApp/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                </ul>
             </div>
         </nav>
     </body>
