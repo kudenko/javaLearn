@@ -42,3 +42,6 @@ build/
 
 #tomcat
 .smarttomcat
+
+#logs
+catalina.base_IS_UNDEFINED/

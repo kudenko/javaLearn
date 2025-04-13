@@ -15,3 +15,7 @@ INSERT INTO users (first_name, last_name, user_name, user_role, user_status, pas
 VALUES ('Test', 'User', 'testuser', 'ROLE_USER', 'ACTIVE', 'password');
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON users TO librarian;
+
+UPDATE users
+SET password = '$2a$10$O2TbcbqlYeFOZCNw4.w9aOMA3bylj4NyFMRaOKKOUF4NCJnHO.5.e'
+WHERE user_name = 'testuser';

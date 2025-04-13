@@ -16,9 +16,9 @@
         <security:form-login authentication-success-forward-url="/"/>
     </security:http>
 
-    <beans:bean id="passwordEncoder"
-                class="org.springframework.security.crypto.password.NoOpPasswordEncoder"
-                factory-method="getInstance" />
+    <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+        <beans:constructor-arg value="12"/>
+    </beans:bean>
 
     <security:authentication-manager>
         <security:authentication-provider user-service-ref="userTableDetailsService">
