@@ -23,7 +23,7 @@ public class AuthorController {
 
     private final Logger logger = LoggerFactory.getLogger(AuthorController.class);
 
-    @GetMapping("/creation/form")
+    @GetMapping("/creation")
     protected ModelAndView getAuthorsCreationForm(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("addAuthor");
         request.setAttribute("viewName", "addAuthor");
@@ -40,7 +40,7 @@ public class AuthorController {
         return mav;
     }
 
-    @GetMapping("/search/form")
+    @GetMapping("/search")
     protected ModelAndView getFindAuthorForm(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("findAuthor");
         request.setAttribute("viewName", "findAuthor");
@@ -48,7 +48,7 @@ public class AuthorController {
         return mav;
     }
 
-    @PostMapping("/creation")
+    @PostMapping
     protected ModelAndView createAuthor(@ModelAttribute("author") @Valid Author author, BindingResult result, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("addAuthor");
         request.setAttribute("viewName", "addAuthor");

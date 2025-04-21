@@ -23,20 +23,20 @@ public class JournalController {
 
     private final Logger logger = LoggerFactory.getLogger(JournalController.class);
 
-    @GetMapping("/creation/form")
+    @GetMapping("/creation")
     protected String getJournalForm(Model model, HttpServletRequest request) {
         model.addAttribute("journal", new Journal());
         request.setAttribute("viewName", "addJournal");
         return "addJournal";
     }
 
-    @GetMapping("/search/form")
+    @GetMapping("/search")
     protected String getJournalFindForm(HttpServletRequest request) {
         request.setAttribute("viewName", "findJournal");
         return "findJournal";
     }
 
-    @PostMapping("/creation")
+    @PostMapping
     protected String createJournal(@ModelAttribute("journal") @Valid Journal journal, BindingResult result,
                                    Model model, HttpServletRequest request) {
         if (result.hasErrors()) {

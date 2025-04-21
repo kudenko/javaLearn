@@ -15,7 +15,7 @@
         </c:if>
         <div class="container">
                     <h2>Add New Journal</h2>
-                    <form:form action="/javaLearnApp/journals/creation" modelAttribute="journal" method="post">
+                    <form:form action="/javaLearnApp/journals" modelAttribute="journal" method="post">
                         <div class="form-group">
                             <form:label path="name">Journal Name:</form:label>
                             <form:input path="name" cssClass="form-control" required="true"/>

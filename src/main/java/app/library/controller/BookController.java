@@ -28,7 +28,7 @@ public class BookController {
 
     private final Logger logger = LoggerFactory.getLogger(BookController.class);
 
-    @PostMapping("/creation")
+    @PostMapping
     protected String createBook(@ModelAttribute("book") @Valid Book book, @RequestParam("authorId") Long authorId, BindingResult result,
                                 Model model, HttpServletRequest request) {
 
@@ -48,7 +48,7 @@ public class BookController {
         return "addBook";
     }
 
-    @GetMapping("/creation/form")
+    @GetMapping("/creation")
     protected String getAuthors(Model model, HttpServletRequest request) {
         logger.info("Get list of authors");
         List<Author> authors = authorService.getAuthors();
@@ -71,7 +71,7 @@ public class BookController {
         return "allBooks";
     }
 
-    @GetMapping("/search/form")
+    @GetMapping("/search")
     protected String getBookFindForm(HttpServletRequest request) {
         request.setAttribute("viewName", "findBook");
         return "findBook";
