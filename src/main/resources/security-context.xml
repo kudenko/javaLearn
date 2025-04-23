@@ -10,10 +10,17 @@
                https://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <security:http auto-config="true">
+        <security:intercept-url pattern="/login" access="permitAll"/>
+        <security:intercept-url pattern="/javaLearnApp/css/**" access="permitAll"/>
+        <security:intercept-url pattern="/users/**" access="hasRole('ADMIN')"/>
         <security:intercept-url pattern="/**" access="isAuthenticated()"/>
         <security:csrf disabled="true"/>
         <security:logout logout-success-url="/"/>
-        <security:form-login authentication-success-forward-url="/"/>
+        <security:access-denied-handler error-page="/403"/>
+        <security:form-login login-page="/login"
+                             authentication-success-forward-url="/"
+                             username-parameter="username"
+                             password-parameter="password"/>
     </security:http>
 
     <beans:bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
@@ -26,4 +33,6 @@
         </security:authentication-provider>
     </security:authentication-manager>
 
+    <beans:bean id="webSecurityExpressionHandler"
+                class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler"/>
 </beans:beans>

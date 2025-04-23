@@ -19,3 +19,10 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON users TO librarian;
 UPDATE users
 SET password = '$2a$10$O2TbcbqlYeFOZCNw4.w9aOMA3bylj4NyFMRaOKKOUF4NCJnHO.5.e'
 WHERE user_name = 'testuser';
+
+GRANT USAGE, SELECT ON SEQUENCE users_id_seq TO librarian;
+
+GRANT UPDATE ON SEQUENCE users_id_seq TO librarian;
+
+INSERT INTO users (first_name, last_name, user_name, user_role, user_status, password)
+VALUES ('Admin', 'Admin', 'Admin', 'ROLE_ADMIN', 'ACTIVE', '$2a$12$7yD/tdkuAXSqCXT3RoPMzOSt8Gho6LhHuAdVhYtUntK4aLIHea6gy');
