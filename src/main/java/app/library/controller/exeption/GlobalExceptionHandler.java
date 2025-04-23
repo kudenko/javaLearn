@@ -3,9 +3,11 @@ package app.library.controller.exeption;
 import app.library.exception.AuthorRepositoryException;
 import app.library.exception.BookRepositoryException;
 import app.library.exception.JournalRepositoryException;
+import app.library.exception.UserRepositoryException;
 import app.library.model.Author;
 import app.library.model.Book;
 import app.library.model.Journal;
+import app.library.model.UserTable;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +47,15 @@ public class GlobalExceptionHandler {
         logger.error("Error during author creation", e);
         mav.addObject("book", new Book());
         mav.addObject("error", String.format("An error occurred while adding the book.\n %s. Please try again.", e.getMessage()));
+        return mav;
+    }
+
+    @ExceptionHandler(UserRepositoryException.class)
+    public ModelAndView handleUserException(UserRepositoryException e, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView(getView(request));
+        logger.error("Error during user creation", e);
+        mav.addObject("user", new UserTable());
+        mav.addObject("error", String.format("An error occurred while adding the user.\n %s. Please try again.", e.getMessage()));
         return mav;
     }
 

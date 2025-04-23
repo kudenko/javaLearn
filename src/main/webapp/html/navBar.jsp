@@ -1,3 +1,4 @@
+ <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
  <head>
         <title>Library</title>
         <meta charset="utf-8">
@@ -18,24 +19,35 @@
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Books <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="/javaLearnApp/books">All Books</a></li>
-                            <li><a href="/javaLearnApp/books/search/form">Find</a></li>
-                            <li><a href="/javaLearnApp/books/creation/form">Create</a></li>
+                            <li><a href="/javaLearnApp/books/search">Find</a></li>
+                            <li><a href="/javaLearnApp/books/creation">Create</a></li>
                         </ul>
                     </li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Journals <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="/javaLearnApp/journals">All Journals</a></li>
-                            <li><a href="/javaLearnApp/journals/search/form">Find</a></li>
-                            <li><a href="/javaLearnApp/journals/creation/form">Create</a></li>
+                            <li><a href="/javaLearnApp/journals/search">Find</a></li>
+                            <li><a href="/javaLearnApp/journals/creation">Create</a></li>
                         </ul>
                     </li>
                     <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Authors <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="/javaLearnApp/authors">All Authors</a></li>
-                            <li><a href="/javaLearnApp/authors/search/form">Find</a></li>
-                            <li><a href="/javaLearnApp/authors/creation/form">Create</a></li>
+                            <li><a href="/javaLearnApp/authors/search">Find</a></li>
+                            <li><a href="/javaLearnApp/authors/creation">Create</a></li>
                         </ul>
                     </li>
+
+                    <security:authorize access="hasRole('ROLE_ADMIN')">
+                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Users <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/javaLearnApp/users">All Users</a></li>
+                            <li><a href="/javaLearnApp/users/search">Find</a></li>
+                            <li><a href="/javaLearnApp/users/creation">Create</a></li>
+                        </ul>
+                    </li>
+                   </security:authorize>
+
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/javaLearnApp/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
