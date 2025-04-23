@@ -48,6 +48,16 @@ public class UserTableDetailsService implements UserDetailsService {
         }
     }
 
+    public void edit(UserTable user) {
+        UserTable existingUser = userRepository.getReferenceById(user.getId());
+        if(existingUser.getPassword().equals(user.getPassword())) {
+            user.setPassword(existingUser.getPassword());
+        } else if(user.getPassword() != null && !user.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+        }
+        userRepository.save(user);
+    }
+
     public List<UserTable> getAllUsers() {
         return userRepository.findAll();
     }
@@ -57,5 +67,9 @@ public class UserTableDetailsService implements UserDetailsService {
                 .flatMap(userRepository::findByUserName)
                 .map(List::of)
                 .orElseGet(userRepository::findAll);
+    }
+
+    public UserTable getById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new UserRepositoryException("No user with id " + id));
     }
 }

@@ -59,7 +59,39 @@ public class UserController {
     protected ModelAndView getFindAUserForm(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("findUser");
         request.setAttribute("viewName", "findUser");
-        mav.addObject("User", new UserTable());
+        mav.addObject("user", new UserTable());
+        return mav;
+    }
+
+    @GetMapping("/{id}")
+    public ModelAndView viewUser(@PathVariable Long id, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("displayUser");
+        request.setAttribute("viewName", "displayUser");
+        UserTable user = userService.getById(id);
+        mav.addObject("user", user);
+        return mav;
+    }
+
+    @GetMapping("/{id}/edit")
+    public ModelAndView editUserForm(@PathVariable Long id, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("editUser");
+        request.setAttribute("viewName", "editUser");
+        UserTable user = userService.getById(id);
+        mav.addObject("user", user);
+        return mav;
+    }
+
+    @PostMapping("/{id}/edit")
+    public ModelAndView editUser(@ModelAttribute("user") UserTable user, BindingResult result, HttpServletRequest request) {
+        ModelAndView mav = new ModelAndView("editUser");
+        request.setAttribute("viewName", "editUser");
+        mav.addObject("user", user);
+        if (result.hasErrors()) {
+            return mav;
+        }
+        logger.info("Edit with parameters name: {}, lastName: {}, username {}", user.getFirstName(), user.getLastName(), user.getUserName());
+        userService.edit(user);
+        mav.addObject("success", "User Was successfully Edited!!!");
         return mav;
     }
 }
