@@ -17,11 +17,15 @@ import java.util.List;
 @Controller
 @RequestMapping("/journals")
 public class JournalController {
-
-    @Autowired
     private JournalService journalService;
 
     private final Logger logger = LoggerFactory.getLogger(JournalController.class);
+
+    @Autowired
+
+    public JournalController(JournalService journalService) {
+        this.journalService = journalService;
+    }
 
     @GetMapping("/creation")
     protected String getJournalForm(Model model, HttpServletRequest request) {

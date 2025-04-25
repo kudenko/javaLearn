@@ -18,8 +18,12 @@ import java.util.List;
 @RequestMapping("/authors")
 public class AuthorController {
 
-    @Autowired
     AuthorService authorService;
+
+    @Autowired
+    public AuthorController(AuthorService authorService) {
+        this.authorService = authorService;
+    }
 
     private final Logger logger = LoggerFactory.getLogger(AuthorController.class);
 

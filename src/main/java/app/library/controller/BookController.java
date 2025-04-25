@@ -20,13 +20,17 @@ import java.util.List;
 @RequestMapping("/books")
 public class BookController {
 
-    @Autowired
     private BookService bookService;
 
-    @Autowired
     private AuthorService authorService;
 
     private final Logger logger = LoggerFactory.getLogger(BookController.class);
+
+    @Autowired
+    public BookController(BookService bookService, AuthorService authorService) {
+        this.bookService = bookService;
+        this.authorService = authorService;
+    }
 
     @PostMapping
     protected String createBook(@ModelAttribute("book") @Valid Book book, @RequestParam("authorId") Long authorId, BindingResult result,

@@ -20,8 +20,11 @@ public class UserController {
 
     Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    @Autowired
     UserTableDetailsService userService;
+
+    public UserController(UserTableDetailsService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping
     public ModelAndView getUsers(@RequestParam(required = false) String username, HttpServletRequest request) {
