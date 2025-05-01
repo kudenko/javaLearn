@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <title>User with id ${user.id}</title>
-        <link rel="stylesheet" href="<c:url value='/javaLearnApp/css/table.css' />" />
+        <link rel="stylesheet" href="<c:url value='/css/table.css' />" />
 <%@ include file="navBar.jsp" %>
 <c:if test="${not empty error}">
     <p class="text-center">${error}</p>

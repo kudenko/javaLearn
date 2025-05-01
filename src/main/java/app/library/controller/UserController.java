@@ -48,6 +48,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView("addUser");
         request.setAttribute("viewName", "addUser");
         if (result.hasErrors()) {
+            mav.addObject("user", user);
             return mav;
         }
 
@@ -55,6 +56,7 @@ public class UserController {
         userService.addUser(user);
         mav.addObject("success", "User Was successfully Added!!! You can add another one.");
         logger.info("Redirecting");
+        mav.addObject("user", new UserTable());
         return mav;
     }
 

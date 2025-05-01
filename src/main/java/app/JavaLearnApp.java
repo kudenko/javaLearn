@@ -1,12 +1,12 @@
 package app;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
 public class JavaLearnApp {
 
     public static void main(String[] args) {
-        String rawPassword = "password";
-        String encoded = new BCryptPasswordEncoder().encode(rawPassword);
-        System.out.println(encoded);
+        SpringApplication.run(JavaLearnApp.class, args);
     }
 }

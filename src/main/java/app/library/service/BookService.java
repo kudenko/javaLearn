@@ -5,11 +5,13 @@ import app.library.model.Author;
 import app.library.model.Book;
 import app.library.repository.AuthorRepository;
 import app.library.repository.BookRepository;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class BookService {
 
     private final BookRepository bookRepository;

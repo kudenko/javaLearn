@@ -1,4 +1,4 @@
-package app.library.controller.exeption;
+package app.library.controller.exception;
 
 import app.library.exception.AuthorRepositoryException;
 import app.library.exception.BookRepositoryException;
