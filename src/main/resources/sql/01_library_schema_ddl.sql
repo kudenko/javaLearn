@@ -21,7 +21,7 @@ SET SCHEMA 'library';
 CREATE  TABLE author (
     id SERIAL PRIMARY KEY,
     first_name VARCHAR(500),
-    last_nwiame VARCHAR(500),
+    last_name VARCHAR(500),
     email VARCHAR(500) NOT NULL
 );
 

@@ -52,7 +52,7 @@ public class BookController {
         return "addBook";
     }
 
-    @GetMapping("/creation")
+    @GetMapping("/form")
     protected String getAuthors(Model model, HttpServletRequest request) {
         logger.info("Get list of authors");
         List<Author> authors = authorService.getAuthors();

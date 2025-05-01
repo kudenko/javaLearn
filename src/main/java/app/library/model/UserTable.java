@@ -2,6 +2,7 @@ package app.library.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,10 +34,10 @@ public class UserTable {
     @Column(name = "user_name", length = 1000)
     private String userName;
 
-    @NotBlank(message = "User role is required")
-    @Size(max = 1000, message = "Max size is 1000")
+    @Enumerated(EnumType.STRING)
+    @NotNull(message = "User role is required")
     @Column(name = "user_role", length = 1000)
-    private String userRole;
+    private UserRole userRole;
 
     @NotBlank(message = "User status is required")
     @Size(max = 1000, message = "Max size is 1000")

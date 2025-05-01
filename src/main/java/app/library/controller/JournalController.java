@@ -27,7 +27,7 @@ public class JournalController {
         this.journalService = journalService;
     }
 
-    @GetMapping("/creation")
+    @GetMapping("/form")
     protected String getJournalForm(Model model, HttpServletRequest request) {
         model.addAttribute("journal", new Journal());
         request.setAttribute("viewName", "addJournal");
