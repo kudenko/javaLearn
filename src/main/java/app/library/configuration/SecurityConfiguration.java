@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
 
 @Configuration
 @EnableMethodSecurity(prePostEnabled = true)
@@ -31,28 +30,27 @@ public class SecurityConfiguration {
         return new BCryptPasswordEncoder(12);
     }
 
-    // Security filter chain configuration
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/login", "/javaLearnApp/css/**").permitAll()
-                        .requestMatchers("/users/**").hasRole("ADMIN")
-                        .anyRequest().authenticated()
-                )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
                         .usernameParameter("username")
                         .passwordParameter("password")
-                        .successForwardUrl("/")
+                        .defaultSuccessUrl("/", true)
                         .permitAll()
+                )
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/login", "/css/**", "/html/**").permitAll()
+                        .requestMatchers("/users/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()
                 )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/")
                 )
                 .exceptionHandling(exception -> exception
-                        .accessDeniedPage("/403")
+                        .accessDeniedPage("/forbidden")
                 )
                 .csrf(AbstractHttpConfigurer::disable);
 
@@ -62,11 +60,6 @@ public class SecurityConfiguration {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
-    }
-
-    @Bean
-    public DefaultWebSecurityExpressionHandler webSecurityExpressionHandler() {
-        return new DefaultWebSecurityExpressionHandler();
     }
 
     @Bean

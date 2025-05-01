@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ErrorController {
 
-    @RequestMapping("/403")
+    @RequestMapping("/forbidden")
     public String getAccessDeniedError() {
-        return "403";
+        return "forbidden";
     }
 
 }

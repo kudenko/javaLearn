@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <title>All Users</title>
-        <link rel="stylesheet" href="<c:url value='/javaLearnApp/css/table.css' />" />
+        <link rel="stylesheet" href="<c:url value='/css/table.css' />" />
 <%@ include file="navBar.jsp" %>
         <h1>All Users</h1>
                        <c:choose>

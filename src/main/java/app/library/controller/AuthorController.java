@@ -27,7 +27,7 @@ public class AuthorController {
 
     private final Logger logger = LoggerFactory.getLogger(AuthorController.class);
 
-    @GetMapping("/creation")
+    @GetMapping("/form")
     protected ModelAndView getAuthorsCreationForm(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("addAuthor");
         request.setAttribute("viewName", "addAuthor");

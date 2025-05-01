@@ -47,8 +47,9 @@
                         <div class="form-group">
                             <form:label path="userRole">User Role:</form:label>
                             <form:select path="userRole" cssClass="form-control" required="true">
-                                <form:option value="ROLE_USER">User</form:option>
-                                <form:option value="ROLE_ADMIN">Admin</form:option>
+                               <c:forEach var="role" items="${roles}">
+                                   <form:option value="${role}">${role.displayName}</form:option>
+                               </c:forEach>
                             </form:select>
                         </div>
                         <div class="form-group">

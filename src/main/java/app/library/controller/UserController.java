@@ -1,5 +1,6 @@
 package app.library.controller;
 
+import app.library.model.UserRole;
 import app.library.model.UserTable;
 import app.library.security.UserTableDetailsService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,7 +36,7 @@ public class UserController {
         return mav;
     }
 
-    @GetMapping("/creation")
+    @GetMapping("/form")
     protected ModelAndView getUserCreationForm(HttpServletRequest request) {
         ModelAndView mav = new ModelAndView("addUser");
         request.setAttribute("viewName", "addUser");
@@ -48,6 +49,7 @@ public class UserController {
         ModelAndView mav = new ModelAndView("addUser");
         request.setAttribute("viewName", "addUser");
         if (result.hasErrors()) {
+            mav.addObject("user", user);
             return mav;
         }
 
@@ -55,6 +57,7 @@ public class UserController {
         userService.addUser(user);
         mav.addObject("success", "User Was successfully Added!!! You can add another one.");
         logger.info("Redirecting");
+        mav.addObject("user", new UserTable());
         return mav;
     }
 
@@ -81,6 +84,7 @@ public class UserController {
         request.setAttribute("viewName", "editUser");
         UserTable user = userService.getById(id);
         mav.addObject("user", user);
+        mav.addObject("roles", UserRole.values());
         return mav;
     }
 

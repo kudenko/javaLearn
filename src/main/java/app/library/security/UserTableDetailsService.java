@@ -1,11 +1,10 @@
 package app.library.security;
 
 import app.library.exception.UserRepositoryException;
-import app.library.model.Author;
 import app.library.model.UserTable;
-import app.library.repository.AuthorRepository;
 import app.library.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -23,12 +22,8 @@ public class UserTableDetailsService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserTableDetailsService(UserRepository repository) {
+    public UserTableDetailsService(UserRepository repository, @Lazy PasswordEncoder passwordEncoder) {
         this.userRepository = repository;
-    }
-
-    @Autowired
-    public void setPasswordEncoder(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
 
