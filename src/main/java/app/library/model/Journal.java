@@ -12,7 +12,7 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "journal", schema = "library")
+@Table(name = "journal")
 public class Journal extends Publication {
 
     @Id

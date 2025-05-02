@@ -9,7 +9,7 @@ import java.util.Objects;
 @Data
 @NoArgsConstructor
 @Entity
-@Table(name = "book", schema = "library")
+@Table(name = "book")
 public class Book extends Publication {
 
     @Id
