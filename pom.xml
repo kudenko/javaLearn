@@ -36,6 +36,7 @@
         <jakarta.validation-api.version>3.1.1</jakarta.validation-api.version>
         <hibernate-validator.version>8.0.2.Final</hibernate-validator.version>
         <akarta.el-api.version>6.0.1</akarta.el-api.version>
+        <h2.version>2.3.232</h2.version>
     </properties>
 
     <dependencies>
@@ -124,7 +125,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
-            <version>2.3.232</version>
+            <version>${h2.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
