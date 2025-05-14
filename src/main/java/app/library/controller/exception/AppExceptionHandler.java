@@ -13,15 +13,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
 
 @ControllerAdvice
-public class ExceptionHandler {
+public class AppExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(ExceptionHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(AppExceptionHandler.class);
 
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(AuthorRepositoryException.class)
+    @ExceptionHandler(AuthorRepositoryException.class)
     public ModelAndView handleAuthorException(AuthorRepositoryException e, HttpServletRequest request) {
 
         ModelAndView mav = new ModelAndView(getView(request));
@@ -31,7 +32,7 @@ public class ExceptionHandler {
         return mav;
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(JournalRepositoryException.class)
+    @ExceptionHandler(JournalRepositoryException.class)
     public ModelAndView handleJournalException(JournalRepositoryException e, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView(getView(request));
         logger.error("Error during journal creation", e);
@@ -40,7 +41,7 @@ public class ExceptionHandler {
         return mav;
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(BookRepositoryException.class)
+    @ExceptionHandler(BookRepositoryException.class)
     public ModelAndView handleBookException(BookRepositoryException e, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView(getView(request));
         logger.error("Error during author creation", e);
@@ -49,7 +50,7 @@ public class ExceptionHandler {
         return mav;
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(UserRepositoryException.class)
+    @ExceptionHandler(UserRepositoryException.class)
     public ModelAndView handleUserException(UserRepositoryException e, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView(getView(request));
         logger.error("Error during user creation", e);
@@ -58,7 +59,7 @@ public class ExceptionHandler {
         return mav;
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(RuntimeException.class)
+    @ExceptionHandler(RuntimeException.class)
     public ModelAndView handleRuntimeExceptions(RuntimeException e, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView(getView(request));
         logger.error("Unexpected Error happened", e);
@@ -66,7 +67,7 @@ public class ExceptionHandler {
         return mav;
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
+    @ExceptionHandler(Exception.class)
     public ModelAndView handleExceptions(Exception e, HttpServletRequest request) {
         ModelAndView mav = new ModelAndView(getView(request));
         logger.error("Unexpected Error happened", e);
@@ -74,7 +75,7 @@ public class ExceptionHandler {
         return mav;
     }
 
-    @org.springframework.web.bind.annotation.ExceptionHandler(BindException.class)
+    @ExceptionHandler(BindException.class)
     public ModelAndView handleTypeMismatchException(BindException e, HttpServletRequest request) {
         String view = getView(request);
         ModelAndView mav = new ModelAndView(view);

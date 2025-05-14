@@ -2,6 +2,7 @@ package app.library.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.util.Objects;
@@ -10,6 +11,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Entity
 @Table(name = "book")
+@EqualsAndHashCode(callSuper = true)
 public class Book extends Publication {
 
     @Id
@@ -29,20 +31,5 @@ public class Book extends Publication {
     @Override
     public String print() {
         return String.format("Book{%s, authorId = %d, publicationId = %d}", super.print(), author.getId(), id);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getName(), author.getId(), id, super.getName());
-    }
-
-    @Override
-    public String toString() {
-        return "Book{" +
-                "id = " + id + " " +
-                "name = " + super.getName() + " " +
-                "pagesCount = " + super.getCountPages() + " " +
-                "authorId = " + author.getId() +
-                '}';
     }
 }
